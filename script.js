@@ -57,67 +57,52 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
+    // --- 4. Basic Table of Contents (ToC) ---
+    const tocContainer = document.createElement('aside');
+    tocContainer.id = 'toc-container';
+    const tocList = document.createElement('ul');
+    tocList.id = 'toc-list';
+    const tocTitle = document.createElement('h3');
+    // For French version, you'd need a separate script or conditional logic for "Table des Matières"
+    tocTitle.textContent = document.documentElement.lang === 'fr' ? 'Table des Matières' : 'Table of Contents';
+    tocContainer.appendChild(tocTitle);
+    tocContainer.appendChild(tocList);
 
-// --- 4. Basic Table of Contents (ToC) ---
-console.log('ToC Script: Starting ToC generation...'); // DEBUG
+    const mainContentArea = document.querySelector('main');
+    const currentFile = window.location.pathname.split('/').pop();
 
-const tocContainer = document.createElement('aside');
-tocContainer.id = 'toc-container';
-const tocList = document.createElement('ul');
-tocList.id = 'toc-list';
-const tocTitle = document.createElement('h3');
-tocTitle.textContent = 'Table of Contents';
-tocContainer.appendChild(tocTitle);
-tocContainer.appendChild(tocList);
+    if (mainContentArea && currentFile !== 'index.html' && currentFile !== '') {
+        // Select <section> elements within <main> that have an ID
+        const sectionsWithId = mainContentArea.querySelectorAll('section[id]');
+        let hasHeadingsForToC = false;
 
-const mainContentArea = document.querySelector('main');
-console.log('ToC Script: mainContentArea found?', mainContentArea); // DEBUG
+        sectionsWithId.forEach(section => {
+            const sectionId = section.id;
+            // Find the first H2 immediately inside this section
+            const heading = section.querySelector('h2');
 
-const currentFile = window.location.pathname.split('/').pop();
-console.log('ToC Script: currentFile is', currentFile); // DEBUG
+            if (sectionId && heading && heading.textContent.trim() !== '') {
+                hasHeadingsForToC = true;
+                const listItem = document.createElement('li');
+                const link = document.createElement('a');
 
-if (mainContentArea && currentFile !== 'index.html' && currentFile !== '') {
-    console.log('ToC Script: Conditions met to proceed with ToC for this page.'); // DEBUG
+                link.textContent = heading.textContent; // Text from H2
+                link.href = `#${sectionId}`;          // Link to section's ID
 
-    const headings = mainContentArea.querySelectorAll('section > h2[id]');
-    console.log('ToC Script: Found headings for ToC:', headings.length, headings); // DEBUG
-    let hasHeadingsForToC = false;
+                listItem.appendChild(link);
+                tocList.appendChild(listItem);
+            }
+        });
 
-    headings.forEach(heading => {
-        if (heading.id && heading.textContent.trim() !== '') {
-            hasHeadingsForToC = true;
-            const listItem = document.createElement('li');
-            const link = document.createElement('a');
-            link.textContent = heading.textContent;
-            link.href = `#${heading.id}`;
-            listItem.appendChild(link);
-            tocList.appendChild(listItem);
-            console.log('ToC Script: Added to ToC list:', heading.textContent); // DEBUG
-        } else {
-            console.log('ToC Script: Skipped heading (no id or empty text):', heading); // DEBUG
+        if (hasHeadingsForToC) {
+            const pageH1 = mainContentArea.querySelector('h1');
+            if (pageH1) {
+                pageH1.parentNode.insertBefore(tocContainer, pageH1.nextSibling);
+            } else {
+                mainContentArea.insertBefore(tocContainer, mainContentArea.firstChild);
+            }
         }
-    });
-
-    if (hasHeadingsForToC) {
-        console.log('ToC Script: hasHeadingsForToC is true. Attempting to insert ToC.'); // DEBUG
-        const pageH1 = mainContentArea.querySelector('h1');
-        console.log('ToC Script: pageH1 found?', pageH1); // DEBUG
-
-        if (pageH1) {
-            console.log('ToC Script: Inserting ToC after H1.'); // DEBUG
-            pageH1.parentNode.insertBefore(tocContainer, pageH1.nextSibling);
-        } else {
-            console.warn('ToC Script: No H1 found within main. ToC not inserted optimally.'); // DEBUG
-            // Fallback: Insert at the beginning of main if H1 isn't found
-            // mainContentArea.insertBefore(tocContainer, mainContentArea.firstChild);
-        }
-    } else {
-        console.log('ToC Script: No valid headings found for ToC. ToC not created.'); // DEBUG
     }
-} else {
-    console.log('ToC Script: Conditions NOT met for ToC on this page (either no main area or it is index.html).'); // DEBUG
-}
-
 
     // --- 5. Basic Client-Side Search ---
     // This is a very simple search that highlights text within <section> tags.

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aide-mémoire Git & GitHub</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="nav_footer_style.css">
+    <link rel="stylesheet" href="print.css" media="print">
+    <!--
+    Coloration syntaxique des commandes utilisant les classes existantes :
+    .tag -> Commande principale git (git, gh)
+    .attr -> Sous-commandes (add, commit, push, clone, pr, issue)
+    .val -> Indicateurs/options (-m, --branch, -u, --all), placeholders (url-depot, nom-branche, message-commit)
+    .comment -> Commentaires explicatifs
+    -->
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="html.html">HTML (EN)</a></li>
+            <li><a href="html_fr.html">HTML (FR)</a></li>
+            <li><a href="css.html">CSS (EN)</a></li>
+            <li><a href="css_fr.html">CSS (FR)</a></li>
+            <li><a href="js.html">JS (EN)</a></li>
+            <li><a href="js_fr.html">JS (FR)</a></li>
+            <li><a href="git.html">Git & GitHub (EN)</a></li>
+            <li><a href="git_fr.html" class="active">Git & GitHub (FR)</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h1>Aide-mémoire Git & GitHub</h1>
+        <p class="note">Une référence rapide pour les commandes essentielles de contrôle de version Git et les flux de travail collaboratifs GitHub.</p>
+
+        <section id="what-is-git">
+            <h2>Qu'est-ce que Git ?</h2>
+            <p>Git est un système de contrôle de version distribué (DVCS) utilisé pour suivre les modifications du code source pendant le développement logiciel. Il permet à plusieurs développeurs de travailler simultanément sur un projet sans écraser les modifications des autres.</p>
+            <ul>
+                <li><strong>Dépôt (Repository / Repo) :</strong> Dossier d'un projet contenant tous les fichiers et l'historique complet des modifications.</li>
+                <li><strong>Commit :</strong> Un instantané de vos fichiers à un moment précis.</li>
+                <li><strong>Branche (Branch) :</strong> Une ligne de développement indépendante. La branche principale est souvent appelée <code>main</code> ou <code>master</code>.</li>
+                <li><strong>Distribué :</strong> Chaque développeur dispose d'une copie complète du dépôt, y compris son historique.</li>
+            </ul>
+        </section>
+
+        <section id="git-setup">
+            <h2>Configuration Initiale de Git (Une seule fois)</h2>
+            <p>Configurez votre identité Git (nom et e-mail) globalement. Ces informations sont utilisées dans vos commits.</p>
+            <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">config</span> <span class="val">--global</span> <span class="attr">user.name</span> <span class="val">"Votre Nom"</span>
+<span class="tag">git</span> <span class="attr">config</span> <span class="val">--global</span> <span class="attr">user.email</span> <span class="val">"votre.email@example.com"</span>
+            </code></pre>
+            <p>Pour vérifier votre configuration :</p>
+            <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">config</span> <span class="val">--list</span>
+            </code></pre>
+        </section>
+
+        <section id="git-basics">
+            <h2>Flux de Travail & Commandes Git de Base</h2>
+            <h3>Créer ou Cloner un Dépôt</h3>
+            <ul>
+                <li><strong>Initialiser un nouveau dépôt dans un répertoire existant :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">init</span>
+                    </code></pre>
+                </li>
+                <li><strong>Cloner un dépôt distant existant (par ex., depuis GitHub) :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">clone</span> <span class="val"><url-du-depot></span>
+                    </code></pre>
+                </li>
+            </ul>
+
+            <h3>La Zone de Transit (Staging Area / Index)</h3>
+            <p>Git utilise une zone de transit pour préparer les modifications avant de les commiter. Vous choisissez explicitement quelles modifications entrent dans le prochain commit.</p>
+            <img src="img/areas.png" alt="Diagramme des trois états Git : Répertoire de travail, Zone de transit, Répertoire Git (Dépôt)">
+            <p class="note img-legend"><em>Crédit image : git-scm.com</em></p>
+            <ul>
+                <li><strong>Vérifier l'état de vos fichiers (non suivis, modifiés, en transit) :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">status</span>
+                    </code></pre>
+                </li>
+                <li><strong>Ajouter un ou des fichier(s) spécifique(s) à la zone de transit :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">add</span> <span class="val"><fichier1> <fichier2></span>
+                    </code></pre>
+                </li>
+                <li><strong>Ajouter tous les fichiers modifiés et nouveaux dans le répertoire actuel et les sous-répertoires :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">add</span> <span class="val">.</span>
+                    </code></pre>
+                </li>
+                <li><strong>Mettre en transit tous les fichiers suivis qui ont été modifiés ou supprimés (pas les nouveaux fichiers non suivis) :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">add</span> <span class="val">-u</span>
+                    </code></pre>
+                </li>
+                 <li><strong>Mettre en transit toutes les modifications (nouveaux, modifiés, supprimés) :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">add</span> <span class="val">--all</span> <span class="comment"># ou git add -A</span>
+                    </code></pre>
+                </li>
+                <li><strong>Retirer un fichier de la zone de transit (mais conserver les modifications dans le répertoire de travail) :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">reset</span> <span class="val">HEAD <fichier></span>
+                    </code></pre>
+                </li>
+                <li><strong>Annuler les modifications dans le répertoire de travail pour un fichier spécifique (dangereux, perd les modifications) :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">checkout</span> <span class="val">-- <fichier></span>
+                    </code></pre>
+                </li>
+            </ul>
+
+            <h3>Commiter les Modifications</h3>
+            <p>Enregistrez vos modifications en transit dans l'historique du dépôt local.</p>
+            <ul>
+                <li><strong>Commiter les modifications en transit avec un message :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">commit</span> <span class="val">-m</span> <span class="val">"Votre message de commit descriptif"</span>
+                    </code></pre>
+                </li>
+                <li><strong>Mettre en transit tous les fichiers suivis et commiter en une étape (pas pour les nouveaux fichiers) :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">commit</span> <span class="val">-a</span> <span class="val">-m</span> <span class="val">"Votre message de commit"</span>
+                    </code></pre>
+                </li>
+                <li><strong>Modifier le dernier commit (changer le message ou ajouter d'autres modifications) :</strong>
+                    <p class="note">Soyez prudent si vous avez déjà poussé (push) le commit.</p>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">commit</span> <span class="val">--amend</span> <span class="val">-m</span> <span class="val">"Nouveau message de commit"</span>
+                    </code></pre>
+                </li>
+            </ul>
+
+            <h3>Voir l'Historique</h3>
+            <ul>
+                <li><strong>Afficher l'historique des commits :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">log</span>
+                    </code></pre>
+                </li>
+                <li><strong>Afficher l'historique avec plus de détails (patchs, graphe) :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">log</span> <span class="val">--oneline --graph --decorate --all</span>
+                    </code></pre>
+                </li>
+                <li><strong>Afficher les différences entre deux commits, branches, ou un commit et le répertoire de travail :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">diff</span> <span class="val"><commit1> <commit2></span>
+<span class="tag">git</span> <span class="attr">diff</span> <span class="val"><branche1>..<branche2></span>
+<span class="tag">git</span> <span class="attr">diff</span> <span class="val">HEAD</span> <span class="comment"># Affiche les modifications dans le répertoire de travail non encore en transit</span>
+<span class="tag">git</span> <span class="attr">diff</span> <span class="val">--staged</span> <span class="comment"># Affiche les modifications en transit mais non encore commitées</span>
+                    </code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="git-branching">
+            <h2>Branches & Fusions (Branching & Merging)</h2>
+            <p>Les branches vous permettent de travailler sur différentes fonctionnalités ou corrections de manière isolée.</p>
+            <ul>
+                <li><strong>Lister toutes les branches locales (la branche actuelle est marquée d'un *) :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">branch</span>
+                    </code></pre>
+                </li>
+                <li><strong>Lister toutes les branches distantes :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">branch</span> <span class="val">-r</span>
+                    </code></pre>
+                </li>
+                <li><strong>Lister toutes les branches locales et distantes :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">branch</span> <span class="val">-a</span>
+                    </code></pre>
+                </li>
+                <li><strong>Créer une nouvelle branche :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">branch</span> <span class="val"><nom-de-branche></span>
+                    </code></pre>
+                </li>
+                <li><strong>Basculer vers une branche existante :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">checkout</span> <span class="val"><nom-de-branche></span>
+                    </code></pre>
+                </li>
+                <li><strong>Créer une nouvelle branche et y basculer immédiatement :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">checkout</span> <span class="val">-b</span> <span class="val"><nouveau-nom-de-branche></span>
+                    </code></pre>
+                </li>
+                <li><strong>Fusionner les modifications d'une autre branche dans votre branche actuelle :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">merge</span> <span class="val"><branche-a-fusionner></span>
+                    </code></pre>
+                    <p class="note">Résolvez les conflits de fusion s'ils se produisent. Git marquera les fichiers en conflit.</p>
+                </li>
+                <li><strong>Rebaser (rebase) votre branche actuelle sur une autre branche (réécrit l'historique, à utiliser avec précaution sur les branches partagées) :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">rebase</span> <span class="val"><branche-de-base></span> <span class="comment"># ex: git rebase main</span>
+                    </code></pre>
+                </li>
+                <li><strong>Supprimer une branche locale (seulement si fusionnée, utiliser -D pour forcer la suppression) :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">branch</span> <span class="val">-d</span> <span class="val"><nom-de-branche></span>
+<span class="tag">git</span> <span class="attr">branch</span> <span class="val">-D</span> <span class="val"><nom-de-branche></span> <span class="comment"># Forcer la suppression</span>
+                    </code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="git-remotes">
+            <h2>Travailler avec des Dépôts Distants (Remotes, par ex. GitHub)</h2>
+            <p>Les dépôts distants sont des versions de votre projet hébergées sur internet ou un réseau.</p>
+            <ul>
+                <li><strong>Lister les dépôts distants configurés :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">remote</span> <span class="val">-v</span>
+                    </code></pre>
+                </li>
+                <li><strong>Ajouter un nouveau dépôt distant (souvent nommé <code>origin</code>) :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">remote</span> <span class="attr">add</span> <span class="val"><nom-distant> <url-du-depot></span>
+<span class="comment"># Exemple : git remote add origin https://github.com/utilisateur/repo.git</span>
+                    </code></pre>
+                </li>
+                <li><strong>Récupérer (fetch) les modifications d'un dépôt distant (ne fusionne pas) :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">fetch</span> <span class="val"><nom-distant></span>
+                    </code></pre>
+                </li>
+                <li><strong>Tirer (pull) les modifications d'un dépôt distant (récupère et fusionne) :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">pull</span> <span class="val"><nom-distant> <nom-de-branche></span>
+<span class="comment"># Exemple : git pull origin main</span>
+                    </code></pre>
+                </li>
+                <li><strong>Pousser (push) vos commits locaux vers un dépôt distant :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">push</span> <span class="val"><nom-distant> <nom-de-branche></span>
+<span class="comment"># Exemple : git push origin main</span>
+                    </code></pre>
+                </li>
+                <li><strong>Pousser une nouvelle branche locale vers le distant et la configurer pour le suivi :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">push</span> <span class="val">-u</span> <span class="val"><nom-distant> <nom-de-branche></span>
+<span class="comment"># Exemple : git push -u origin branche-fonctionnalite</span>
+                    </code></pre>
+                </li>
+                <li><strong>Supprimer une branche distante :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">push</span> <span class="val"><nom-distant></span> <span class="val">--delete</span> <span class="val"><nom-de-branche></span>
+<span class="comment"># Exemple : git push origin --delete ancienne-fonctionnalite</span>
+                    </code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="what-is-github">
+            <h2>Qu'est-ce que GitHub ?</h2>
+            <p>GitHub est un service d'hébergement web pour les dépôts Git. Il fournit des fonctionnalités de collaboration telles que le suivi des problèmes (issues), les demandes de tirage (pull requests), la revue de code, la gestion de projet, et plus encore.</p>
+            <ul>
+                <li><strong>Hébergement de Dépôts :</strong> Stockez vos dépôts Git en ligne.</li>
+                <li><strong>Demandes de Tirage (Pull Requests / PRs) :</strong> Proposez des modifications à un dépôt. D'autres peuvent examiner, discuter et fusionner vos modifications.</li>
+                <li><strong>Problèmes (Issues) :</strong> Suivez les bogues, les demandes de fonctionnalités et les tâches.</li>
+                <li><strong>Forker :</strong> Créez une copie personnelle du dépôt de quelqu'un d'autre.</li>
+                <li><strong>GitHub Actions :</strong> Automatisez les flux de travail (CI/CD, tests, etc.).</li>
+                <li><strong>GitHub Pages :</strong> Hébergez des sites web statiques directement depuis un dépôt.</li>
+            </ul>
+        </section>
+
+        <section id="github-workflow">
+            <h2>Flux de Travail GitHub de Base (Collaboration)</h2>
+            <ol>
+                <li><strong>Forkez (Fork) le dépôt (si vous contribuez à un projet qui ne vous appartient pas).</strong></li>
+                <li><strong>Clonez votre fork (ou le dépôt original si vous avez les droits d'écriture) sur votre machine locale.</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">clone</span> <span class="val"><url-de-votre-fork-ou-repo></span>
+                    </code></pre>
+                </li>
+                <li><strong>Créez une nouvelle branche pour votre fonctionnalité ou correction de bogue.</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">checkout</span> <span class="val">-b</span> <span class="val"><nom-branche-fonctionnalite></span>
+                    </code></pre>
+                </li>
+                <li><strong>Faites vos modifications, ajoutez-les et commitez-les localement.</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">add</span> <span class="val">.</span>
+<span class="tag">git</span> <span class="attr">commit</span> <span class="val">-m</span> <span class="val">"Implémentation de la nouvelle fonctionnalité X"</span>
+                    </code></pre>
+                </li>
+                <li><strong>Poussez (push) votre branche vers votre dépôt distant (votre fork ou origin).</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">push</span> <span class="val">-u</span> <span class="attr">origin</span> <span class="val"><nom-branche-fonctionnalite></span>
+                    </code></pre>
+                </li>
+                <li><strong>Allez sur GitHub et ouvrez une Demande de Tirage (Pull Request / PR)</strong> de votre branche de fonctionnalité vers la branche principale du dépôt original.</li>
+                <li><strong>Discutez des modifications, adressez les retours et faites d'autres commits si nécessaire.</strong> (Poussez ces nouveaux commits sur la même branche de fonctionnalité).</li>
+                <li><strong>Une fois approuvée, la PR est fusionnée par un mainteneur.</strong></li>
+                <li><strong>(Optionnel) Mettez à jour votre branche principale locale et supprimez votre branche de fonctionnalité.</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">checkout</span> <span class="val">main</span>
+<span class="tag">git</span> <span class="attr">pull</span> <span class="attr">origin</span> <span class="val">main</span>
+<span class="tag">git</span> <span class="attr">branch</span> <span class="val">-d</span> <span class="val"><nom-branche-fonctionnalite></span>
+<span class="tag">git</span> <span class="attr">push</span> <span class="attr">origin</span> <span class="val">--delete</span> <span class="val"><nom-branche-fonctionnalite></span> <span class="comment"># Si vous voulez supprimer la branche distante</span>
+                    </code></pre>
+                </li>
+            </ol>
+        </section>
+
+        <section id="github-cli">
+            <h2>GitHub CLI (<code>gh</code>) - Optionnel mais Utile</h2>
+            <p>Le <a href="https://cli.github.com/" target="_blank" rel="noopener noreferrer">GitHub CLI</a> amène GitHub dans votre terminal. De nombreuses opérations GitHub peuvent être effectuées sans quitter la ligne de commande.</p>
+            <p>D'abord, installez-le et authentifiez-vous : <code><span class="tag">gh</span> <span class="attr">auth</span> <span class="attr">login</span></code></p>
+            <h3>Commandes <code>gh</code> Courantes :</h3>
+            <ul>
+                <li><strong>Cloner un dépôt :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">gh</span> <span class="attr">repo</span> <span class="attr">clone</span> <span class="val">proprietaire/nom-du-depot</span>
+                    </code></pre>
+                </li>
+                <li><strong>Créer une demande de tirage :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">gh</span> <span class="attr">pr</span> <span class="attr">create</span> <span class="val">--title "Titre de ma PR" --body "Description des changements."</span>
+                    </code></pre>
+                </li>
+                <li><strong>Lister les demandes de tirage :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">gh</span> <span class="attr">pr</span> <span class="attr">list</span>
+                    </code></pre>
+                </li>
+                <li><strong>Récupérer (checkout) une demande de tirage localement :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">gh</span> <span class="attr">pr</span> <span class="attr">checkout</span> <span class="val"><numero-pr></span>
+                    </code></pre>
+                </li>
+                <li><strong>Voir les problèmes (issues) :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">gh</span> <span class="attr">issue</span> <span class="attr">list</span>
+                    </code></pre>
+                </li>
+                 <li><strong>Créer un problème :</strong>
+                    <pre><code class="language-bash">
+<span class="tag">gh</span> <span class="attr">issue</span> <span class="attr">create</span> <span class="val">--title "Nouveau Bogue Trouvé" --body "Détails ici..."</span>
+                    </code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="git-tips">
+            <h2>Conseils & Bonnes Pratiques Git</h2>
+            <ul>
+                <li><strong>Commitez Souvent :</strong> Faites des commits petits et logiques. Il est plus facile de comprendre l'historique et d'annuler des modifications si nécessaire.</li>
+                <li><strong>Écrivez de Bons Messages de Commit :</strong>
+                    <ul>
+                        <li>Commencez par un résumé concis (par ex., "Fix : Corrige l'alignement du bouton de connexion").</li>
+                        <li>Utilisez le mode impératif (par ex., "Ajouter fonctionnalité" et non "Fonctionnalité ajoutée" ou "Ajoute fonctionnalité").</li>
+                        <li>Optionnellement, fournissez plus de détails dans le corps du message de commit, séparés par une ligne vide.</li>
+                    </ul>
+                </li>
+                <li><strong>Utilisez des Branches :</strong> Ne commitez pas directement sur <code>main</code> pour les nouvelles fonctionnalités ou les changements significatifs.</li>
+                <li><strong>Faites un Pull Avant de Pousser (Push) :</strong> Si vous collaborez, faites toujours <code>git pull</code> pour obtenir les dernières modifications avant de faire <code>git push</code> afin d'éviter les conflits.</li>
+                <li><strong>Comprenez <code>.gitignore</code> :</strong> Créez un fichier <code>.gitignore</code> pour spécifier les fichiers intentionnellement non suivis que Git doit ignorer (par ex., <code>node_modules/</code>, <code>.env</code>, fichiers compilés, fichiers spécifiques à l'OS).</li>
+                <li><strong>Mettez Régulièrement à Jour Vos Branches Locales :</strong> Gardez vos branches de fonctionnalités locales à jour avec la branche principale en utilisant <code>git pull origin main</code> (sur votre branche principale) puis <code>git merge main</code> ou <code>git rebase main</code> (sur votre branche de fonctionnalité).</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <p><a href="https://github.com/sidbxl/awesomeHTML" target="_blank">Source</a></p>
+        <p class="disclaimer"><strong>Disclaimer (English):</strong> This content is an experiment generated by Google's Gemini model. Users should verify the information before using it for critical applications.</p>
+    </footer>
+    <script src="script.js" defer></script>
+</body>
+</html>

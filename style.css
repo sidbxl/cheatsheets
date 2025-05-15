@@ -352,3 +352,19 @@ details p {
     text-decoration: underline;
     color: #0f5abc;
 }
+
+.disclaimer-home {
+    color: red;
+}
+
+.img-legend {
+    text-align:center;
+    font-size:0.8em;
+}
+
+img {
+    max-width:400px;
+    display:block;
+    margin:10px auto;
+    border:1px solid #ddd;
+}

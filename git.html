@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git & GitHub Cheatsheet</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="nav_footer_style.css">
+    <link rel="stylesheet" href="print.css" media="print">
+    <!--
+    Command Highlighting using existing classes:
+    .tag -> Main git command (git, gh)
+    .attr -> Subcommands (add, commit, push, clone, pr, issue)
+    .val -> Flags/options (-m, --branch, -u, --all), placeholders (repository-url, branch-name, commit-message)
+    .comment -> Explanatory comments
+    -->
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="html.html">HTML (EN)</a></li>
+            <li><a href="html_fr.html">HTML (FR)</a></li>
+            <li><a href="css.html">CSS (EN)</a></li>
+            <li><a href="css_fr.html">CSS (FR)</a></li>
+            <li><a href="js.html">JS (EN)</a></li>
+            <li><a href="js_fr.html">JS (FR)</a></li>
+            <li><a href="git.html" class="active">Git & GitHub (EN)</a></li>
+            <li><a href="git_fr.html">Git & GitHub (FR)</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h1>Git & GitHub Cheatsheet</h1>
+        <p class="note">A quick reference for essential Git version control commands and GitHub collaboration workflows.</p>
+
+        <section id="what-is-git">
+            <h2>What is Git?</h2>
+            <p>Git is a distributed version control system (DVCS) used for tracking changes in source code during software development. It allows multiple developers to work on a project simultaneously without overwriting each other's changes.</p>
+            <ul>
+                <li><strong>Repository (Repo):</strong> A project's folder containing all files and the entire history of changes.</li>
+                <li><strong>Commit:</strong> A snapshot of your files at a specific point in time.</li>
+                <li><strong>Branch:</strong> An independent line of development. The main branch is often called <code>main</code> or <code>master</code>.</li>
+                <li><strong>Distributed:</strong> Every developer has a full copy of the repository, including its history.</li>
+            </ul>
+        </section>
+
+        <section id="git-setup">
+            <h2>Initial Git Setup (One-time)</h2>
+            <p>Configure your Git identity (name and email) globally. This information is used in your commits.</p>
+            <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">config</span> <span class="val">--global</span> <span class="attr">user.name</span> <span class="val">"Your Name"</span>
+<span class="tag">git</span> <span class="attr">config</span> <span class="val">--global</span> <span class="attr">user.email</span> <span class="val">"your.email@example.com"</span>
+            </code></pre>
+            <p>To check your configuration:</p>
+            <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">config</span> <span class="val">--list</span>
+            </code></pre>
+        </section>
+
+        <section id="git-basics">
+            <h2>Basic Git Workflow & Commands</h2>
+            <h3>Creating or Cloning a Repository</h3>
+            <ul>
+                <li><strong>Initialize a new repository in an existing directory:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">init</span>
+                    </code></pre>
+                </li>
+                <li><strong>Clone an existing remote repository (e.g., from GitHub):</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">clone</span> <span class="val"><repository-url></span>
+                    </code></pre>
+                </li>
+            </ul>
+
+            <h3>The Staging Area (Index)</h3>
+            <p>Git uses a staging area to prepare changes before committing them. You explicitly choose what changes go into the next commit.</p>
+            <img src="img/areas.png" alt="Git Three States Diagram: Working Directory, Staging Area, Git Directory (Repository)">
+            <p class="note img-legend"><em>Image Credit: git-scm.com</em></p>
+            <ul>
+                <li><strong>Check the status of your files (untracked, modified, staged):</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">status</span>
+                    </code></pre>
+                </li>
+                <li><strong>Add specific file(s) to the staging area:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">add</span> <span class="val"><file1> <file2></span>
+                    </code></pre>
+                </li>
+                <li><strong>Add all modified and new files in the current directory and subdirectories:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">add</span> <span class="val">.</span>
+                    </code></pre>
+                </li>
+                <li><strong>Stage all tracked files that have been modified or deleted (not new untracked files):</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">add</span> <span class="val">-u</span>
+                    </code></pre>
+                </li>
+                 <li><strong>Stage all changes (new, modified, deleted):</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">add</span> <span class="val">--all</span> <span class="comment"># or git add -A</span>
+                    </code></pre>
+                </li>
+                <li><strong>Unstage a file (remove from staging area, but keep changes in working directory):</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">reset</span> <span class="val">HEAD <file></span>
+                    </code></pre>
+                </li>
+                <li><strong>Discard changes in the working directory for a specific file (dangerous, loses changes):</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">checkout</span> <span class="val">-- <file></span>
+                    </code></pre>
+                </li>
+            </ul>
+
+            <h3>Committing Changes</h3>
+            <p>Save your staged changes to the local repository history.</p>
+            <ul>
+                <li><strong>Commit staged changes with a message:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">commit</span> <span class="val">-m</span> <span class="val">"Your descriptive commit message"</span>
+                    </code></pre>
+                </li>
+                <li><strong>Stage all tracked files and commit in one step (not for new files):</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">commit</span> <span class="val">-a</span> <span class="val">-m</span> <span class="val">"Your commit message"</span>
+                    </code></pre>
+                </li>
+                <li><strong>Amend the last commit (change message or add more changes):</strong>
+                    <p class="note">Be cautious if you've already pushed the commit.</p>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">commit</span> <span class="val">--amend</span> <span class="val">-m</span> <span class="val">"New commit message"</span>
+                    </code></pre>
+                </li>
+            </ul>
+
+            <h3>Viewing History</h3>
+            <ul>
+                <li><strong>Show commit history:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">log</span>
+                    </code></pre>
+                </li>
+                <li><strong>Show history with more details (patches, graph):</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">log</span> <span class="val">--oneline --graph --decorate --all</span>
+                    </code></pre>
+                </li>
+                <li><strong>Show changes between two commits, branches, or a commit and working directory:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">diff</span> <span class="val"><commit1> <commit2></span>
+<span class="tag">git</span> <span class="attr">diff</span> <span class="val"><branch1>..<branch2></span>
+<span class="tag">git</span> <span class="attr">diff</span> <span class="val">HEAD</span> <span class="comment"># Show changes in working directory not yet staged</span>
+<span class="tag">git</span> <span class="attr">diff</span> <span class="val">--staged</span> <span class="comment"># Show changes staged but not yet committed</span>
+                    </code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="git-branching">
+            <h2>Branching & Merging</h2>
+            <p>Branches allow you to work on different features or fixes in isolation.</p>
+            <ul>
+                <li><strong>List all local branches (current branch marked with *):</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">branch</span>
+                    </code></pre>
+                </li>
+                <li><strong>List all remote branches:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">branch</span> <span class="val">-r</span>
+                    </code></pre>
+                </li>
+                <li><strong>List all local and remote branches:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">branch</span> <span class="val">-a</span>
+                    </code></pre>
+                </li>
+                <li><strong>Create a new branch:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">branch</span> <span class="val"><branch-name></span>
+                    </code></pre>
+                </li>
+                <li><strong>Switch to an existing branch:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">checkout</span> <span class="val"><branch-name></span>
+                    </code></pre>
+                </li>
+                <li><strong>Create a new branch and switch to it immediately:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">checkout</span> <span class="val">-b</span> <span class="val"><new-branch-name></span>
+                    </code></pre>
+                </li>
+                <li><strong>Merge changes from another branch into your current branch:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">merge</span> <span class="val"><branch-to-merge-from></span>
+                    </code></pre>
+                    <p class="note">Resolve any merge conflicts if they occur. Git will mark conflicted files.</p>
+                </li>
+                <li><strong>Rebase your current branch onto another branch (rewrites history, use with care on shared branches):</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">rebase</span> <span class="val"><base-branch></span> <span class="comment"># e.g., git rebase main</span>
+                    </code></pre>
+                </li>
+                <li><strong>Delete a local branch (only if merged, use -D to force delete):</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">branch</span> <span class="val">-d</span> <span class="val"><branch-name></span>
+<span class="tag">git</span> <span class="attr">branch</span> <span class="val">-D</span> <span class="val"><branch-name></span> <span class="comment"># Force delete</span>
+                    </code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="git-remotes">
+            <h2>Working with Remotes (e.g., GitHub)</h2>
+            <p>Remote repositories are versions of your project hosted on the internet or network.</p>
+            <ul>
+                <li><strong>List configured remotes:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">remote</span> <span class="val">-v</span>
+                    </code></pre>
+                </li>
+                <li><strong>Add a new remote repository (often named <code>origin</code>):</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">remote</span> <span class="attr">add</span> <span class="val"><remote-name> <repository-url></span>
+<span class="comment"># Example: git remote add origin https://github.com/user/repo.git</span>
+                    </code></pre>
+                </li>
+                <li><strong>Fetch changes from a remote repository (doesn't merge):</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">fetch</span> <span class="val"><remote-name></span>
+                    </code></pre>
+                </li>
+                <li><strong>Pull changes from a remote repository (fetches and merges):</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">pull</span> <span class="val"><remote-name> <branch-name></span>
+<span class="comment"># Example: git pull origin main</span>
+                    </code></pre>
+                </li>
+                <li><strong>Push your local commits to a remote repository:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">push</span> <span class="val"><remote-name> <branch-name></span>
+<span class="comment"># Example: git push origin main</span>
+                    </code></pre>
+                </li>
+                <li><strong>Push a new local branch to remote and set it to track:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">push</span> <span class="val">-u</span> <span class="val"><remote-name> <branch-name></span>
+<span class="comment"># Example: git push -u origin feature-branch</span>
+                    </code></pre>
+                </li>
+                <li><strong>Delete a remote branch:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">push</span> <span class="val"><remote-name></span> <span class="val">--delete</span> <span class="val"><branch-name></span>
+<span class="comment"># Example: git push origin --delete old-feature</span>
+                    </code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="what-is-github">
+            <h2>What is GitHub?</h2>
+            <p>GitHub is a web-based hosting service for Git repositories. It provides collaboration features like issue tracking, pull requests, code review, project management, and more.</p>
+            <ul>
+                <li><strong>Repository Hosting:</strong> Store your Git repos online.</li>
+                <li><strong>Pull Requests (PRs):</strong> Propose changes to a repository. Others can review, discuss, and merge your changes.</li>
+                <li><strong>Issues:</strong> Track bugs, feature requests, and tasks.</li>
+                <li><strong>Forking:</strong> Create a personal copy of someone else's repository.</li>
+                <li><strong>GitHub Actions:</strong> Automate workflows (CI/CD, testing, etc.).</li>
+                <li><strong>GitHub Pages:</strong> Host static websites directly from a repository.</li>
+            </ul>
+        </section>
+
+        <section id="github-workflow">
+            <h2>Basic GitHub Workflow (Collaboration)</h2>
+            <ol>
+                <li><strong>Fork the repository (if contributing to a project you don't own).</strong></li>
+                <li><strong>Clone your fork (or the original repo if you have write access) to your local machine.</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">clone</span> <span class="val"><your-fork-url-or-repo-url></span>
+                    </code></pre>
+                </li>
+                <li><strong>Create a new branch for your feature or bug fix.</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">checkout</span> <span class="val">-b</span> <span class="val"><feature-branch-name></span>
+                    </code></pre>
+                </li>
+                <li><strong>Make your changes, add, and commit them locally.</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">add</span> <span class="val">.</span>
+<span class="tag">git</span> <span class="attr">commit</span> <span class="val">-m</span> <span class="val">"Implement new feature X"</span>
+                    </code></pre>
+                </li>
+                <li><strong>Push your branch to your remote repository (your fork or origin).</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">push</span> <span class="val">-u</span> <span class="attr">origin</span> <span class="val"><feature-branch-name></span>
+                    </code></pre>
+                </li>
+                <li><strong>Go to GitHub and open a Pull Request (PR)</strong> from your feature branch to the main branch of the original repository.</li>
+                <li><strong>Discuss changes, address feedback, and make more commits if needed.</strong> (Push these new commits to the same feature branch).</li>
+                <li><strong>Once approved, the PR is merged by a maintainer.</strong></li>
+                <li><strong>(Optional) Update your local main branch and delete your feature branch.</strong>
+                    <pre><code class="language-bash">
+<span class="tag">git</span> <span class="attr">checkout</span> <span class="val">main</span>
+<span class="tag">git</span> <span class="attr">pull</span> <span class="attr">origin</span> <span class="val">main</span>
+<span class="tag">git</span> <span class="attr">branch</span> <span class="val">-d</span> <span class="val"><feature-branch-name></span>
+<span class="tag">git</span> <span class="attr">push</span> <span class="attr">origin</span> <span class="val">--delete</span> <span class="val"><feature-branch-name></span> <span class="comment"># If you want to delete remote branch</span>
+                    </code></pre>
+                </li>
+            </ol>
+        </section>
+
+        <section id="github-cli">
+            <h2>GitHub CLI (<code>gh</code>) - Optional but Useful</h2>
+            <p>The <a href="https://cli.github.com/" target="_blank" rel="noopener noreferrer">GitHub CLI</a> brings GitHub to your terminal. Many GitHub operations can be done without leaving the command line.</p>
+            <p>First, install it and authenticate: <code><span class="tag">gh</span> <span class="attr">auth</span> <span class="attr">login</span></code></p>
+            <h3>Common <code>gh</code> Commands:</h3>
+            <ul>
+                <li><strong>Clone a repository:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">gh</span> <span class="attr">repo</span> <span class="attr">clone</span> <span class="val">owner/repository-name</span>
+                    </code></pre>
+                </li>
+                <li><strong>Create a pull request:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">gh</span> <span class="attr">pr</span> <span class="attr">create</span> <span class="val">--title "My PR Title" --body "Description of changes."</span>
+                    </code></pre>
+                </li>
+                <li><strong>List pull requests:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">gh</span> <span class="attr">pr</span> <span class="attr">list</span>
+                    </code></pre>
+                </li>
+                <li><strong>Checkout a pull request locally:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">gh</span> <span class="attr">pr</span> <span class="attr">checkout</span> <span class="val"><pr-number></span>
+                    </code></pre>
+                </li>
+                <li><strong>View issues:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">gh</span> <span class="attr">issue</span> <span class="attr">list</span>
+                    </code></pre>
+                </li>
+                 <li><strong>Create an issue:</strong>
+                    <pre><code class="language-bash">
+<span class="tag">gh</span> <span class="attr">issue</span> <span class="attr">create</span> <span class="val">--title "New Bug Found" --body "Details here..."</span>
+                    </code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="git-tips">
+            <h2>Git Tips & Best Practices</h2>
+            <ul>
+                <li><strong>Commit Often:</strong> Make small, logical commits. It's easier to understand history and revert changes if needed.</li>
+                <li><strong>Write Good Commit Messages:</strong>
+                    <ul>
+                        <li>Start with a concise summary (e.g., "Fix: Correct login button alignment").</li>
+                        <li>Use imperative mood (e.g., "Add feature" not "Added feature" or "Adds feature").</li>
+                        <li>Optionally, provide more details in the body of the commit message, separated by a blank line.</li>
+                    </ul>
+                </li>
+                <li><strong>Use Branches:</strong> Don't commit directly to <code>main</code> for new features or significant changes.</li>
+                <li><strong>Pull Before Pushing:</strong> If collaborating, always <code>git pull</code> to get the latest changes before you <code>git push</code> to avoid conflicts.</li>
+                <li><strong>Understand <code>.gitignore</code>:</strong> Create a <code>.gitignore</code> file to specify intentionally untracked files that Git should ignore (e.g., <code>node_modules/</code>, <code>.env</code>, compiled files, OS-specific files).</li>
+                <li><strong>Regularly Update Your Local Branches:</strong> Keep your local feature branches up-to-date with the main branch using <code>git pull origin main</code> (on your main branch) and then <code>git merge main</code> or <code>git rebase main</code> (on your feature branch).</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <p><a href="https://github.com/sidbxl/awesomeHTML" target="_blank">Source</a></p>
+        <p class="disclaimer"><strong>Disclaimer (English):</strong> This content is an experiment generated by Google's Gemini model. Users should verify the information before using it for critical applications.</p>
+    </footer>
+    <script src="script.js" defer></script>
+</body>
+</html>
