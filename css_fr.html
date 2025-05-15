@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aide-mémoire CSS Moderne</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="nav_footer_style.css">
+    <link rel="stylesheet" href="print.css" media="print">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="html.html">HTML (EN)</a></li>
+            <li><a href="html_fr.html">HTML (FR)</a></li>
+            <li><a href="css.html">CSS (EN)</a></li>
+            <li><a href="css_fr.html">CSS (FR)</a></li>
+            <li><a href="js.html">JS (EN)</a></li>
+            <li><a href="js_fr.html">JS (FR)</a></li>
+        </ul>
+    </nav>
+    <main>
+    <h1>Aide-mémoire CSS Moderne</h1>
+    <p class="note">Centré sur les concepts CSS modernes, les bonnes pratiques et l'évitement des techniques obsolètes. Conçu pour compléter l'aide-mémoire HTML en utilisant le même fichier <code>style.css</code>.</p>
+
+    <section id="basics">
+        <h2>Bases & Syntaxe</h2>
+        <p>CSS (Cascading Style Sheets - Feuilles de Style en Cascade) décrit comment les éléments HTML doivent être affichés. Les règles se composent d'un sélecteur et d'une ou plusieurs déclarations.</p>
+        <pre><code class="language-css">
+<span class="tag">sélecteur</span> {
+  <span class="attr">propriété</span>: <span class="val">valeur</span>; <span class="comment">/* Déclaration 1 */</span>
+  <span class="attr">autre-propriété</span>: <span class="val">autre-valeur</span>; <span class="comment">/* Déclaration 2 */</span>
+}
+        </code></pre>
+        <ul>
+            <li><strong>Sélecteur :</strong> Cible le ou les éléments HTML que vous souhaitez styler.</li>
+            <li><strong>Déclaration :</strong> Contient une propriété et sa valeur.</li>
+            <li><strong>Propriété :</strong> L'attribut de style que vous souhaitez modifier (par ex., <code>color</code>, <code>font-size</code>).</li>
+            <li><strong>Valeur :</strong> La valeur de la propriété (par ex., <code>blue</code>, <code>16px</code>).</li>
+            <li>Chaque déclaration se termine par un point-virgule (<code>;</code>).</li>
+            <li>Les déclarations sont contenues dans des accolades (<code>{ }</code>).</li>
+        </ul>
+      
+<h3>Lier CSS à HTML</h3>
+        <p>Utilisez la balise <code>&lt;link&gt;</code> dans la section <code>&lt;head&gt;</code> :</p>
+        <pre><code class="language-html">
+&lt;<span class="tag">!DOCTYPE</span> <span class="attr">html</span>&gt;
+&lt;<span class="tag">html</span> <span class="attr">lang</span>=<span class="val">"fr"</span>&gt;
+&lt;<span class="tag">head</span>&gt;
+    <span class="comment"><!-- ... autres éléments head --></span>
+    &lt;<span class="tag">meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span>&gt; <span class="comment"><!-- Exemple de balise meta --></span>
+    &lt;<span class="tag">title</span>&gt;Titre de la Page&lt;/<span class="tag">title</span>&gt; <span class="comment"><!-- Exemple de titre --></span>
+    &lt;<span class="tag">link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span> <span class="attr">href</span>=<span class="val">"style.css"</span>&gt;
+&lt;/<span class="tag">head</span>&gt;
+&lt;<span class="tag">body</span>&gt;
+    <span class="comment"><!-- ... contenu du body --></span>
+&lt;/<span class="tag">body</span>&gt;
+&lt;/<span class="tag">html</span>&gt;
+        </code></pre>
+    </section>
+
+    <section id="selectors">
+        <h2>Sélecteurs</h2>
+        <p>Cibler les éléments est fondamental en CSS.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Sélecteur</th>
+                    <th>Exemple</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Type</td>
+                    <td><code><span class="tag">p</span></code></td>
+                    <td>Sélectionne tous les éléments <code>&lt;p&gt;</code>.</td>
+                </tr>
+                <tr>
+                    <td>Classe</td>
+                    <td><code><span class="tag">.ma-classe</span></code></td>
+                    <td>Sélectionne tous les éléments avec <code>class="ma-classe"</code>.</td>
+                </tr>
+                <tr>
+                    <td>ID</td>
+                    <td><code><span class="tag">#mon-id</span></code></td>
+                    <td>Sélectionne l'élément avec <code>id="mon-id"</code> (doit être unique).</td>
+                </tr>
+                 <tr>
+                    <td>Universel</td>
+                    <td><code><span class="tag">*</span></code></td>
+                    <td>Sélectionne tous les éléments.</td>
+                </tr>
+                <tr>
+                    <td>Attribut</td>
+                    <td><code><span class="tag">[type="text"]</span></code><br><code><span class="tag">[data-abc]</span></code></td>
+                    <td>Sélectionne les éléments avec un attribut spécifique ou une paire attribut/valeur.</td>
+                </tr>
+                <tr>
+                    <td>Descendant</td>
+                    <td><code><span class="tag">div</span> <span class="tag">p</span></code></td>
+                    <td>Sélectionne tous les éléments <code>&lt;p&gt;</code> à l'intérieur d'un <code>&lt;div&gt;</code>.</td>
+                </tr>
+                <tr>
+                    <td>Enfant</td>
+                    <td><code><span class="tag">ul</span> > <span class="tag">li</span></code></td>
+                    <td>Sélectionne tous les éléments <code>&lt;li&gt;</code> qui sont des enfants directs d'un <code>&lt;ul&gt;</code>.</td>
+                </tr>
+                <tr>
+                    <td>Frère Adjacent</td>
+                    <td><code><span class="tag">h2</span> + <span class="tag">p</span></code></td>
+                    <td>Sélectionne le premier <code>&lt;p&gt;</code> suivant immédiatement un <code>&lt;h2&gt;</code>.</td>
+                </tr>
+                 <tr>
+                    <td>Frère Général</td>
+                    <td><code><span class="tag">h2</span> ~ <span class="tag">p</span></code></td>
+                    <td>Sélectionne tous les éléments <code>&lt;p&gt;</code> qui sont frères d'un <code>&lt;h2&gt;</code> et viennent après lui.</td>
+                </tr>
+                <tr>
+                    <td>Groupement</td>
+                    <td><code><span class="tag">h1</span>, <span class="tag">h2</span>, <span class="tag">p</span></code></td>
+                    <td>Sélectionne tous les éléments <code>&lt;h1&gt;</code>, <code>&lt;h2&gt;</code>, et <code>&lt;p&gt;</code>.</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Pseudo-classes (:...) & Pseudo-éléments (::...)</h3>
+        <p>Sélecteurs qui ciblent les éléments en fonction de leur état ou de leur position (pseudo-classes) ou stylent des parties spécifiques d'un élément (pseudo-éléments).</p>
+        <table>
+            <thead>
+                 <tr>
+                    <th>Type</th>
+                    <th>Exemple</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                 <tr>
+                    <td>Pseudo-classe</td>
+                    <td><code><span class="tag">a:hover</span></code></td>
+                    <td>Sélectionne un lien lorsque l'utilisateur le survole. Autres courants : <code>:focus</code>, <code>:active</code>, <code>:visited</code>, <code>:first-child</code>, <code>:last-child</code>, <code>:nth-child(n)</code>, <code>:not(sélecteur)</code>, <code>:where(sélecteur)</code>, <code>:is(sélecteur)</code>.</td>
+                </tr>
+                 <tr>
+                    <td>Pseudo-élément</td>
+                    <td><code><span class="tag">p::first-line</span></code></td>
+                    <td>Sélectionne la première ligne d'un <code>&lt;p&gt;</code>. Autres courants : <code>::before</code>, <code>::after</code>, <code>::marker</code>, <code>::selection</code>. (Note : un seul deux-points <code>:before</code>/<code>:after</code> fonctionne aussi pour des raisons historiques).</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="units">
+        <h2>Unités</h2>
+        <p>Moyens de spécifier les longueurs, les tailles et d'autres valeurs.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Unité</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>px</code></td>
+                    <td>Absolue</td>
+                    <td>Pixels. Taille fixe, dépendante de la résolution de l'écran.</td>
+                </tr>
+                <tr>
+                    <td><code>%</code></td>
+                    <td>Relative</td>
+                    <td>Pourcentage relatif à la propriété correspondante de l'élément parent.</td>
+                </tr>
+                <tr>
+                    <td><code>em</code></td>
+                    <td>Relative</td>
+                    <td>Relative à la taille de police de l'élément <strong>parent</strong>. (Peut se cumuler)</td>
+                </tr>
+                <tr>
+                    <td><code>rem</code></td>
+                    <td>Relative</td>
+                    <td>Relative à la taille de police de l'élément <strong>racine</strong> (<code>&lt;html&gt;</code>). (Recommandé pour la mise à l'échelle de la typographie)</td>
+                </tr>
+                 <tr>
+                    <td><code>vw</code></td>
+                    <td>Relative</td>
+                    <td>1% de la largeur de la fenêtre d'affichage (viewport).</td>
+                </tr>
+                <tr>
+                    <td><code>vh</code></td>
+                    <td>Relative</td>
+                    <td>1% de la hauteur de la fenêtre d'affichage (viewport).</td>
+                </tr>
+                <tr>
+                    <td><code>vmin</code></td>
+                    <td>Relative</td>
+                    <td>1% du minimum de la largeur et de la hauteur de la fenêtre d'affichage.</td>
+                </tr>
+                <tr>
+                    <td><code>vmax</code></td>
+                    <td>Relative</td>
+                    <td>1% du maximum de la largeur et de la hauteur de la fenêtre d'affichage.</td>
+                </tr>
+                <tr>
+                    <td><code>fr</code></td>
+                    <td>Relative (Grille)</td>
+                    <td>Une unité fractionnaire utilisée en CSS Grid pour représenter une fraction de l'espace disponible.</td>
+                </tr>
+                 <tr>
+                    <td><code>auto</code></td>
+                    <td>Flexible</td>
+                    <td>Souvent utilisé en Flexbox/Grid pour occuper l'espace disponible ou se dimensionner en fonction du contenu.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="box-model">
+        <h2>Le Modèle de Boîte (Box Model)</h2>
+        <p>Chaque élément HTML est traité comme une boîte. Comprendre ses composants est crucial pour la mise en page.</p>
+        <pre><code class="language-css">
++---------------------+
+|       Marge         |
+| +-----------------+ |
+| |    Bordure      | |
+| | +-------------+ | |
+| | | Remplissage | | |
+| | | +---------+ | | |
+| | | | Contenu | | | |
+| | | +---------+ | | |
+| | |             | | |
+| | +-------------+ | |
+| |                 | |
+| +-----------------+ |
+|                     |
++---------------------+
+        </code></pre>
+        <ul>
+            <li><strong>Contenu :</strong> Le contenu réel (texte, image, etc.). Dimensionné par <code>width</code>/<code>height</code>.</li>
+            <li><strong>Remplissage (Padding) :</strong> Espace entre le contenu et la bordure. Affecté par <code>padding-top</code>, <code>padding-right</code>, <code>padding-bottom</code>, <code>padding-left</code>, ou le raccourci <code>padding</code>.</li>
+            <li><strong>Bordure (Border) :</strong> Une ligne entre le remplissage et la marge. Affectée par <code>border-width</code>, <code>border-style</code>, <code>border-color</code>, ou le raccourci <code>border</code>.</li>
+            <li><strong>Marge (Margin) :</strong> Espace à l'extérieur de la bordure. Affecté par <code>margin-top</code>, <code>margin-right</code>, <code>margin-bottom</code>, <code>margin-left</code>, ou le raccourci <code>margin</code>. Les marges peuvent fusionner verticalement.</li>
+        </ul>
+        <h3>Propriété <code>box-sizing</code></h3>
+        <p>Contrôle la manière dont <code>width</code> et <code>height</code> sont calculées.</p>
+        <ul>
+            <li><code><span class="attr">box-sizing</span>: <span class="val">content-box</span>;</code> (Défaut) : <code>width</code>/<code>height</code> s'appliquent uniquement à la zone de contenu. Le remplissage et la bordure sont ajoutés *à l'extérieur* des dimensions spécifiées.</li>
+            <li><code><span class="attr">box-sizing</span>: <span class="val">border-box</span>;</code> : <code>width</code>/<code>height</code> s'appliquent au contenu + remplissage + bordure. Ceci est souvent préféré car cela rend les calculs de mise en page plus intuitifs.</li>
+        </ul>
+        <p class="note">Pratique courante : Appliquer <code>box-sizing: border-box;</code> globalement ou à la plupart des éléments en utilisant un reset ou un style de base.</p>
+         <pre><code class="language-css">
+<span class="tag">*, *::before, *::after</span> {
+  <span class="attr">box-sizing</span>: <span class="val">border-box</span>;
+}
+        </code></pre>
+    </section>
+
+    <section id="display">
+        <h2>Propriété Display</h2>
+        <p>Contrôle le comportement de mise en page d'un élément.</p>
+        <ul>
+            <li><code><span class="attr">display</span>: <span class="val">block</span>;</code> : Commence sur une nouvelle ligne et occupe toute la largeur disponible (par ex., <code>&lt;p&gt;</code>, <code>&lt;div&gt;</code>, <code>&lt;h1&gt;</code>). Respecte largeur, hauteur, remplissage, marge.</li>
+            <li><code><span class="attr">display</span>: <span class="val">inline</span>;</code> : Ne commence pas sur une nouvelle ligne et n'occupe que la largeur nécessaire (par ex., <code>&lt;span&gt;</code>, <code>&lt;a&gt;</code>, <code>&lt;strong&gt;</code>). Ignore largeur, hauteur, remplissage/marge haut/bas.</li>
+            <li><code><span class="attr">display</span>: <span class="val">inline-block</span>;</code> : Combine les caractéristiques. S'affiche en ligne mais respecte largeur, hauteur, remplissage, marge (par ex., <code>&lt;img&gt;</code>, <code>&lt;input&gt;</code> par défaut).</li>
+            <li><code><span class="attr">display</span>: <span class="val">none</span>;</code> : Masque complètement l'élément (le supprime du flux du document).</li>
+            <li><code><span class="attr">display</span>: <span class="val">flex</span>;</code> : Fait de l'élément un conteneur flex, activant la mise en page Flexbox pour ses enfants directs.</li>
+            <li><code><span class="attr">display</span>: <span class="val">grid</span>;</code> : Fait de l'élément un conteneur grid, activant la mise en page Grid pour ses enfants directs.</li>
+        </ul>
+    </section>
+
+     <section id="layout-flexbox">
+        <h2>Mise en Page : Flexbox</h2>
+        <p>Une méthode de mise en page unidimensionnelle pour arranger les éléments en lignes ou en colonnes.</p>
+        <h3>Propriétés du Conteneur Flex (S'appliquent au parent avec <code>display: flex;</code>)</h3>
+        <ul>
+            <li><code><span class="attr">flex-direction</span>: <span class="val">row</span> | <span class="val">row-reverse</span> | <span class="val">column</span> | <span class="val">column-reverse</span>;</code> : Définit la direction des éléments.</li>
+            <li><code><span class="attr">justify-content</span>: <span class="val">flex-start</span> | <span class="val">flex-end</span> | <span class="val">center</span> | <span class="val">space-between</span> | <span class="val">space-around</span> | <span class="val">space-evenly</span>;</code> : Aligne les éléments le long de l'axe principal.</li>
+            <li><code><span class="attr">align-items</span>: <span class="val">flex-start</span> | <span class="val">flex-end</span> | <span class="val">center</span> | <span class="val">baseline</span> | <span class="val">stretch</span>;</code> : Aligne les éléments le long de l'axe transversal.</li>
+            <li><code><span class="attr">flex-wrap</span>: <span class="val">nowrap</span> | <span class="val">wrap</span> | <span class="val">wrap-reverse</span>;</code> : Contrôle le retour à la ligne si les éléments dépassent du conteneur.</li>
+             <li><code><span class="attr">gap</span>: <span class="val">valeur</span>;</code> : Définit l'espacement entre les lignes et les colonnes (raccourci pour <code>row-gap</code> et <code>column-gap</code>).</li>
+        </ul>
+        <h3>Propriétés des Éléments Flex (S'appliquent aux enfants directs du conteneur flex)</h3>
+        <ul>
+            <li><code><span class="attr">flex-grow</span>: <span class="val">nombre</span>;</code> : Capacité à s'agrandir si nécessaire (défaut 0).</li>
+            <li><code><span class="attr">flex-shrink</span>: <span class="val">nombre</span>;</code> : Capacité à rétrécir si nécessaire (défaut 1).</li>
+            <li><code><span class="attr">flex-basis</span>: <span class="val">valeur</span> | <span class="val">auto</span>;</code> : Taille par défaut de l'élément avant la distribution de l'espace.</li>
+             <li><code><span class="attr">flex</span>: <span class="val">grow</span> <span class="val">shrink</span> <span class="val">basis</span>;</code> : Raccourci pour <code>flex-grow</code>, <code>flex-shrink</code>, et <code>flex-basis</code>. Valeurs courantes : <code><span class="val">1 1 auto</span></code>, <code><span class="val">auto</span></code>, <code><span class="val">none</span></code>.</li>
+            <li><code><span class="attr">order</span>: <span class="val">nombre</span>;</code> : Spécifie l'ordre d'un élément flexible par rapport aux autres (défaut 0).</li>
+            <li><code><span class="attr">align-self</span>: <span class="val">auto</span> | <span class="val">flex-start</span> | <span class="val">flex-end</span> | <span class="val">center</span> | <span class="val">baseline</span> | <span class="val">stretch</span>;</code> : Surcharge <code>align-items</code> du conteneur pour un seul élément.</li>
+        </ul>
+         <p class="note">Exemple : Centrer un div dans son parent</p>
+        <pre><code class="language-css">
+<span class="tag">.conteneur</span> {
+  <span class="attr">display</span>: <span class="val">flex</span>;
+  <span class="attr">justify-content</span>: <span class="val">center</span>; <span class="comment">/* Centrer horizontalement */</span>
+  <span class="attr">align-items</span>: <span class="val">center</span>; <span class="comment">/* Centrer verticalement */</span>
+  <span class="attr">min-height</span>: <span class="val">100vh</span>; <span class="comment">/* Hauteur d'exemple */</span>
+}
+        </code></pre>
+    </section>
+
+     <section id="layout-grid">
+        <h2>Mise en Page : Grid (Grille)</h2>
+        <p>Une méthode de mise en page bidimensionnelle pour arranger les éléments en colonnes et en lignes.</p>
+        <h3>Propriétés du Conteneur Grid (S'appliquent au parent avec <code>display: grid;</code>)</h3>
+        <ul>
+            <li><code><span class="attr">grid-template-columns</span>: <span class="val">valeur(s)</span>;</code> : Définit les colonnes de la grille (par ex., <code><span class="val">1fr 1fr auto</span></code>, <code><span class="val">repeat(3, 100px)</span></code>).</li>
+            <li><code><span class="attr">grid-template-rows</span>: <span class="val">valeur(s)</span>;</code> : Définit les lignes de la grille.</li>
+             <li><code><span class="attr">gap</span>: <span class="val">valeur</span>;</code> : Définit l'espacement entre les lignes et les colonnes (raccourci pour <code>row-gap</code> et <code>column-gap</code>).</li>
+             <li><code><span class="attr">justify-items</span>: <span class="val">start</span> | <span class="val">end</span> | <span class="val">center</span> | <span class="val">stretch</span>;</code> : Aligne les éléments dans leurs cellules le long de l'axe en ligne (ligne).</li>
+             <li><code><span class="attr">align-items</span>: <span class="val">start</span> | <span class="val">end</span> | <span class="val">center</span> | <span class="val">stretch</span>;</code> : Aligne les éléments dans leurs cellules le long de l'axe de bloc (colonne).</li>
+             <li><code><span class="attr">grid-template-areas</span>: <span class="val">"zone1 zone2" "zone3 ."</span>;</code> : Définit les zones de la grille en les nommant dans une structure visuelle.</li>
+        </ul>
+        <h3>Propriétés des Éléments Grid (S'appliquent aux enfants directs du conteneur grid)</h3>
+        <ul>
+            <li><code><span class="attr">grid-column</span>: <span class="val">début</span> / <span class="val">fin</span>;</code> : Spécifie la taille et l'emplacement de la colonne (par ex., <code><span class="val">1 / 3</span></code>, <code><span class="val">span 2</span></code>). Raccourci pour <code>grid-column-start</code> et <code>grid-column-end</code>.</li>
+            <li><code><span class="attr">grid-row</span>: <span class="val">début</span> / <span class="val">fin</span>;</code> : Spécifie la taille et l'emplacement de la ligne. Raccourci pour <code>grid-row-start</code> et <code>grid-row-end</code>.</li>
+             <li><code><span class="attr">grid-area</span>: <span class="val">début-ligne</span> / <span class="val">début-colonne</span> / <span class="val">fin-ligne</span> / <span class="val">fin-colonne</span>;</code> : Raccourci pour l'emplacement/dimensionnement, ou peut utiliser les noms de zones définis dans <code>grid-template-areas</code>.</li>
+            <li><code><span class="attr">justify-self</span>: <span class="val">start</span> | <span class="val">end</span> | <span class="val">center</span> | <span class="val">stretch</span>;</code> : Surcharge <code>justify-items</code> du conteneur pour un seul élément.</li>
+            <li><code><span class="attr">align-self</span>: <span class="val">start</span> | <span class="val">end</span> | <span class="val">center</span> | <span class="val">stretch</span>;</code> : Surcharge <code>align-items</code> du conteneur pour un seul élément.</li>
+        </ul>
+        <p class="note">Exemple : Une grille simple à 2 colonnes</p>
+        <pre><code class="language-css">
+<span class="tag">.conteneur</span> {
+  <span class="attr">display</span>: <span class="val">grid</span>;
+  <span class="attr">grid-template-columns</span>: <span class="val">1fr 2fr</span>; <span class="comment">/* Colonne gauche prend 1 part, droite prend 2 parts */</span>
+  <span class="attr">gap</span>: <span class="val">20px</span>; <span class="comment">/* Espace entre les colonnes et les lignes */</span>
+}
+        </code></pre>
+    </section>
+
+     <section id="typography">
+        <h2>Typographie</h2>
+        <p>Mise en forme du contenu textuel.</p>
+        <ul>
+            <li><code><span class="attr">font-family</span>: <span class="val">"Nom de Police"</span>, <span class="val">générique</span>;</code> : Spécifie la police de caractères. Incluez toujours des polices génériques de secours (<code>serif</code>, <code>sans-serif</code>, <code>monospace</code>, <code>cursive</code>, <code>fantasy</code>).</li>
+            <li><code><span class="attr">font-size</span>: <span class="val">valeur</span>;</code> : Spécifie la taille de la police (par ex., <code><span class="val">16px</span></code>, <code><span class="val">1em</span></code>, <code><span class="val">1.5rem</span></code>).</li>
+            <li><code><span class="attr">font-weight</span>: <span class="val">normal</span> | <span class="val">bold</span> | <span class="val">100</span> | <span class="val">...</span> | <span class="val">900</span>;</code> : Spécifie le poids (graisse) de la police.</li>
+            <li><code><span class="attr">font-style</span>: <span class="val">normal</span> | <span class="val">italic</span> | <span class="val">oblique</span>;</code> : Spécifie le style de la police.</li>
+            <li><code><span class="attr">line-height</span>: <span class="val">valeur</span> | <span class="val">nombre</span>;</code> : Définit la hauteur d'une boîte de ligne. Utilisez des nombres sans unité (par ex., <code><span class="val">1.5</span></code>) pour un meilleur héritage.</li>
+             <li><code><span class="attr">text-align</span>: <span class="val">left</span> | <span class="val">right</span> | <span class="val">center</span> | <span class="val">justify</span>;</code> : Aligne le texte dans son bloc conteneur.</li>
+             <li><code><span class="attr">text-decoration</span>: <span class="val">none</span> | <span class="val">underline</span> | <span class="val">overline</span> | <span class="val">line-through</span>;</code> : Ajoute des lignes de décoration au texte. Utilisez <code><span class="val">none</span></code> pour supprimer les soulignements par défaut des liens.</li>
+             <li><code><span class="attr">color</span>: <span class="val">valeur</span>;</code> : Définit la couleur du texte.</li>
+        </ul>
+         <p class="note">Chargement des Polices Web (par ex., Google Fonts, polices personnalisées)</p>
+        <pre><code class="language-css">
+<span class="tag">@font-face</span> {
+  <span class="attr">font-family</span>: <span class="val">"Ma Police Perso"</span>;
+  <span class="attr">src</span>: <span class="val">url("ma-police-perso.woff2") format("woff2")</span>,
+       <span class="val">url("ma-police-perso.woff") format("woff")</span>;
+  <span class="attr">font-weight</span>: <span class="val">normal</span>;
+  <span class="attr">font-style</span>: <span class="val">normal</span>;
+}
+
+<span class="tag">body</span> {
+  <span class="attr">font-family</span>: <span class="val">"Ma Police Perso"</span>, <span class="val">sans-serif</span>;
+}
+        </code></pre>
+    </section>
+
+     <section id="color-background">
+        <h2>Couleur & Arrière-plan</h2>
+        <p>Mise en forme des couleurs et des arrière-plans des éléments.</p>
+        <ul>
+            <li><code><span class="attr">color</span>: <span class="val">valeur</span>;</code> : Définit la couleur de premier plan (couleur du texte).</li>
+            <li><code><span class="attr">background-color</span>: <span class="val">valeur</span>;</code> : Définit la couleur d'arrière-plan d'un élément.</li>
+            <li><code><span class="attr">background-image</span>: <span class="val">url("chemin/vers/image.jpg")</span> | <span class="val">linear-gradient(...)</span>;</code> : Définit l'image d'arrière-plan.</li>
+             <li><code><span class="attr">background-repeat</span>: <span class="val">repeat</span> | <span class="val">no-repeat</span> | <span class="val">repeat-x</span> | <span class="val">repeat-y</span>;</code> : Comment l'image d'arrière-plan se répète.</li>
+             <li><code><span class="attr">background-position</span>: <span class="val">valeur</span>;</code> : Positionne l'image d'arrière-plan (par ex., <code><span class="val">center top</span></code>, <code><span class="val">50% 50%</span></code>).</li>
+             <li><code><span class="attr">background-size</span>: <span class="val">auto</span> | <span class="val">cover</span> | <span class="val">contain</span> | <span class="val">valeur</span>;</code> : Dimensionne l'image d'arrière-plan. <code><span class="val">cover</span></code> remplit la zone, <code><span class="val">contain</span></code> assure que toute l'image est visible.</li>
+            <li><code><span class="attr">background</span>: <span class="val">raccourci</span>;</code> : Propriété raccourcie pour les styles d'arrière-plan. L'ordre compte : <code><span class="val">couleur</span> <span class="val">image</span> <span class="val">répétition</span> <span class="val">position</span> / <span class="val">taille</span> <span class="val">attachement</span> <span class="val">origine</span> <span class="val">clip</span></code>.</li>
+        </ul>
+        <h3>Valeurs de Couleur</h3>
+        <ul>
+            <li><code><span class="val">#RRGGBB</span></code> ou <code><span class="val">#RGB</span></code> (Hexadécimal)</li>
+            <li><code><span class="val">rgb(R, G, B)</span></code> ou <code><span class="val">rgba(R, G, B, A)</span></code> (Rouge, Vert, Bleu, Alpha/Opacité)</li>
+            <li><code><span class="val">hsl(H, S, L)</span></code> ou <code><span class="val">hsla(H, S, L, A)</span></code> (Teinte, Saturation, Luminosité, Alpha)</li>
+            <li>Couleurs Nommées (par ex., <code><span class="val">red</span></code>, <code><span class="val">blue</span></code>, <code><span class="val">transparent</span></code>)</li>
+            <li>Couleur Actuelle (<code><span class="val">currentColor</span></code>) : Utilise la valeur calculée de <code>color</code> de l'élément.</li>
+        </ul>
+    </section>
+
+     <section id="lesser-known-modern">
+        <h2>Fonctionnalités CSS Moins Connues / Modernes</h2>
+        <p>Tirer parti des nouvelles capacités pour un code plus propre et plus flexible.</p>
+        <ul>
+            <li><strong>Variables CSS (Propriétés Personnalisées) :</strong> Définir des valeurs réutilisables.
+                <pre><code class="language-css">
+<span class="tag">:root</span> { <span class="comment">/* Définir globalement */</span>
+  <span class="attr">--couleur-primaire</span>: <span class="val">#1a73e8</span>;
+  <span class="attr">--espacement-md</span>: <span class="val">16px</span>;
+}
+
+<span class="tag">h1</span> {
+  <span class="attr">color</span>: <span class="val">var(--couleur-primaire)</span>;
+}
+
+<span class="tag">.section</span> {
+  <span class="attr">margin-bottom</span>: <span class="val">var(--espacement-md)</span>;
+}
+                </code></pre>
+            </li>
+            <li><strong>Fonction <code>calc()</code> :</strong> Effectuer des calculs pour déterminer les valeurs CSS.
+                <br>Exemple : <code><span class="attr">width</span>: <span class="val">calc(100% - 40px)</span>;</code>
+            </li>
+            <li><strong>Fonctions <code>clamp()</code>, <code>min()</code>, <code>max()</code> :</strong> Pour des valeurs responsives basées sur des contraintes.
+                <br>Exemple : <code><span class="attr">font-size</span>: <span class="val">clamp(1rem, 2.5vw, 2rem)</span>;</code> (Maintient la taille de police entre 1rem et 2rem, s'adaptant fluidement en fonction de la largeur du viewport, dans la limite de 2.5vw).
+            </li>
+            <li><strong><code>object-fit</code> & <code>object-position</code> :</strong> Contrôler comment le contenu d'un élément remplacé (comme <code>&lt;img&gt;</code> ou <code>&lt;video&gt;</code>) doit être redimensionné pour s'adapter à son conteneur.
+                <br>Exemple : <code><span class="attr">object-fit</span>: <span class="val">cover</span>;</code> (Similaire à background-size: cover).
+            </li>
+             <li><strong>Propriété <code>filter</code> :</strong> Appliquer des effets graphiques comme le flou, les niveaux de gris, le sépia, etc.
+                <br>Exemple : <code><span class="attr">filter</span>: <span class="val">grayscale(100%)</span>;</code>
+            </li>
+             <li><strong><code>@layer</code> (Couches de Cascade) :</strong> Organise les styles pour contrôler la cascade de manière plus explicite. (Utile pour les systèmes de design, CSS tiers).
+                <pre><code class="language-css">
+<span class="tag">@layer</span> reinitialisation, base, composants, utilitaires;
+
+<span class="tag">@layer</span> base {
+  <span class="tag">body</span> { <span class="attr">margin</span>: <span class="val">0</span>; }
+}
+
+<span class="tag">@layer</span> composants {
+  <span class="tag">.bouton</span> { <span class="attr">padding</span>: <span class="val">10px 20px</span>; }
+} <span class="comment">/* La couche composants a une priorité plus élevée que la couche base */</span>
+                </code></pre>
+             </li>
+             <li><strong>Requêtes de Conteneur (<code>@container</code>) :</strong> Styler les éléments en fonction de la taille de leur *conteneur*, et non plus seulement du viewport. (Support encore relativement nouveau).
+                 <pre><code class="language-css">
+<span class="tag">.conteneur-carte</span> {
+  <span class="attr">container-type</span>: <span class="val">inline-size</span>;
+}
+
+<span class="tag">@container</span> (min-width: 400px) {
+  <span class="tag">.carte</span> {
+    <span class="attr">display</span>: <span class="val">flex</span>; <span class="comment">/* La mise en page de la carte change si le conteneur est assez large */</span>
+  }
+}
+                </code></pre>
+             </li>
+        </ul>
+    </section>
+
+    <section id="key-concepts">
+        <h2>Concepts Clés : Spécificité, Cascade, Héritage</h2>
+        <p>Comprendre ces règles est crucial pour prédire quels styles s'appliquent.</p>
+        <h3>Spécificité</h3>
+        <p>Un score attribué à un sélecteur CSS en fonction de ses composants. Une spécificité plus élevée l'emporte lorsque plusieurs règles ciblent le même élément et la même propriété.</p>
+        <ul>
+            <li>Styles en ligne (la plus élevée)</li>
+            <li>ID (#mon-id) - 100 points</li>
+            <li>Classes (.ma-classe), Attributs ([type="text"]), Pseudo-classes (:hover) - 10 points</li>
+            <li>Éléments (p), Pseudo-éléments (::before) - 1 point</li>
+            <li>Sélecteur universel (*), Combinateurs (>, +, ~), Négation (:not()) - 0 point (mais le sélecteur interne compte)</li>
+            <li><code><span class="val">!important</span></code> (surcharge la spécificité - à utiliser avec précaution)</li>
+        </ul>
+        <p class="note">Exemple : <code><span class="tag">#mon-id .ma-classe p</span></code> (100 + 10 + 1 = 111 points) vs. <code><span class="tag">.autre-classe p.surbrillance</span></code> (10 + 1 + 10 = 21 points)</p>
+
+        <h3>La Cascade</h3>
+        <p>Lorsque plusieurs règles conflictuelles s'appliquent à un élément, le navigateur résout les conflits en fonction de (par ordre de priorité) :</p>
+        <ol>
+            <li><strong>Origine :</strong> Styles de l'agent utilisateur < Styles utilisateur < Styles de l'auteur < <code>!important</code> de l'auteur < <code>!important</code> de l'utilisateur < <code>!important</code> de l'agent utilisateur (la plus élevée)</li>
+            <li><strong>Couche (Layer) :</strong> Les styles dans les instructions <code>@layer</code> ultérieures surchargent ceux des couches antérieures. Les styles non stratifiés ont une priorité plus élevée que les styles stratifiés.</li>
+            <li><strong>Spécificité :</strong> La règle avec la spécificité la plus élevée l'emporte.</li>
+            <li><strong>Ordre :</strong> Si la spécificité est égale, la dernière règle déclarée l'emporte.</li>
+        </ol>
+
+        <h3>Héritage</h3>
+        <p>Certaines propriétés CSS (comme <code>color</code>, <code>font-family</code>, <code>text-align</code>) sont héritées par les éléments enfants si elles ne sont pas explicitement définies sur l'enfant. D'autres (comme <code>border</code>, <code>margin</code>, <code>padding</code>, <code>width</code>) ne le sont pas.</p>
+        <ul>
+            <li>Utilisez le mot-clé <code><span class="attr">inherit</span></code> pour hériter explicitement d'une valeur de propriété du parent.</li>
+            <li>Utilisez <code><span class="attr">initial</span></code> pour définir une propriété à sa valeur par défaut.</li>
+            <li>Utilisez <code><span class="attr">unset</span></code> pour définir une propriété à sa valeur héritée si c'est une propriété héritée, et à sa valeur initiale sinon.</li>
+            <li>Utilisez <code><span class="attr">revert</span></code> pour réinitialiser une propriété à la valeur établie par la feuille de style de l'agent utilisateur (ou la feuille de style utilisateur le cas échéant).</li>
+        </ul>
+    </section>
+
+    <section id="responsive-design">
+        <h2>Design Responsive (@media)</h2>
+        <p>Adapter les mises en page et les styles en fonction des caractéristiques de la fenêtre d'affichage (viewport), généralement la largeur.</p>
+        <pre><code class="language-css">
+<span class="comment">/* Approche Mobile-First : Styles par défaut pour petits écrans */</span>
+<span class="tag">body</span> {
+  <span class="attr">font-size</span>: <span class="val">1rem</span>;
+}
+
+<span class="comment">/* Styles pour les viewports plus larges que 768px */</span>
+<span class="tag">@media</span> (<span class="attr">min-width</span>: <span class="val">768px</span>) {
+  <span class="tag">body</span> {
+    <span class="attr">font-size</span>: <span class="val">1.1rem</span>;
+  }
+  <span class="tag">.conteneur</span> {
+    <span class="attr">width</span>: <span class="val">700px</span>;
+    <span class="attr">margin</span>: <span class="val">0 auto</span>;
+  }
+}
+
+<span class="comment">/* Styles pour les viewports plus larges que 1200px */</span>
+<span class="tag">@media</span> (<span class="attr">min-width</span>: <span class="val">1200px</span>) {
+  <span class="tag">.conteneur</span> {
+    <span class="attr">width</span>: <span class="val">1100px</span>;
+  }
+}
+        </code></pre>
+        <ul>
+            <li>La règle <code><span class="tag">@media</span></code> applique des styles conditionnellement.</li>
+            <li><code><span class="attr">min-width</span></code> : Applique les styles lorsque le viewport est *au moins* de la largeur spécifiée. (Courant pour l'approche mobile-first).</li>
+            <li><code><span class="attr">max-width</span></code> : Applique les styles lorsque le viewport est *au plus* de la largeur spécifiée. (Courant pour l'approche desktop-first).</li>
+             <li>Autres fonctionnalités média : <code><span class="attr">orientation</span></code>, <code><span class="attr">resolution</span></code>, <code><span class="attr">prefers-color-scheme</span></code> (schéma de couleurs préféré), <code><span class="attr">prefers-reduced-motion</span></code> (mouvement réduit préféré), etc.</li>
+        </ul>
+    </section>
+
+    <section id="good-practices-css">
+        <h2>Bonnes Pratiques</h2>
+        <ul>
+             <li class="good-practice"><strong>Approche Mobile-First :</strong> Concevez et stylez d'abord pour les petits écrans, puis utilisez <code>@media (min-width: ...)</code> pour ajouter des styles pour les écrans plus grands. C'est souvent plus efficace.</li>
+            <li class="good-practice"><strong>Utilisez les Variables CSS :</strong> Pour des couleurs, espacements, polices, etc., cohérents. Rend les mises à jour beaucoup plus faciles.</li>
+            <li class="good-practice"><strong>Utilisez du HTML Sémantique :</strong> Les sélecteurs CSS fonctionnent mieux lorsqu'ils ciblent des éléments et des classes HTML significatifs, et non des classes nommées de manière présentationnelle (comme `.texte-rouge`).</li>
+            <li class="good-practice"><strong>Gardez les Sélecteurs Simples :</strong> Évitez l'imbrication profonde. Préférez les sélecteurs de classe aux combinateurs complexes ou aux sélecteurs d'ID pour le style lorsque cela est possible.</li>
+            <li class="good-practice"><strong>Utilisez <code>rem</code> pour les Tailles de Police :</strong> Permet aux utilisateurs de mettre à l'échelle le texte globalement dans les paramètres du navigateur. Utilisez <code>em</code> pour le remplissage/marge où vous voulez un espacement relatif à la taille de police de l'élément *actuel*.</li>
+            <li class="good-practice"><strong>Utilisez <code>box-sizing: border-box;</code> :</strong> Rend les calculs de largeur et de hauteur plus intuitifs.</li>
+            <li class="good-practice"><strong>Organisez et Commentez :</strong> Utilisez des commentaires (<code><span class="comment">/* ... */</span></code>) pour sectionner votre CSS. Organisez les règles logiquement (par ex., par composant, par section, en utilisant une méthodologie comme BEM, des classes utilitaires, etc.).</li>
+            <li class="good-practice"><strong>Optimisez les Performances :</strong> Minifiez le CSS, utilisez des sélecteurs efficaces, considérez le CSS critique pour le chargement initial, différez le CSS non critique.</li>
+            <li class="good-practice"><strong>Donnez la Priorité à l'Accessibilité :</strong> Assurez un contraste de couleurs suffisant, fournissez des états de focus pour les éléments interactifs (<code>:focus</code>), considérez <code>prefers-reduced-motion</code> pour les animations.</li>
+            <li class="good-practice"><strong>Utilisez Flexbox et Grid pour la Mise en Page :</strong> Ce sont les outils modernes et puissants pour organiser le contenu.</li>
+            <li class="good-practice"><strong>Validez Votre CSS :</strong> Utilisez des outils comme le <a href="https://jigsaw.w3.org/css-validator/" target="_blank" rel="noopener noreferrer">Validateur CSS W3C</a>.</li>
+        </ul>
+    </section>
+
+    <section id="bad-practices-css">
+        <h2>Mauvaises Pratiques (À Éviter)</h2>
+        <ul>
+            <li class="bad-practice"><strong>Utiliser Abusivement <code>!important</code> :</strong> Détruit la cascade, rend le débogage et les surcharges extrêmement difficiles. Devrait être utilisé avec parcimonie, voire pas du tout (par ex., dans les classes utilitaires ou pour surcharger des styles tiers).</li>
+            <li class="bad-practice"><strong>Sélecteurs Trop Spécifiques ou Profondément Imbriqués :</strong> Mène à un code fragile, difficile à maintenir et à réutiliser. Augmente les problèmes de spécificité.</li>
+             <li class="bad-practice"><strong>Utiliser les ID pour le Style :</strong> Les ID ont une spécificité élevée, ce qui les rend difficiles à surcharger. Ils devraient principalement être utilisés pour les accroches JavaScript ou les identificateurs de fragment dans les URL. Utilisez des classes pour le style.</li>
+            <li class="bad-practice"><strong>Utiliser les Styles en Ligne (<code>&lt;div style="..."&gt;</code>) :</strong> Difficile à gérer, à surcharger, et viole la séparation des préoccupations. Spécificité la plus élevée, difficile à supprimer ou à modifier ultérieurement.</li>
+            <li class="bad-practice"><strong>Utiliser des Tableaux pour la Mise en Page :</strong> Les tableaux sont pour les données, pas pour l'arrangement visuel. Utilisez les méthodes de mise en page CSS.</li>
+            <li class="bad-practice"><strong>Ignorer l'Accessibilité (par ex., faible contraste, pas de contours de focus) :</strong> Crée des expériences inutilisables pour de nombreux utilisateurs.</li>
+            <li class="bad-practice"><strong>Utiliser des Valeurs en Pixels Fixes pour Tout :</strong> Rend le design responsive plus difficile. Utilisez des unités relatives comme <code>rem</code>, <code>%</code>, <code>vw</code> lorsque c'est approprié.</li>
+            <li class="bad-practice"><strong>Coder en Dur des Couleurs/Valeurs de Manière Répétée :</strong> Rend les refontes et les mises à jour fastidieuses. Utilisez les Variables CSS.</li>
+            <li class="bad-practice"><strong>Écrire du Code Dupliqué :</strong> Si vous vous retrouvez à écrire les mêmes paires propriété/valeur plusieurs fois, envisagez de regrouper les sélecteurs ou d'utiliser une classe/variable utilitaire.</li>
+            <li class="bad-practice"><strong>Trop se Fier aux Valeurs par Défaut du Navigateur :</strong> Les navigateurs varient. Utilisez une réinitialisation CSS (reset) ou une feuille de style de normalisation (normalize) pour assurer la cohérence.</li>
+        </ul>
+    </section>
+    </main>
+    <footer>
+        <p>© <span id="currentYear"></span> Your Name/Project Name (Optional)</p>
+        <p class="disclaimer"><strong>Disclaimer (English):</strong> This content is an experiment generated by Google's Gemini model. Users should verify the information before using it for critical applications.</p>
+        <p class="disclaimer"><strong>Avertissement (Français):</strong> Ce contenu est une expérience générée par le modèle Gemini de Google. Les utilisateurs doivent vérifier les informations avant de les utiliser pour des applications critiques.</p>
+    </footer>
+    <script>
+        // Ensure this script runs only once, or wrap the getFullYear part
+        // to avoid errors if pasted multiple times without care.
+        // A good practice is to have a single site-wide JS file for such things.
+        const yearSpan = document.getElementById('currentYear');
+        if (yearSpan && !yearSpan.textContent) { // Check if already set
+            yearSpan.textContent = new Date().getFullYear();
+        }
+    </script>
+<script src="script.js" defer></script>
+</body>
+</html>

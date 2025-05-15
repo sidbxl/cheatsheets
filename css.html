@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern CSS Cheatsheet</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="nav_footer_style.css">
+    <link rel="stylesheet" href="print.css" media="print">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="html.html">HTML (EN)</a></li>
+            <li><a href="html_fr.html">HTML (FR)</a></li>
+            <li><a href="css.html">CSS (EN)</a></li>
+            <li><a href="css_fr.html">CSS (FR)</a></li>
+            <li><a href="js.html">JS (EN)</a></li>
+            <li><a href="js_fr.html">JS (FR)</a></li>
+        </ul>
+    </nav>
+    <main>
+    <h1>Modern CSS Cheatsheet</h1>
+    <p class="note">Focusing on modern CSS concepts, best practices, and avoiding obsolete techniques. Designed to complement the HTML cheatsheet using the same <code>style.css</code> file.</p>
+
+    <section id="basics">
+        <h2>Basics & Syntax</h2>
+        <p>CSS (Cascading Style Sheets) describes how HTML elements are to be displayed. Rules consist of a selector and one or more declarations.</p>
+        <pre><code class="language-css">
+<span class="tag">selector</span> {
+  <span class="attr">property</span>: <span class="val">value</span>; <span class="comment">/* Declaration 1 */</span>
+  <span class="attr">another-property</span>: <span class="val">another-value</span>; <span class="comment">/* Declaration 2 */</span>
+}
+        </code></pre>
+        <ul>
+            <li><strong>Selector:</strong> Targets the HTML element(s) you want to style.</li>
+            <li><strong>Declaration:</strong> Contains a property and its value.</li>
+            <li><strong>Property:</strong> The style attribute you want to change (e.g., <code>color</code>, <code>font-size</code>).</li>
+            <li><strong>Value:</strong> The value for the property (e.g., <code>blue</code>, <code>16px</code>).</li>
+            <li>Each declaration ends with a semicolon (<code>;</code>).</li>
+            <li>Declarations are contained within curly braces (<code>{ }</code>).</li>
+        </ul>
+              
+<h3>Linking CSS to HTML</h3>
+        <p>Use the <code>&lt;link&gt;</code> tag in the <code>&lt;head&gt;</code> section:</p>
+        <pre><code class="language-html">
+&lt;<span class="tag">!DOCTYPE</span> <span class="attr">html</span>&gt;
+&lt;<span class="tag">html</span> <span class="attr">lang</span>=<span class="val">"en"</span>&gt;
+&lt;<span class="tag">head</span>&gt;
+    <span class="comment"><!-- ... other head elements --></span>
+    &lt;<span class="tag">meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span>&gt; <span class="comment"><!-- Example meta tag --></span>
+    &lt;<span class="tag">title</span>&gt;Page Title&lt;/<span class="tag">title</span>&gt; <span class="comment"><!-- Example title --></span>
+    &lt;<span class="tag">link</span> <span class="attr">rel</span>=<span class="val">"stylesheet"</span> <span class="attr">href</span>=<span class="val">"style.css"</span>&gt;
+&lt;/<span class="tag">head</span>&gt;
+&lt;<span class="tag">body</span>&gt;
+    <span class="comment"><!-- ... body content --></span>
+&lt;/<span class="tag">body</span>&gt;
+&lt;/<span class="tag">html</span>&gt;
+        </code></pre>
+    </section>
+
+    <section id="selectors">
+        <h2>Selectors</h2>
+        <p>Targeting elements is fundamental in CSS.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Selector</th>
+                    <th>Example</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Type</td>
+                    <td><code><span class="tag">p</span></code></td>
+                    <td>Selects all <code>&lt;p&gt;</code> elements.</td>
+                </tr>
+                <tr>
+                    <td>Class</td>
+                    <td><code><span class="tag">.my-class</span></code></td>
+                    <td>Selects all elements with <code>class="my-class"</code>.</td>
+                </tr>
+                <tr>
+                    <td>ID</td>
+                    <td><code><span class="tag">#my-id</span></code></td>
+                    <td>Selects the element with <code>id="my-id"</code> (should be unique).</td>
+                </tr>
+                 <tr>
+                    <td>Universal</td>
+                    <td><code><span class="tag">*</span></code></td>
+                    <td>Selects all elements.</td>
+                </tr>
+                <tr>
+                    <td>Attribute</td>
+                    <td><code><span class="tag">[type="text"]</span></code><br><code><span class="tag">[data-abc]</span></code></td>
+                    <td>Selects elements with a specific attribute or attribute/value pair.</td>
+                </tr>
+                <tr>
+                    <td>Descendant</td>
+                    <td><code><span class="tag">div</span> <span class="tag">p</span></code></td>
+                    <td>Selects all <code>&lt;p&gt;</code> elements inside a <code>&lt;div&gt;</code>.</td>
+                </tr>
+                <tr>
+                    <td>Child</td>
+                    <td><code><span class="tag">ul</span> > <span class="tag">li</span></code></td>
+                    <td>Selects all <code>&lt;li&gt;</code> elements that are direct children of a <code>&lt;ul&gt;</code>.</td>
+                </tr>
+                <tr>
+                    <td>Adjacent Sibling</td>
+                    <td><code><span class="tag">h2</span> + <span class="tag">p</span></code></td>
+                    <td>Selects the first <code>&lt;p&gt;</code> immediately following an <code>&lt;h2&gt;</code>.</td>
+                </tr>
+                 <tr>
+                    <td>General Sibling</td>
+                    <td><code><span class="tag">h2</span> ~ <span class="tag">p</span></code></td>
+                    <td>Selects all <code>&lt;p&gt;</code> elements that are siblings of an <code>&lt;h2&gt;</code> and come after it.</td>
+                </tr>
+                <tr>
+                    <td>Grouping</td>
+                    <td><code><span class="tag">h1</span>, <span class="tag">h2</span>, <span class="tag">p</span></code></td>
+                    <td>Selects all <code>&lt;h1&gt;</code>, <code>&lt;h2&gt;</code>, and <code>&lt;p&gt;</code> elements.</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Pseudo-Classes (:...) & Pseudo-Elements (::...)</h3>
+        <p>Selectors that target elements based on their state or position (pseudo-classes) or style specific parts of an element (pseudo-elements).</p>
+        <table>
+            <thead>
+                 <tr>
+                    <th>Type</th>
+                    <th>Example</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                 <tr>
+                    <td>Pseudo-class</td>
+                    <td><code><span class="tag">a:hover</span></code></td>
+                    <td>Selects a link when the user hovers over it. Other common: <code>:focus</code>, <code>:active</code>, <code>:visited</code>, <code>:first-child</code>, <code>:last-child</code>, <code>:nth-child(n)</code>, <code>:not(selector)</code>, <code>:where(selector)</code>, <code>:is(selector)</code>.</td>
+                </tr>
+                 <tr>
+                    <td>Pseudo-element</td>
+                    <td><code><span class="tag">p::first-line</span></code></td>
+                    <td>Selects the first line of a <code>&lt;p&gt;</code>. Other common: <code>::before</code>, <code>::after</code>, <code>::marker</code>, <code>::selection</code>. (Note: single colon <code>:before</code>/<code>:after</code> also works for historical reasons).</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="units">
+        <h2>Units</h2>
+        <p>Ways to specify lengths, sizes, and other values.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Unit</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>px</code></td>
+                    <td>Absolute</td>
+                    <td>Pixels. Fixed size, dependent on screen resolution.</td>
+                </tr>
+                <tr>
+                    <td><code>%</code></td>
+                    <td>Relative</td>
+                    <td>Percentage relative to the parent element's corresponding property.</td>
+                </tr>
+                <tr>
+                    <td><code>em</code></td>
+                    <td>Relative</td>
+                    <td>Relative to the font-size of the <strong>parent</strong> element. (Can compound)</td>
+                </tr>
+                <tr>
+                    <td><code>rem</code></td>
+                    <td>Relative</td>
+                    <td>Relative to the font-size of the <strong>root</strong> (<code>&lt;html&gt;</code>) element. (Recommended for typography scaling)</td>
+                </tr>
+                 <tr>
+                    <td><code>vw</code></td>
+                    <td>Relative</td>
+                    <td>1% of the viewport's width.</td>
+                </tr>
+                <tr>
+                    <td><code>vh</code></td>
+                    <td>Relative</td>
+                    <td>1% of the viewport's height.</td>
+                </tr>
+                <tr>
+                    <td><code>vmin</code></td>
+                    <td>Relative</td>
+                    <td>1% of the minimum of the viewport's width and height.</td>
+                </tr>
+                <tr>
+                    <td><code>vmax</code></td>
+                    <td>Relative</td>
+                    <td>1% of the maximum of the viewport's width and height.</td>
+                </tr>
+                <tr>
+                    <td><code>fr</code></td>
+                    <td>Relative (Grid)</td>
+                    <td>A fractional unit used in CSS Grid to represent a fraction of the available space.</td>
+                </tr>
+                 <tr>
+                    <td><code>auto</code></td>
+                    <td>Flexible</td>
+                    <td>Often used in Flexbox/Grid to take up available space or size based on content.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="box-model">
+        <h2>The Box Model</h2>
+        <p>Every HTML element is treated as a box. Understanding its components is crucial for layout.</p>
+        <pre><code class="language-css">
++---------------------+
+|       Margin        |
+| +-----------------+ |
+| |     Border      | |
+| | +-------------+ | |
+| | |   Padding   | | |
+| | | +---------+ | | |
+| | | | Content | | | |
+| | | +---------+ | | |
+| | |             | | |
+| | +-------------+ | |
+| |                 | |
+| +-----------------+ |
+|                     |
++---------------------+
+        </code></pre>
+        <ul>
+            <li><strong>Content:</strong> The actual content (text, image, etc.). Sized by <code>width</code>/<code>height</code>.</li>
+            <li><strong>Padding:</strong> Space between the content and the border. Affected by <code>padding-top</code>, <code>padding-right</code>, <code>padding-bottom</code>, <code>padding-left</code>, or shorthand <code>padding</code>.</li>
+            <li><strong>Border:</strong> A line between the padding and the margin. Affected by <code>border-width</code>, <code>border-style</code>, <code>border-color</code>, or shorthand <code>border</code>.</li>
+            <li><strong>Margin:</strong> Space outside the border. Affected by <code>margin-top</code>, <code>margin-right</code>, <code>margin-bottom</code>, <code>margin-left</code>, or shorthand <code>margin</code>. Margins can collapse vertically.</li>
+        </ul>
+        <h3><code>box-sizing</code> Property</h3>
+        <p>Controls how <code>width</code> and <code>height</code> are calculated.</p>
+        <ul>
+            <li><code><span class="attr">box-sizing</span>: <span class="val">content-box</span>;</code> (Default): <code>width</code>/<code>height</code> apply only to the content area. Padding and border are added *outside* the specified dimensions.</li>
+            <li><code><span class="attr">box-sizing</span>: <span class="val">border-box</span>;</code>: <code>width</code>/<code>height</code> apply to the content + padding + border. This is often preferred as it makes layout calculations more intuitive.</li>
+        </ul>
+        <p class="note">Common practice: Apply <code>box-sizing: border-box;</code> globally or to most elements using a reset or base style.</p>
+         <pre><code class="language-css">
+<span class="tag">*, *::before, *::after</span> {
+  <span class="attr">box-sizing</span>: <span class="val">border-box</span>;
+}
+        </code></pre>
+    </section>
+
+    <section id="display">
+        <h2>Display Property</h2>
+        <p>Controls the layout behavior of an element.</p>
+        <ul>
+            <li><code><span class="attr">display</span>: <span class="val">block</span>;</code>: Starts on a new line and takes up the full width available (e.g., <code>&lt;p&gt;</code>, <code>&lt;div&gt;</code>, <code>&lt;h1&gt;</code>). Respects width, height, padding, margin.</li>
+            <li><code><span class="attr">display</span>: <span class="val">inline</span>;</code>: Does not start on a new line and only takes up as much width as necessary (e.g., <code>&lt;span&gt;</code>, <code>&lt;a&gt;</code>, <code>&lt;strong&gt;</code>). Ignores width, height, top/bottom padding/margin.</li>
+            <li><code><span class="attr">display</span>: <span class="val">inline-block</span>;</code>: Combines characteristics. Flows inline but respects width, height, padding, margin (e.g., <code>&lt;img&gt;</code>, <code>&lt;input&gt;</code> by default).</li>
+            <li><code><span class="attr">display</span>: <span class="val">none</span>;</code>: Hides the element completely (removes it from document flow).</li>
+            <li><code><span class="attr">display</span>: <span class="val">flex</span>;</code>: Makes the element a flex container, enabling Flexbox layout for its direct children.</li>
+            <li><code><span class="attr">display</span>: <span class="val">grid</span>;</code>: Makes the element a grid container, enabling Grid layout for its direct children.</li>
+        </ul>
+    </section>
+
+     <section id="layout-flexbox">
+        <h2>Layout: Flexbox</h2>
+        <p>A one-dimensional layout method for arranging items in rows or columns.</p>
+        <h3>Flex Container Properties (Apply to the parent with <code>display: flex;</code>)</h3>
+        <ul>
+            <li><code><span class="attr">flex-direction</span>: <span class="val">row</span> | <span class="val">row-reverse</span> | <span class="val">column</span> | <span class="val">column-reverse</span>;</code>: Defines the direction of items.</li>
+            <li><code><span class="attr">justify-content</span>: <span class="val">flex-start</span> | <span class="val">flex-end</span> | <span class="val">center</span> | <span class="val">space-between</span> | <span class="val">space-around</span> | <span class="val">space-evenly</span>;</code>: Aligns items along the main axis.</li>
+            <li><code><span class="attr">align-items</span>: <span class="val">flex-start</span> | <span class="val">flex-end</span> | <span class="val">center</span> | <span class="val">baseline</span> | <span class="val">stretch</span>;</code>: Aligns items along the cross axis.</li>
+            <li><code><span class="attr">flex-wrap</span>: <span class="val">nowrap</span> | <span class="val">wrap</span> | <span class="val">wrap-reverse</span>;</code>: Controls wrapping if items overflow the container.</li>
+             <li><code><span class="attr">gap</span>: <span class="val">value</span>;</code>: Sets the gap between rows and columns (shorthand for <code>row-gap</code> and <code>column-gap</code>).</li>
+        </ul>
+        <h3>Flex Item Properties (Apply to direct children of the flex container)</h3>
+        <ul>
+            <li><code><span class="attr">flex-grow</span>: <span class="val">number</span>;</code>: Ability to grow if necessary (default 0).</li>
+            <li><code><span class="attr">flex-shrink</span>: <span class="val">number</span>;</code>: Ability to shrink if necessary (default 1).</li>
+            <li><code><span class="attr">flex-basis</span>: <span class="val">value</span> | <span class="val">auto</span>;</code>: Default size of the item before space is distributed.</li>
+             <li><code><span class="attr">flex</span>: <span class="val">grow</span> <span class="val">shrink</span> <span class="val">basis</span>;</code>: Shorthand for <code>flex-grow</code>, <code>flex-shrink</code>, and <code>flex-basis</code>. Common values: <code><span class="val">1 1 auto</span></code>, <code><span class="val">auto</span></code>, <code><span class="val">none</span></code>.</li>
+            <li><code><span class="attr">order</span>: <span class="val">number</span>;</code>: Specifies the order of a flexible item relative to the rest (default 0).</li>
+            <li><code><span class="attr">align-self</span>: <span class="val">auto</span> | <span class="val">flex-start</span> | <span class="val">flex-end</span> | <span class="val">center</span> | <span class="val">baseline</span> | <span class="val">stretch</span>;</code>: Overrides the container's <code>align-items</code> for a single item.</li>
+        </ul>
+         <p class="note">Example: Centering a div within its parent</p>
+        <pre><code class="language-css">
+<span class="tag">.container</span> {
+  <span class="attr">display</span>: <span class="val">flex</span>;
+  <span class="attr">justify-content</span>: <span class="val">center</span>; <span class="comment">/* Horizontally center */</span>
+  <span class="attr">align-items</span>: <span class="val">center</span>; <span class="comment">/* Vertically center */</span>
+  <span class="attr">min-height</span>: <span class="val">100vh</span>; <span class="comment">/* Example height */</span>
+}
+        </code></pre>
+    </section>
+
+     <section id="layout-grid">
+        <h2>Layout: Grid</h2>
+        <p>A two-dimensional layout method for arranging items into columns and rows.</p>
+        <h3>Grid Container Properties (Apply to the parent with <code>display: grid;</code>)</h3>
+        <ul>
+            <li><code><span class="attr">grid-template-columns</span>: <span class="val">value(s)</span>;</code>: Defines the columns of the grid (e.g., <code><span class="val">1fr 1fr auto</span></code>, <code><span class="val">repeat(3, 100px)</span></code>).</li>
+            <li><code><span class="attr">grid-template-rows</span>: <span class="val">value(s)</span>;</code>: Defines the rows of the grid.</li>
+             <li><code><span class="attr">gap</span>: <span class="val">value</span>;</code>: Sets the gap between rows and columns (shorthand for <code>row-gap</code> and <code>column-gap</code>).</li>
+             <li><code><span class="attr">justify-items</span>: <span class="val">start</span> | <span class="val">end</span> | <span class="val">center</span> | <span class="val">stretch</span>;</code>: Aligns items within their cells along the inline (row) axis.</li>
+             <li><code><span class="attr">align-items</span>: <span class="val">start</span> | <span class="val">end</span> | <span class="val">center</span> | <span class="val">stretch</span>;</code>: Aligns items within their cells along the block (column) axis.</li>
+             <li><code><span class="attr">grid-template-areas</span>: <span class="val">"area1 area2" "area3 ."</span>;</code>: Defines grid areas by naming them in a visual structure.</li>
+        </ul>
+        <h3>Grid Item Properties (Apply to direct children of the grid container)</h3>
+        <ul>
+            <li><code><span class="attr">grid-column</span>: <span class="val">start</span> / <span class="val">end</span>;</code>: Specifies the column size and location (e.g., <code><span class="val">1 / 3</span></code>, <code><span class="val">span 2</span></code>). Shorthand for <code>grid-column-start</code> and <code>grid-column-end</code>.</li>
+            <li><code><span class="attr">grid-row</span>: <span class="val">start</span> / <span class="val">end</span>;</code>: Specifies the row size and location. Shorthand for <code>grid-row-start</code> and <code>grid-row-end</code>.</li>
+             <li><code><span class="attr">grid-area</span>: <span class="val">row-start</span> / <span class="val">column-start</span> / <span class="val">row-end</span> / <span class="val">column-end</span>;</code>: Shorthand for location/sizing, or can use area names defined in <code>grid-template-areas</code>.</li>
+            <li><code><span class="attr">justify-self</span>: <span class="val">start</span> | <span class="val">end</span> | <span class="val">center</span> | <span class="val">stretch</span>;</code>: Overrides the container's <code>justify-items</code> for a single item.</li>
+            <li><code><span class="attr">align-self</span>: <span class="val">start</span> | <span class="val">end</span> | <span class="val">center</span> | <span class="val">stretch</span>;</code>: Overrides the container's <code>align-items</code> for a single item.</li>
+        </ul>
+        <p class="note">Example: A simple 2-column grid</p>
+        <pre><code class="language-css">
+<span class="tag">.container</span> {
+  <span class="attr">display</span>: <span class="val">grid</span>;
+  <span class="attr">grid-template-columns</span>: <span class="val">1fr 2fr</span>; <span class="comment">/* Left column takes 1 part, right takes 2 parts */</span>
+  <span class="attr">gap</span>: <span class="val">20px</span>; <span class="comment">/* Space between columns and rows */</span>
+}
+        </code></pre>
+    </section>
+
+     <section id="typography">
+        <h2>Typography</h2>
+        <p>Styling text content.</p>
+        <ul>
+            <li><code><span class="attr">font-family</span>: <span class="val">"Font Name"</span>, <span class="val">generic</span>;</code>: Specifies the font face. Always include generic fallbacks (<code>serif</code>, <code>sans-serif</code>, <code>monospace</code>, <code>cursive</code>, <code>fantasy</code>).</li>
+            <li><code><span class="attr">font-size</span>: <span class="val">value</span>;</code>: Specifies the size of the font (e.g., <code><span class="val">16px</span></code>, <code><span class="val">1em</span></code>, <code><span class="val">1.5rem</span></code>).</li>
+            <li><code><span class="attr">font-weight</span>: <span class="val">normal</span> | <span class="val">bold</span> | <span class="val">100</span> | <span class="val">...</span> | <span class="val">900</span>;</code>: Specifies the weight (boldness) of the font.</li>
+            <li><code><span class="attr">font-style</span>: <span class="val">normal</span> | <span class="val">italic</span> | <span class="val">oblique</span>;</code>: Specifies the font style.</li>
+            <li><code><span class="attr">line-height</span>: <span class="val">value</span> | <span class="val">number</span>;</code>: Sets the height of a line box. Use unitless numbers (e.g., <code><span class="val">1.5</span></code>) for better inheritance.</li>
+             <li><code><span class="attr">text-align</span>: <span class="val">left</span> | <span class="val">right</span> | <span class="val">center</span> | <span class="val">justify</span>;</code>: Aligns the text within its containing block.</li>
+             <li><code><span class="attr">text-decoration</span>: <span class="val">none</span> | <span class="val">underline</span> | <span class="val">overline</span> | <span class="val">line-through</span>;</code>: Adds decoration lines to text. Use <code><span class="val">none</span></code> to remove default link underlines.</li>
+             <li><code><span class="attr">color</span>: <span class="val">value</span>;</code>: Sets the color of the text.</li>
+        </ul>
+         <p class="note">Loading Web Fonts (e.g., Google Fonts, custom fonts)</p>
+        <pre><code class="language-css">
+<span class="tag">@font-face</span> {
+  <span class="attr">font-family</span>: <span class="val">"My Custom Font"</span>;
+  <span class="attr">src</span>: <span class="val">url("my-custom-font.woff2") format("woff2")</span>,
+       <span class="val">url("my-custom-font.woff") format("woff")</span>;
+  <span class="attr">font-weight</span>: <span class="val">normal</span>;
+  <span class="attr">font-style</span>: <span class="val">normal</span>;
+}
+
+<span class="tag">body</span> {
+  <span class="attr">font-family</span>: <span class="val">"My Custom Font"</span>, <span class="val">sans-serif</span>;
+}
+        </code></pre>
+    </section>
+
+     <section id="color-background">
+        <h2>Color & Background</h2>
+        <p>Styling element colors and backgrounds.</p>
+        <ul>
+            <li><code><span class="attr">color</span>: <span class="val">value</span>;</code>: Sets the foreground color (text color).</li>
+            <li><code><span class="attr">background-color</span>: <span class="val">value</span>;</code>: Sets the background color of an element.</li>
+            <li><code><span class="attr">background-image</span>: <span class="val">url("path/to/image.jpg")</span> | <span class="val">linear-gradient(...)</span>;</code>: Sets the background image.</li>
+             <li><code><span class="attr">background-repeat</span>: <span class="val">repeat</span> | <span class="val">no-repeat</span> | <span class="val">repeat-x</span> | <span class="val">repeat-y</span>;</code>: How the background image repeats.</li>
+             <li><code><span class="attr">background-position</span>: <span class="val">value</span>;</code>: Positions the background image (e.g., <code><span class="val">center top</span></code>, <code><span class="val">50% 50%</span></code>).</li>
+             <li><code><span class="attr">background-size</span>: <span class="val">auto</span> | <span class="val">cover</span> | <span class="val">contain</span> | <span class="val">value</span>;</code>: Sizes the background image. <code><span class="val">cover</span></code> fills the area, <code><span class="val">contain</span></code> ensures the whole image is visible.</li>
+            <li><code><span class="attr">background</span>: <span class="val">shorthand</span>;</code>: Shorthand property for background styles. Order matters: <code><span class="val">color</span> <span class="val">image</span> <span class="val">repeat</span> <span class="val">position</span> / <span class="val">size</span> <span class="val">attachment</span> <span class="val">origin</span> <span class="val">clip</span></code>.</li>
+        </ul>
+        <h3>Color Values</h3>
+        <ul>
+            <li><code><span class="val">#RRGGBB</span></code> or <code><span class="val">#RGB</span></code> (Hexadecimal)</li>
+            <li><code><span class="val">rgb(R, G, B)</span></code> or <code><span class="val">rgba(R, G, B, A)</span></code> (Red, Green, Blue, Alpha/Opacity)</li>
+            <li><code><span class="val">hsl(H, S, L)</span></code> or <code><span class="val">hsla(H, S, L, A)</span></code> (Hue, Saturation, Lightness, Alpha)</li>
+            <li>Named Colors (e.g., <code><span class="val">red</span></code>, <code><span class="val">blue</span></code>, <code><span class="val">transparent</span></code>)</li>
+            <li>Current Color (<code><span class="val">currentColor</span></code>): Uses the element's computed <code>color</code> value.</li>
+        </ul>
+    </section>
+
+     <section id="lesser-known-modern">
+        <h2>Lesser Known / Modern CSS Features</h2>
+        <p>Leveraging newer capabilities for cleaner, more flexible code.</p>
+        <ul>
+            <li><strong>CSS Variables (Custom Properties):</strong> Define reusable values.
+                <pre><code class="language-css">
+<span class="tag">:root</span> { <span class="comment">/* Define globally */</span>
+  <span class="attr">--primary-color</span>: <span class="val">#1a73e8</span>;
+  <span class="attr">--spacing-md</span>: <span class="val">16px</span>;
+}
+
+<span class="tag">h1</span> {
+  <span class="attr">color</span>: <span class="val">var(--primary-color)</span>;
+}
+
+<span class="tag">.section</span> {
+  <span class="attr">margin-bottom</span>: <span class="val">var(--spacing-md)</span>;
+}
+                </code></pre>
+            </li>
+            <li><strong><code>calc()</code> function:</strong> Perform calculations to determine CSS values.
+                <br>Example: <code><span class="attr">width</span>: <span class="val">calc(100% - 40px)</span>;</code>
+            </li>
+            <li><strong><code>clamp()</code>, <code>min()</code>, <code>max()</code> functions:</strong> For responsive values based on constraints.
+                <br>Example: <code><span class="attr">font-size</span>: <span class="val">clamp(1rem, 2.5vw, 2rem)</span>;</code> (Keeps font size between 1rem and 2rem, scaling fluidly based on viewport width, within 2.5vw).
+            </li>
+            <li><strong><code>object-fit</code> & <code>object-position</code>:</strong> Control how the content of a replaced element (like <code>&lt;img&gt;</code> or <code>&lt;video&gt;</code>) should be resized to fit its container.
+                <br>Example: <code><span class="attr">object-fit</span>: <span class="val">cover</span>;</code> (Similar to background-size: cover).
+            </li>
+             <li><strong><code>filter</code> property:</strong> Apply graphical effects like blur, grayscale, sepia, etc.
+                <br>Example: <code><span class="attr">filter</span>: <span class="val">grayscale(100%)</span>;</code>
+            </li>
+             <li><strong><code>@layer</code> (Cascade Layers):</strong> Organizes styles to control the cascade more explicitly. (Useful for design systems, third-party CSS).
+                <pre><code class="language-css">
+<span class="tag">@layer</span> reset, base, components, utilities;
+
+<span class="tag">@layer</span> base {
+  <span class="tag">body</span> { <span class="attr">margin</span>: <span class="val">0</span>; }
+}
+
+<span class="tag">@layer</span> components {
+  <span class="tag">.button</span> { <span class="attr">padding</span>: <span class="val">10px 20px</span>; }
+} <span class="comment">/* Components layer has higher priority than base layer */</span>
+                </code></pre>
+             </li>
+             <li><strong>Container Queries (<code>@container</code>):</strong> Style elements based on the size of their *container*, not just the viewport. (Still relatively new support).
+                 <pre><code class="language-css">
+<span class="tag">.card-container</span> {
+  <span class="attr">container-type</span>: <span class="val">inline-size</span>;
+}
+
+<span class="tag">@container</span> (min-width: 400px) {
+  <span class="tag">.card</span> {
+    <span class="attr">display</span>: <span class="val">flex</span>; <span class="comment">/* Card layout changes if container is wide enough */</span>
+  }
+}
+                </code></pre>
+             </li>
+        </ul>
+    </section>
+
+    <section id="key-concepts">
+        <h2>Key Concepts: Specificity, Cascade, Inheritance</h2>
+        <p>Understanding these rules is crucial for predicting which styles apply.</p>
+        <h3>Specificity</h3>
+        <p>A score given to a CSS selector based on its components. Higher specificity wins when multiple rules target the same element and property.</p>
+        <ul>
+            <li>Inline styles (highest)</li>
+            <li>IDs (#my-id) - 100 points</li>
+            <li>Classes (.my-class), Attributes ([type="text"]), Pseudo-classes (:hover) - 10 points</li>
+            <li>Elements (p), Pseudo-elements (::before) - 1 point</li>
+            <li>Universal selector (*), Combinators (>, +, ~), Negation (:not()) - 0 points (but inner selector counts)</li>
+            <li><code><span class="val">!important</span></code> (overrides specificity - use with caution)</li>
+        </ul>
+        <p class="note">Example: <code><span class="tag">#my-id .my-class p</span></code> (100 + 10 + 1 = 111 points) vs. <code><span class="tag">.another-class p.highlight</span></code> (10 + 1 + 10 = 21 points)</p>
+
+        <h3>The Cascade</h3>
+        <p>When multiple conflicting rules apply to an element, the browser resolves conflicts based on (in order of priority):</p>
+        <ol>
+            <li><strong>Origin:</strong> User agent styles < User styles < Author styles < Author <code>!important</code> < User <code>!important</code> < User agent <code>!important</code> (highest)</li>
+            <li><strong>Layer:</strong> Styles in later <code>@layer</code> statements override those in earlier layers. Unlayered styles have higher priority than layered styles.</li>
+            <li><strong>Specificity:</strong> The rule with the highest specificity wins.</li>
+            <li><strong>Order:</strong> If specificity is equal, the last declared rule wins.</li>
+        </ol>
+
+        <h3>Inheritance</h3>
+        <p>Some CSS properties (like <code>color</code>, <code>font-family</code>, <code>text-align</code>) are inherited by child elements if not explicitly set on the child. Others (like <code>border</code>, <code>margin</code>, <code>padding</code>, <code>width</code>) are not.</p>
+        <ul>
+            <li>Use <code><span class="attr">inherit</span></code> keyword to explicitly inherit a property value from the parent.</li>
+            <li>Use <code><span class="attr">initial</span></code> to set a property to its default value.</li>
+            <li>Use <code><span class="attr">unset</span></code> to set a property to its inherited value if it's an inherited property, and to its initial value if not.</li>
+            <li>Use <code><span class="attr">revert</span></code> to reset a property to the value established by the user agent stylesheet (or user stylesheet if any).</li>
+        </ul>
+    </section>
+
+    <section id="responsive-design">
+        <h2>Responsive Design (@media)</h2>
+        <p>Adapting layouts and styles based on viewport characteristics, typically width.</p>
+        <pre><code class="language-css">
+<span class="comment">/* Mobile-first approach: Default styles for small screens */</span>
+<span class="tag">body</span> {
+  <span class="attr">font-size</span>: <span class="val">1rem</span>;
+}
+
+<span class="comment">/* Styles for viewports wider than 768px */</span>
+<span class="tag">@media</span> (<span class="attr">min-width</span>: <span class="val">768px</span>) {
+  <span class="tag">body</span> {
+    <span class="attr">font-size</span>: <span class="val">1.1rem</span>;
+  }
+  <span class="tag">.container</span> {
+    <span class="attr">width</span>: <span class="val">700px</span>;
+    <span class="attr">margin</span>: <span class="val">0 auto</span>;
+  }
+}
+
+<span class="comment">/* Styles for viewports wider than 1200px */</span>
+<span class="tag">@media</span> (<span class="attr">min-width</span>: <span class="val">1200px</span>) {
+  <span class="tag">.container</span> {
+    <span class="attr">width</span>: <span class="val">1100px</span>;
+  }
+}
+        </code></pre>
+        <ul>
+            <li><code><span class="tag">@media</span></code> rule applies styles conditionally.</li>
+            <li><code><span class="attr">min-width</span></code>: Applies styles when the viewport is *at least* the specified width. (Common for mobile-first).</li>
+            <li><code><span class="attr">max-width</span></code>: Applies styles when the viewport is *at most* the specified width. (Common for desktop-first).</li>
+             <li>Other media features: <code><span class="attr">orientation</span></code>, <code><span class="attr">resolution</span></code>, <code><span class="attr">prefers-color-scheme</span></code>, <code><span class="attr">prefers-reduced-motion</span></code>, etc.</li>
+        </ul>
+    </section>
+
+    <section id="good-practices-css">
+        <h2>Good Practices</h2>
+        <ul>
+             <li class="good-practice"><strong>Mobile-First Approach:</strong> Design and style for small screens first, then use <code>@media (min-width: ...)</code> to add styles for larger screens. This is often more efficient.</li>
+            <li class="good-practice"><strong>Use CSS Variables:</strong> For consistent colors, spacing, fonts, etc. Makes updates much easier.</li>
+            <li class="good-practice"><strong>Use Semantic HTML:</strong> CSS selectors work best when targeting meaningful HTML elements and classes, not presentationally named classes (like `.red-text`).</li>
+            <li class="good-practice"><strong>Keep Selectors Simple:</strong> Avoid deep nesting. Prefer class selectors over complex combinators or ID selectors for styling where possible.</li>
+            <li class="good-practice"><strong>Use <code>rem</code> for Font Sizes:</strong> Allows users to scale text globally in browser settings. Use <code>em</code> for padding/margin where you want spacing relative to the *current* element's font size.</li>
+            <li class="good-practice"><strong>Use <code>box-sizing: border-box;</code>:</strong> Makes width and height calculations more intuitive.</li>
+            <li class="good-practice"><strong>Organize and Comment:</strong> Use comments (<code><span class="comment">/* ... */</span></code>) to section your CSS. Organize rules logically (e.g., by component, by section, using methodology like BEM, utility classes, etc.).</li>
+            <li class="good-practice"><strong>Optimize Performance:</strong> Minify CSS, use efficient selectors, consider critical CSS for initial load, defer non-critical CSS.</li>
+            <li class="good-practice"><strong>Prioritize Accessibility:</strong> Ensure sufficient color contrast, provide focus states for interactive elements (<code>:focus</code>), consider `prefers-reduced-motion` for animations.</li>
+            <li class="good-practice"><strong>Use Flexbox and Grid for Layout:</strong> They are the modern, powerful tools for arranging content.</li>
+            <li class="good-practice"><strong>Validate Your CSS:</strong> Use tools like the <a href="https://jigsaw.w3.org/css-validator/" target="_blank" rel="noopener noreferrer">W3C CSS Validator</a>.</li>
+        </ul>
+    </section>
+
+    <section id="bad-practices-css">
+        <h2>Bad Practices (To Avoid)</h2>
+        <ul>
+            <li class="bad-practice"><strong>Using <code>!important</code> Heavily:</strong> Destroys the cascade, makes debugging and overrides extremely difficult. Should be used sparingly, if at all (e.g., in utility classes or for overriding third-party styles).</li>
+            <li class="bad-practice"><strong>Overly Specific or Deeply Nested Selectors:</strong> Leads to fragile code that's hard to maintain and reuse. Increases specificity issues.</li>
+             <li class="bad-practice"><strong>Using IDs for Styling:</strong> IDs have high specificity, making them hard to override. They should primarily be used for JavaScript hooks or fragment identifiers in URLs. Use classes for styling.</li>
+            <li class="bad-practice"><strong>Using Inline Styles (<code>&lt;div style="..."&gt;</code>):</strong> Hard to manage, override, and violates separation of concerns. Highest specificity, difficult to remove or change later.</li>
+            <li class="bad-practice"><strong>Using Tables for Layout:</strong> Tables are for data, not visual arrangement. Use CSS layout methods.</li>
+            <li class="bad-practice"><strong>Ignoring Accessibility (e.g., low contrast, no focus outlines):</strong> Creates unusable experiences for many users.</li>
+            <li class="bad-practice"><strong>Using Fixed Pixel Values for Everything:</strong> Makes responsive design harder. Use relative units like <code>rem</code>, <code>%</code>, <code>vw</code> where appropriate.</li>
+            <li class="bad-practice"><strong>Hardcoding Colors/Values Repeatedly:</strong> Makes redesigns and updates tedious. Use CSS Variables.</li>
+            <li class="bad-practice"><strong>Writing Duplicate Code:</strong> If you find yourself writing the same property/value pairs multiple times, consider grouping selectors or using a utility class/variable.</li>
+            <li class="bad-practice"><strong>Relying on Browser Defaults Too Much:</strong> Browsers vary. Use a CSS reset or normalize stylesheet to ensure consistency.</li>
+        </ul>
+    </section>
+    </main>
+    <footer>
+        <p>© <span id="currentYear"></span> Your Name/Project Name (Optional)</p>
+        <p class="disclaimer"><strong>Disclaimer (English):</strong> This content is an experiment generated by Google's Gemini model. Users should verify the information before using it for critical applications.</p>
+        <p class="disclaimer"><strong>Avertissement (Français):</strong> Ce contenu est une expérience générée par le modèle Gemini de Google. Les utilisateurs doivent vérifier les informations avant de les utiliser pour des applications critiques.</p>
+    </footer>
+    <script>
+        // Ensure this script runs only once, or wrap the getFullYear part
+        // to avoid errors if pasted multiple times without care.
+        // A good practice is to have a single site-wide JS file for such things.
+        const yearSpan = document.getElementById('currentYear');
+        if (yearSpan && !yearSpan.textContent) { // Check if already set
+            yearSpan.textContent = new Date().getFullYear();
+        }
+    </script>
+<script src="script.js" defer></script>
+</body>
+</html>

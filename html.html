@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern HTML Cheatsheet</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="nav_footer_style.css">
+    <link rel="stylesheet" href="print.css" media="print">
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="html.html">HTML (EN)</a></li>
+            <li><a href="html_fr.html">HTML (FR)</a></li>
+            <li><a href="css.html">CSS (EN)</a></li>
+            <li><a href="css_fr.html">CSS (FR)</a></li>
+            <li><a href="js.html">JS (EN)</a></li>
+            <li><a href="js_fr.html">JS (FR)</a></li>
+        </ul>
+    </nav>
+
+    <main>
+    <h1>Modern HTML Cheatsheet</h1>
+    <p class="note">Focusing on HTML as a living standard, semantic markup, and accessibility. No obsolete or deprecated tags.</p>
+
+    <section id="minimal-page">
+        <h2>Minimal Tags for an HTML Page</h2>
+        <p>The absolute minimum required for a valid HTML document:</p>
+        <pre><code class="language-html">
+&lt;<span class="tag">!DOCTYPE</span> <span class="attr">html</span>&gt;
+&lt;<span class="tag">html</span> <span class="attr">lang</span>=<span class="val">"en"</span>&gt;
+&lt;<span class="tag">head</span>&gt;
+    &lt;<span class="tag">meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span>&gt;
+    &lt;<span class="tag">meta</span> <span class="attr">name</span>=<span class="val">"viewport"</span> <span class="attr">content</span>=<span class="val">"width=device-width, initial-scale=1.0"</span>&gt;
+    &lt;<span class="tag">title</span>&gt;Page Title&lt;/<span class="tag">title</span>&gt;
+&lt;/<span class="tag">head</span>&gt;
+&lt;<span class="tag">body</span>&gt;
+    <span class="comment"><!-- Content goes here --></span>
+&lt;/<span class="tag">body</span>&gt;
+&lt;/<span class="tag">html</span>&gt;
+        </code></pre>
+        <ul>
+            <li><code>&lt;!DOCTYPE html&gt;</code>: Declares the document type (essential).</li>
+            <li><code>&lt;html lang="en"&gt;</code>: The root element. <code>lang</code> attribute is important for accessibility and search engines.</li>
+            <li><code>&lt;head&gt;</code>: Contains meta-information about the HTML document (not displayed).
+                <ul>
+                    <li><code>&lt;meta charset="UTF-8"&gt;</code>: Specifies character encoding (UTF-8 is highly recommended).</li>
+                    <li><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code>: Configures the viewport for responsive web design.</li>
+                    <li><code>&lt;title&gt;Page Title&lt;/title&gt;</code>: The title that appears in the browser tab or window title bar. Crucial for SEO and accessibility.</li>
+                </ul>
+            </li>
+            <li><code>&lt;body&gt;</code>: Contains the visible page content.</li>
+        </ul>
+    </section>
+
+    <section id="escaping-characters">
+        <h2>Rules for Escaping Characters (HTML Entities)</h2>
+        <p>To display characters that have special meaning in HTML, or characters not easily typed, use HTML entities:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Character</th>
+                    <th>Named Entity</th>
+                    <th>Numeric Entity</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><</td>
+                    <td><code>&amp;lt;</code></td>
+                    <td><code>&amp;#60;</code></td>
+                    <td>Less than sign</td>
+                </tr>
+                <tr>
+                    <td>></td>
+                    <td><code>&amp;gt;</code></td>
+                    <td><code>&amp;#62;</code></td>
+                    <td>Greater than sign</td>
+                </tr>
+                <tr>
+                    <td>&</td>
+                    <td><code>&amp;amp;</code></td>
+                    <td><code>&amp;#38;</code></td>
+                    <td>Ampersand</td>
+                </tr>
+                <tr>
+                    <td>"</td>
+                    <td><code>&amp;quot;</code></td>
+                    <td><code>&amp;#34;</code></td>
+                    <td>Double quote (Needed in attribute values enclosed by double quotes)</td>
+                </tr>
+                <tr>
+                    <td>'</td>
+                    <td><code>&amp;apos;</code></td>
+                    <td><code>&amp;#39;</code></td>
+                    <td>Single quote (Needed in attribute values enclosed by single quotes)</td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td><code>&amp;nbsp;</code></td>
+                    <td><code>&amp;#160;</code></td>
+                    <td>Non-breaking space</td>
+                </tr>
+                <tr>
+                    <td>©</td>
+                    <td><code>&amp;copy;</code></td>
+                    <td><code>&amp;#169;</code></td>
+                    <td>Copyright symbol</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="note">Example: To display <code>&lt;p&gt;</code> as text, write <code>&amp;lt;p&amp;gt;</code>.</p>
+    </section>
+
+    <section id="lesser-known-tags">
+        <h2>Lesser Known But Cool HTML Tags</h2>
+        <ul>
+            <li><code>&lt;abbr title="explanation"&gt;ABBR&lt;/abbr&gt;</code>: Represents an abbreviation or acronym. The <code>title</code> attribute provides the full expansion.
+                <br>Example: <abbr title="HyperText Markup Language">HTML</abbr> (This example is live HTML, not text)
+            </li>
+            <li><code>&lt;code&gt;</code>: Represents a fragment of computer code. Often used with <code>&lt;pre&gt;</code> for blocks of code.
+                <br>Example: Use <code>document.getElementById()</code> to select an element.
+            </li>
+            <li><code>&lt;pre&gt;</code>: Represents preformatted text. Whitespace inside this element is displayed as written.
+                <br>Example:
+                <pre><code class="language-html">
+function greet() {
+  console.log("Hello World!");
+}
+                </code></pre>
+            </li>
+            <li><code>&lt;kbd&gt;</code>: Represents user keyboard input, voice input, or any other text entry device input.
+                <br>Example: Press <kbd>Ctrl</kbd> + <kbd>C</kbd> to copy. (Live HTML example)
+            </li>
+            <li><code>&lt;samp&gt;</code>: Represents sample or quoted output from a computer program.
+                <br>Example: The program outputted: <samp>File not found.</samp> (Live HTML example)
+            </li>
+            <li><code>&lt;var&gt;</code>: Represents a variable in a mathematical expression or programming context.
+                <br>Example: In the equation <var>E</var> = <var>m</var><var>c</var><sup>2</sup>... (Live HTML example)
+            </li>
+            <li><code>&lt;wbr&gt;</code>: Represents a word break opportunity – an optional line break point. Useful for long URLs or words without spaces.
+                <br>Example: thisisaverylong<wbr>wordthatmight<wbr>breaklayout. (Live HTML example)
+            </li>
+            <li><code>&lt;mark&gt;</code>: Represents text marked or highlighted for reference or notation purposes, due to its relevance in another context.
+                <br>Example: The search results showed the term <mark>HTML5</mark> prominently. (Live HTML example)
+            </li>
+            <li><code>&lt;time datetime="YYYY-MM-DDTHH:MM:SSZ"&gt;Human Readable Time&lt;/time&gt;</code>: Represents a specific period in time or a date. The <code>datetime</code> attribute provides a machine-readable format.
+                <br>Example: The event is on <time datetime="2024-12-31">New Year's Eve</time>. (Live HTML example)
+            </li>
+            <li><code>&lt;details&gt;</code> & <code>&lt;summary&gt;</code>: Creates a disclosure widget in which information is hidden or shown. <code>&lt;summary&gt;</code> is the visible label.
+                <br>Example: (Live HTML example)
+                <details>
+                    <summary>Click to see details</summary>
+                    <p>This is the hidden information.</p>
+                </details>
+            </li>
+            <li><code>&lt;dialog&gt;</code>: Represents a dialog box or other interactive component, such as a dismissible alert, inspector, or subwindow. Can be controlled with JavaScript (<code>showModal()</code>, <code>close()</code>).
+                <br>Example: <code>&lt;dialog id="myDialog"&gt;This is a dialog.&lt;/dialog&gt;</code>
+            </li>
+            <li><code>&lt;meter value="2" min="0" max="10"&gt;2 out of 10&lt;/meter&gt;</code>: Represents a scalar measurement within a known range, or a fractional value.
+                <br>Example: Disk usage: <meter value="75" min="0" max="100" low="30" high="70" optimum="10">75%</meter> (Live HTML example)
+            </li>
+            <li><code>&lt;progress value="70" max="100"&gt;70%&lt;/progress&gt;</code>: Represents the completion progress of a task.
+                <br>Example: <progress value="50" max="100"></progress> (Live HTML example)
+            </li>
+             <li><code>&lt;data value="12345"&gt;Product ABC&lt;/data&gt;</code>: Links a piece of content with a machine-readable translation.
+                <br>Example: Our top seller is <data value="SKU123">SuperWidget</data>. (Live HTML example)
+            </li>
+            <li><code>&lt;figure&gt;</code> & <code>&lt;figcaption&gt;</code>: For self-contained content (like images, diagrams, code) with an optional caption.
+                <pre><code class="language-html">
+&lt;<span class="tag">figure</span>&gt;
+  &lt;<span class="tag">img</span> <span class="attr">src</span>=<span class="val">"image.jpg"</span> <span class="attr">alt</span>=<span class="val">"Description"</span>&gt;
+  &lt;<span class="tag">figcaption</span>&gt;Fig.1 - A descriptive caption.&lt;/<span class="tag">figcaption</span>&gt;
+&lt;/<span class="tag">figure</span>&gt;
+                </code></pre>
+            </li>
+            <li><code>&lt;picture&gt;</code>: Allows for responsive images, providing different image sources based on media queries or image format support.
+                <pre><code class="language-html">
+&lt;<span class="tag">picture</span>&gt;
+  &lt;<span class="tag">source</span> <span class="attr">srcset</span>=<span class="val">"image-large.webp"</span> <span class="attr">type</span>=<span class="val">"image/webp"</span>&gt;
+  &lt;<span class="tag">source</span> <span class="attr">srcset</span>=<span class="val">"image-large.jpg"</span> <span class="attr">type</span>=<span class="val">"image/jpeg"</span>&gt;
+  &lt;<span class="tag">img</span> <span class="attr">src</span>=<span class="val">"image-default.jpg"</span> <span class="attr">alt</span>=<span class="val">"Description"</span>&gt;
+&lt;/<span class="tag">picture</span>&gt;
+                </code></pre>
+            </li>
+        </ul>
+    </section>
+
+    <section id="must-know-tags">
+        <h2>Must-Know HTML Tags</h2>
+        <h3>Document Structure & Semantics</h3>
+        <ul>
+            <li><code>&lt;header&gt;</code>: Introductory content for a section or page (logos, navigation, search).</li>
+            <li><code>&lt;nav&gt;</code>: A section of navigation links.</li>
+            <li><code>&lt;main&gt;</code>: The main content of the document. There should only be one <code>&lt;main&gt;</code> element per page that is not hidden.</li>
+            <li><code>&lt;article&gt;</code>: Self-contained, independently distributable content (e.g., blog post, news story).</li>
+            <li><code>&lt;section&gt;</code>: A thematic grouping of content, typically with a heading.</li>
+            <li><code>&lt;aside&gt;</code>: Content tangentially related to the content around it (e.g., sidebar, pull quotes).</li>
+            <li><code>&lt;footer&gt;</code>: Footer for a section or page (copyright, related links).</li>
+            <li><code>&lt;h1&gt;</code> to <code>&lt;h6&gt;</code>: Heading levels. Use them hierarchically.</li>
+            <li><code>&lt;p&gt;</code>: A paragraph of text.</li>
+            <li><code>&lt;div&gt;</code>: A generic container for flow content. Use when no other semantic element is appropriate (often for styling/layout purposes with CSS).</li>
+            <li><code>&lt;span&gt;</code>: A generic inline container for phrasing content. Use for styling parts of text or when no other semantic inline element is appropriate.</li>
+        </ul>
+
+        <h3>Text Content</h3>
+        <ul>
+            <li><code>&lt;a href="url"&gt;Link Text&lt;/a&gt;</code>: A hyperlink.
+                <ul>
+                    <li><code>target="_blank"</code>: Opens link in a new tab/window. Add <code>rel="noopener noreferrer"</code> for security.</li>
+                    <li><code>download</code>: Prompts user to download the linked resource.</li>
+                </ul>
+            </li>
+            <li><code>&lt;strong&gt;</code>: Indicates text with strong importance, seriousness, or urgency. (Typically bold).</li>
+            <li><code>&lt;em&gt;</code>: Indicates stress emphasis. (Typically italic).</li>
+            <li><code>&lt;b&gt;</code>: Stylistically offset text without conveying extra importance (e.g., keywords). Use CSS for styling if possible.</li>
+            <li><code>&lt;i&gt;</code>: Text in an alternate voice or mood (e.g., technical term, foreign phrase). Use CSS for styling if possible.</li>
+            <li><code>&lt;br&gt;</code>: A line break. Use sparingly, only for actual line breaks within text (like poems or addresses).</li>
+            <li><code>&lt;hr&gt;</code>: A thematic break (e.g., scene change in a story, shift of topic). Often displayed as a horizontal rule.</li>
+            <li><code>&lt;blockquote&gt;</code>: Represents a section quoted from another source. Use <code>cite</code> attribute for the source URL.</li>
+            <li><code>&lt;q&gt;</code>: An inline quotation. Browsers often add quotation marks. Use <code>cite</code> attribute for source URL.</li>
+            <li><code>&lt;cite&gt;</code>: Represents a reference to a creative work (e.g., book title, song, film).</li>
+            <li><code>&lt;sub&gt;</code> & <code>&lt;sup&gt;</code>: Subscript and superscript text.
+                <br>Example: H<sub>2</sub>O, E = mc<sup>2</sup> (Live HTML example)
+            </li>
+            <li><code>&lt;ins&gt;</code> & <code>&lt;del&gt;</code>: Represents inserted or deleted text, often for edits.
+                <br>Example: This text was <del>removed</del> <ins>added</ins>. (Live HTML example)
+            </li>
+        </ul>
+
+        <h3>Lists</h3>
+        <ul>
+            <li><code>&lt;ul&gt;</code>: An unordered list (bullet points).</li>
+            <li><code>&lt;ol start="number" reversed type="a/A/i/I/1"&gt;</code>: An ordered list (numbered).
+                <ul>
+                    <li><code>start</code>: Starting number.</li>
+                    <li><code>reversed</code>: Reverses numbering.</li>
+                    <li><code>type</code>: Numbering style (<code>a</code>, <code>A</code>, <code>i</code>, <code>I</code>, <code>1</code>).</li>
+                </ul>
+            </li>
+            <li><code>&lt;li&gt;</code>: A list item (used in <code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code>, <code>&lt;menu&gt;</code>).</li>
+            <li><code>&lt;dl&gt;</code>, <code>&lt;dt&gt;</code>, <code>&lt;dd&gt;</code>: Description list, term, and description.
+                <pre><code class="language-html">
+&lt;<span class="tag">dl</span>&gt;
+  &lt;<span class="tag">dt</span>&gt;HTML&lt;/<span class="tag">dt</span>&gt;
+  &lt;<span class="tag">dd</span>&gt;HyperText Markup Language&lt;/<span class="tag">dd</span>&gt;
+&lt;/<span class="tag">dl</span>&gt;
+                </code></pre>
+            </li>
+        </ul>
+
+        <h3>Images & Media</h3>
+        <ul>
+            <li><code>&lt;img src="path/to/image.jpg" alt="Descriptive text" width="X" height="Y"&gt;</code>: Embeds an image.
+                <ul>
+                    <li><code>src</code>: Path to the image.</li>
+                    <li><code>alt</code>: Essential for accessibility (alternative text if image doesn't load or for screen readers). Leave empty (<code>alt=""</code>) for purely decorative images.</li>
+                    <li><code>width</code> & <code>height</code>: Specify dimensions to prevent layout shifts. Can be overridden by CSS. Use intrinsic dimensions if possible.</li>
+                    <li><code>srcset</code> & <code>sizes</code>: For responsive images (providing multiple image sources for different resolutions/viewport sizes).</li>
+                </ul>
+            </li>
+            <li><code>&lt;audio controls src="audio.mp3"&gt;Fallback text&lt;/audio&gt;</code>: Embeds audio content.
+                <br>Can use <code>&lt;source src="audio.ogg" type="audio/ogg"&gt;</code> for multiple formats.
+            </li>
+            <li><code>&lt;video controls width="X" height="Y" src="video.mp4" poster="image.jpg"&gt;Fallback text&lt;/video&gt;</code>: Embeds video content.
+                <br>Can use <code>&lt;source src="video.webm" type="video/webm"&gt;</code> for multiple formats.
+            </li>
+            <li><code>&lt;iframe src="url" title="Descriptive title"&gt;&lt;/iframe&gt;</code>: Embeds another HTML document. <code>title</code> attribute is important for accessibility.</li>
+        </ul>
+
+        <h3>Forms</h3>
+        <p>Crucial for user interaction. Always associate labels with form controls.</p>
+        <pre><code class="language-html">
+&lt;<span class="tag">form</span> <span class="attr">action</span>=<span class="val">"/submit-url"</span> <span class="attr">method</span>=<span class="val">"post"</span>&gt;
+    &lt;<span class="tag">label</span> <span class="attr">for</span>=<span class="val">"username"</span>&gt;Username:&lt;/<span class="tag">label</span>&gt;
+    &lt;<span class="tag">input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">id</span>=<span class="val">"username"</span> <span class="attr">name</span>=<span class="val">"username"</span> <span class="attr">required</span>&gt;
+
+    &lt;<span class="tag">input</span> <span class="attr">type</span>=<span class="val">"submit"</span> <span class="attr">value</span>=<span class="val">"Submit"</span>&gt;
+&lt;/<span class="tag">form</span>&gt;
+        </code></pre>
+        <ul>
+            <li><code>&lt;form action="url" method="get|post"&gt;</code>: Defines an HTML form.</li>
+            <li><code>&lt;label for="elementId"&gt;Label text&lt;/label&gt;</code>: Associates a label with a form control. Clicking the label focuses/activates the control.</li>
+            <li><code>&lt;input type="..."&gt;</code>: Most versatile form element.
+                <ul>
+                    <li>Common <code>type</code> attributes: <code>text</code>, <code>password</code>, <code>checkbox</code>, <code>radio</code>, <code>submit</code>, <code>button</code>, <code>file</code>, <code>date</code>, <code>email</code>, <code>number</code>, <code>tel</code>, <code>url</code>, <code>search</code>, <code>color</code>, <code>range</code>, <code>hidden</code>.</li>
+                    <li>Common attributes: <code>id</code>, <code>name</code>, <code>value</code>, <code>placeholder</code>, <code>required</code>, <code>disabled</code>, <code>readonly</code>, <code>checked</code> (for radio/checkbox), <code>min</code>, <code>max</code>, <code>step</code> (for number/range).</li>
+                </ul>
+            </li>
+            <li><code>&lt;textarea name="message" rows="4" cols="50"&gt;&lt;/textarea&gt;</code>: A multi-line text input.</li>
+            <li><code>&lt;select name="options"&gt;</code> & <code>&lt;option value="val"&gt;Text&lt;/option&gt;</code>: A dropdown list.
+                <ul>
+                    <li><code>&lt;optgroup label="Group Name"&gt;</code>: Groups options within a <code>&lt;select&gt;</code>.</li>
+                </ul>
+            </li>
+            <li><code>&lt;button type="submit|reset|button"&gt;Button Text&lt;/button&gt;</code>: A clickable button. Can contain HTML content, unlike <code>&lt;input type="button"&gt;</code>.</li>
+            <li><code>&lt;fieldset&gt;</code> & <code>&lt;legend&gt;</code>: Groups related controls within a form, with a caption.
+                <pre><code class="language-html">
+&lt;<span class="tag">fieldset</span>&gt;
+  &lt;<span class="tag">legend</span>&gt;Contact Details&lt;/<span class="tag">legend</span>&gt;
+  <span class="comment"><!-- inputs here --></span>
+&lt;/<span class="tag">fieldset</span>&gt;
+                </code></pre>
+            </li>
+            <li><code>&lt;datalist id="items"&gt;</code> & <code>&lt;option value="Choice"&gt;</code>: Provides pre-defined options for an <code>&lt;input&gt;</code> element (autocomplete). Link with <code>&lt;input list="items"&gt;</code>.</li>
+        </ul>
+
+        <h3>Tables</h3>
+        <p>For tabular data, not for layout.</p>
+        <pre><code class="language-html">
+&lt;<span class="tag">table</span> <span class="attr">id</span>=<span class="val">"monthly-sales-example-table"</span>&gt;
+    &lt;<span class="tag">caption</span>&gt;Monthly Sales&lt;/<span class="tag">caption</span>&gt;
+    &lt;<span class="tag">thead</span>&gt;
+        &lt;<span class="tag">tr</span>&gt;
+            &lt;<span class="tag">th</span> <span class="attr">scope</span>=<span class="val">"col"</span>&gt;Month&lt;/<span class="tag">th</span>&gt;
+            &lt;<span class="tag">th</span> <span class="attr">scope</span>=<span class="val">"col"</span>&gt;Sales&lt;/<span class="tag">th</span>&gt;
+        &lt;/<span class="tag">tr</span>&gt;
+    &lt;/<span class="tag">thead</span>&gt;
+    &lt;<span class="tag">tbody</span>&gt;
+        &lt;<span class="tag">tr</span>&gt;
+            &lt;<span class="tag">td</span>&gt;January&lt;/<span class="tag">td</span>&gt;
+            &lt;<span class="tag">td</span>&gt;$1000&lt;/<span class="tag">td</span>&gt;
+        &lt;/<span class="tag">tr</span>&gt;
+    &lt;/<span class="tag">tbody</span>&gt;
+    &lt;<span class="tag">tfoot</span>&gt;
+        &lt;<span class="tag">tr</span>&gt;
+            &lt;<span class="tag">td</span>&gt;Total&lt;/<span class="tag">td</span>&gt;
+            &lt;<span class="tag">td</span>&gt;$1000&lt;/<span class="tag">td</span>&gt;
+        &lt;/<span class="tag">tr</span>&gt;
+    &lt;/<span class="tag">tfoot</span>&gt;
+&lt;/<span class="tag">table</span>&gt;
+        </code></pre>
+        <ul>
+            <li><code>&lt;table&gt;</code>: The main table container.</li>
+            <li><code>&lt;caption&gt;</code>: Table title/caption. Important for accessibility.</li>
+            <li><code>&lt;thead&gt;</code>: Groups header content in a table.</li>
+            <li><code>&lt;tbody&gt;</code>: Groups body content in a table.</li>
+            <li><code>&lt;tfoot&gt;</code>: Groups footer content in a table.</li>
+            <li><code>&lt;tr&gt;</code>: A table row.</li>
+            <li><code>&lt;th scope="col|row"&gt;</code>: A table header cell. <code>scope</code> attribute improves accessibility.</li>
+            <li><code>&lt;td&gt;</code>: A table data cell.</li>
+            <li><code>colspan</code> / <code>rowspan</code> attributes on <code>&lt;th&gt;</code> or <code>&lt;td&gt;</code>: Make a cell span multiple columns/rows.</li>
+        </ul>
+    </section>
+
+    <section id="good-practices">
+        <h2>Good Practices</h2>
+        <ul>
+            <li class="good-practice"><strong>Semantic HTML:</strong> Use HTML tags for their intended purpose. This improves accessibility, SEO, and maintainability. (e.g., use <code>&lt;button&gt;</code> for buttons, not a styled <code>&lt;div&gt;</code>).</li>
+            <li class="good-practice"><strong>Accessibility (a11y):</strong>
+                <ul>
+                    <li>Always use <code>alt</code> text for images (<code>alt=""</code> for decorative images).</li>
+                    <li>Ensure sufficient color contrast.</li>
+                    <li>Use ARIA (Accessible Rich Internet Applications) attributes when necessary to provide additional semantics for assistive technologies, but prioritize native HTML semantics.</li>
+                    <li>Ensure keyboard navigability.</li>
+                    <li>Use <code>&lt;label&gt;</code> for form controls.</li>
+                </ul>
+            </li>
+            <li class="good-practice"><strong>Validate Your HTML:</strong> Use tools like the <a href="https://validator.w3.org/" target="_blank" rel="noopener noreferrer">W3C Validator</a> to catch errors.</li>
+            <li class="good-practice"><strong>Separate Concerns:</strong>
+                <ul>
+                    <li>HTML for structure.</li>
+                    <li>CSS for presentation/styling.</li>
+                    <li>JavaScript for behavior/interactivity.</li>
+                </ul>
+                Avoid inline styles (<code>&lt;div style="..."&gt;</code>) and inline script event handlers (<code>&lt;button onclick="..."&gt;</code>) where possible.
+            </li>
+            <li class="good-practice"><strong>Proper Indentation & Readability:</strong> Keep your code clean and well-formatted.</li>
+            <li class="good-practice"><strong>Comments:</strong> Use comments (<code>&lt;!-- ... --&gt;</code>) to explain complex parts of your markup.</li>
+            <li class="good-practice"><strong>Use Headings Hierarchically:</strong> Don't skip heading levels (e.g., <code>&lt;h1&gt;</code> then <code>&lt;h3&gt;</code>). Structure your content logically.</li>
+            <li class="good-practice"><strong>Character Encoding:</strong> Always declare <code>&lt;meta charset="UTF-8"&gt;</code>.</li>
+            <li class="good-practice"><strong>Language Declaration:</strong> Set the language of your page with <code>&lt;html lang="en"&gt;</code>.</li>
+            <li class="good-practice"><strong>Responsive Design:</strong> Include <code>&lt;meta name="viewport" ...&gt;</code> and use responsive techniques (CSS media queries, flexible grids).</li>
+            <li class="good-practice"><strong>Close Tags:</strong> While some tags are self-closing (e.g. <code>&lt;img&gt;</code>, <code>&lt;br&gt;</code>, <code>&lt;input&gt;</code>) or optional in some contexts, it's generally good practice to close all non-void elements (e.g. <code>&lt;p&gt;...&lt;/p&gt;</code>, <code>&lt;div&gt;...&lt;/div&gt;</code>). In XHTML-syntax (like in JSX), self-closing tags require a trailing slash (<code>&lt;img /&gt;</code>). HTML syntax for void elements does not.</li>
+        </ul>
+    </section>
+
+    <section id="bad-practices">
+        <h2>Bad Practices (To Avoid)</h2>
+        <ul>
+            <li class="bad-practice"><strong>Using Tables for Layout:</strong> Tables are for tabular data. Use CSS (Flexbox, Grid) for page layout.</li>
+            <li class="bad-practice"><strong>Using Inline Styles Extensively:</strong> <code>&lt;p style="color: red;"&gt;</code> makes maintenance hard. Use external CSS files.</li>
+            <li class="bad-practice"><strong>Not Using <code>alt</code> Text for Images:</strong> This is bad for accessibility and SEO.</li>
+            <li class="bad-practice"><strong>Using Deprecated Tags/Attributes:</strong> E.g., <code>&lt;font&gt;</code>, <code>&lt;center&gt;</code>, <code>&lt;bgcolor&gt;</code>, <code>&lt;frame&gt;</code>, <code>&lt;frameset&gt;</code>, <code>&lt;marquee&gt;</code>. They are no longer part of the HTML standard.</li>
+            <li class="bad-practice"><strong>"Divitis" or "Spanitis":</strong> Overusing <code>&lt;div&gt;</code> and <code>&lt;span&gt;</code> when more semantic tags are appropriate.</li>
+            <li class="bad-practice"><strong>Skipping Heading Levels:</strong> E.g., going from an <code>&lt;h1&gt;</code> directly to an <code>&lt;h3&gt;</code>. This breaks document structure and confuses assistive technologies.</li>
+            <li class="bad-practice"><strong>Using <code>&lt;br&gt;</code> for Spacing:</strong> Use CSS margins/paddings for layout spacing.</li>
+            <li class="bad-practice"><strong>Not Closing Tags Properly:</strong> While browsers are forgiving, it can lead to unexpected rendering issues and is invalid for some elements.</li>
+            <li class="bad-practice"><strong>Putting Block-Level Elements Inside Inline Elements:</strong> For example, <code>&lt;a href="#"&gt;&lt;div&gt;...&lt;/div&gt;&lt;/a&gt;</code> is generally incorrect (though HTML5 parsing rules are more lenient for <code>&lt;a&gt;</code>, it's still better to avoid if a <code>&lt;div&gt;</code> can just be styled as a link, or the link wraps inline content). The rule is: phrasing content (inline) can go inside flow content (block), but generally not the other way around, except for specific elements like <code>&lt;a&gt;</code> which can wrap flow content.</li>
+            <li class="bad-practice"><strong>Writing Generic Link Text:</strong> "Click here" or "Read more" is bad for accessibility. Link text should be descriptive of the link's destination.</li>
+        </ul>
+    </section>
+    </main>
+    <footer>
+        <p>© <span id="currentYear"></span> Your Name/Project Name (Optional)</p>
+        <p class="disclaimer"><strong>Disclaimer (English):</strong> This content is an experiment generated by Google's Gemini model. Users should verify the information before using it for critical applications.</p>
+        <p class="disclaimer"><strong>Avertissement (Français):</strong> Ce contenu est une expérience générée par le modèle Gemini de Google. Les utilisateurs doivent vérifier les informations avant de les utiliser pour des applications critiques.</p>
+    </footer>
+    <script>
+        // Ensure this script runs only once, or wrap the getFullYear part
+        // to avoid errors if pasted multiple times without care.
+        // A good practice is to have a single site-wide JS file for such things.
+        const yearSpan = document.getElementById('currentYear');
+        if (yearSpan && !yearSpan.textContent) { // Check if already set
+            yearSpan.textContent = new Date().getFullYear();
+        }
+    </script>
+<script src="script.js" defer></script>
+</body>
+</html>

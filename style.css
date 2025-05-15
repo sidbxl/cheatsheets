@@ -1,0 +1,354 @@
+/* General Body and Typography */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    line-height: 1.6;
+    margin: 0; /* Reset default margin */
+    padding: 0; /* Reset default padding */
+    background-color: #f9f9f9;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures footer is at bottom of viewport */
+}
+
+/* Keep this in nav_footer_style.css or move to style.css if you prefer all layout in one place */
+main {
+    flex-grow: 1; /* Allows main content to push footer down */
+    width: 100%;
+    max-width: 960px; /* Max width for main content area */
+    margin: 0 auto;   /* Center the main content area */
+    padding: 20px;    /* Padding around the main content */
+    box-sizing: border-box; /* Include padding in width/height */
+}
+
+/* For the homepage specific centering, you can remove the extra margin from .homepage-content if main now handles it */
+.homepage-content {
+    /* If main now handles centering and max-width, you might only need: */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    /* Remove: padding: 20px; max-width: 900px; margin: 20px auto; if main handles these */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #1a73e8; /* A modern blue */
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+h1 {
+    border-bottom: 2px solid #1a73e8;
+    padding-bottom: 10px;
+    font-size: 2.2em;
+}
+
+h2 {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    margin-top: 30px;
+    font-size: 1.8em;
+}
+
+h3 {
+    font-size: 1.4em;
+    color: #2c3e50; /* Darker, more subtle blue/grey */
+}
+
+p {
+    margin-bottom: 1em;
+}
+
+a {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+a:hover, a:focus {
+    text-decoration: underline;
+    color: #0f5abc;
+}
+
+/* Sections for Cheatsheet Structure */
+section {
+    margin-bottom: 30px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Code Blocks and Inline Code */
+code {
+    background-color: #e8e8e8;
+    padding: 0.2em 0.4em;
+    margin: 0 0.1em;
+    border-radius: 3px;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 0.9em;
+}
+
+pre {
+    background-color: #2d2d2d; /* Dark background for code blocks */
+    color: #f0f0f0;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    color: inherit; /* Inherit color from pre */
+    font-size: inherit; /* Inherit font-size from pre */
+}
+
+/* Syntax Highlighting Classes (from the HTML) */
+.tag { color: #e06c75; /* Light red for tags */ font-weight: bold; }
+.attr { color: #d19a66; /* Orange for attributes */ }
+.val { color: #98c379; /* Green for values */ }
+.comment { color: #5c6370; font-style: italic; } /* Grey for comments */
+
+/* Lists */
+ul, ol {
+    list-style-position: outside;
+    padding-left: 20px;
+    margin-bottom: 1em;
+}
+
+ul li, ol li {
+    margin-bottom: 8px;
+}
+
+ul ul, ol ol, ul ol, ol ul {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+dt {
+    font-weight: bold;
+    margin-top: 0.5em;
+}
+
+dd {
+    margin-left: 20px;
+    margin-bottom: 0.5em;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    margin-bottom: 1.5em;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+}
+
+caption {
+    caption-side: top; /* or bottom */
+    padding: 8px;
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+/* Special Text Elements */
+kbd {
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.2), inset 0 0 0 2px #fff;
+    color: #333;
+    display: inline-block;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 0.85em;
+    font-weight: 700;
+    line-height: 1;
+    padding: 2px 4px;
+    white-space: nowrap;
+}
+
+mark {
+    background-color: #fff8c4;
+    padding: 0.1em 0.3em;
+}
+
+meter, progress {
+    margin-right: 5px;
+}
+
+details summary {
+    cursor: pointer;
+    font-weight: bold;
+    padding: 5px;
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+details summary:hover {
+    background-color: #e0e0e0;
+}
+
+details[open] summary {
+    margin-bottom: 10px;
+}
+
+details p {
+    margin-left: 20px;
+}
+
+
+/* Utility Classes */
+.note {
+    font-style: italic;
+    color: #555;
+    font-size: 0.9em;
+    background-color: #eef;
+    padding: 10px;
+    border-left: 3px solid #1a73e8;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 1em; /* Added for consistency */
+}
+
+.good-practice strong, .good-practice code {
+    color: #28a745; /* Green for good practice emphasis */
+}
+.good-practice::before {
+    content: "✔ ";
+    color: #28a745;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.bad-practice strong, .bad-practice code {
+    color: #dc3545; /* Red for bad practice emphasis */
+}
+.bad-practice::before {
+    content: "✖ ";
+    color: #dc3545;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+/* REMOVED INCORRECT/REDUNDANT RULES:
+.good-practice li { color: #1e7e34; }
+.bad-practice li { color: #a71d2a; }
+*/
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body {
+        margin: 10px;
+        font-size: 0.95em;
+    }
+    h1 { font-size: 2em; }
+    h2 { font-size: 1.6em; }
+    pre { font-size: 0.85em; }
+
+    table, thead, tbody, tfoot, th, td, tr { /* Added tfoot */
+        display: block;
+    }
+    thead tr { /* Hide the original header row */
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    tr {
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+    }
+    td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 45%; /* Space for the label. Adjust width % in td:before accordingly */
+        min-height: 24px; /* Ensure space for label content */
+        white-space: normal;
+        text-align: left;
+    }
+    td:before {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 40%; /* Must be less than padding-left of td */
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+        /* For a generic solution, you could use data-label attributes in your HTML:
+        content: attr(data-label);
+        And then add data-label="Header Name" to each <td> in your HTML.
+        However, for the specific tables in this cheatsheet, explicit labels are provided below. */
+    }
+
+    /* Specific labels for the 'Escaping Characters' table */
+    #escaping-characters td:nth-of-type(1):before { content: "Character"; }
+    #escaping-characters td:nth-of-type(2):before { content: "Named Entity"; }
+    #escaping-characters td:nth-of-type(3):before { content: "Numeric Entity"; }
+    #escaping-characters td:nth-of-type(4):before { content: "Description"; }
+
+    /* Specific labels for the 'Monthly Sales' example table */
+    #monthly-sales-example-table td:nth-of-type(1):before { content: "Month"; } /* Corresponds to the first <th> */
+    #monthly-sales-example-table td:nth-of-type(2):before { content: "Sales"; } /* Corresponds to the second <th> */
+    /* Note: The "Total" cell from tfoot will also use the "Month" label here.
+       If more specific labels are needed for tfoot cells, target them like:
+       #monthly-sales-example-table tfoot td:nth-of-type(1):before { content: "Total Summary"; }
+    */
+}
+
+.homepage-content {
+    padding: 20px;
+    max-width: 900px;
+    margin: 20px auto; /* Center content */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.homepage-content h2 {
+    margin-top: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+.lang-group {
+    margin-bottom: 20px;
+}
+.lang-group h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+.lang-group ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+.lang-group li {
+    margin-bottom: 8px;
+}
+.lang-group li a {
+    text-decoration: none;
+    color: #1a73e8;
+    padding: 5px 0;
+    display: inline-block;
+}
+.lang-group li a:hover {
+    text-decoration: underline;
+    color: #0f5abc;
+}

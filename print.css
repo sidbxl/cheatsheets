@@ -1,0 +1,104 @@
+/* print.css - Basic Print Stylesheet */
+
+@media print {
+    body {
+        font-family: 'Times New Roman', Times, serif; /* Serif font for readability */
+        font-size: 12pt;
+        line-height: 1.4;
+        background-color: #fff !important; /* Ensure white background */
+        color: #000 !important; /* Ensure black text */
+        margin: 2cm !important; /* Decent margins for printing */
+        padding: 0 !important;
+    }
+
+    nav,
+    footer,
+    .nav-toggle, /* Hamburger menu button */
+    .back-to-top, /* Back to top button */
+    #toc-container, /* Table of Contents */
+    .search-container /* Search bar */ {
+        display: none !important; /* Hide non-content elements */
+    }
+
+    main {
+        max-width: 100% !important; /* Allow main to use full printable width */
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+
+    section {
+        page-break-inside: avoid; /* Try to avoid breaking sections across pages */
+        margin-bottom: 20px !important; /* Space between sections */
+        box-shadow: none !important;
+        border: none !important;
+        background-color: transparent !important;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        color: #000 !important; /* Black headings */
+        page-break-after: avoid; /* Try to keep headings with their content */
+    }
+
+    h1 { font-size: 20pt; }
+    h2 { font-size: 16pt; }
+    h3 { font-size: 14pt; }
+
+    a {
+        color: #000 !important;
+        text-decoration: underline !important; /* Make links visible when printed */
+    }
+
+    a[href^="http"]:after,
+    a[href^="https"]:after {
+        content: " (" attr(href) ")"; /* Show full URLs for external links */
+        font-size: 0.9em;
+    }
+
+    pre, code {
+        font-family: 'Courier New', Courier, monospace !important;
+        font-size: 10pt !important;
+        background-color: #f4f4f4 !important; /* Light grey for code blocks */
+        border: 1px solid #ddd !important;
+        padding: 5px !important;
+        white-space: pre-wrap !important; /* Allow wrapping in code blocks */
+        word-wrap: break-word !important;
+        overflow: visible !important; /* Ensure content is not cut off */
+    }
+
+    pre code {
+        border: none !important;
+        padding: 0 !important;
+        background-color: transparent !important;
+    }
+
+    table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        page-break-inside: auto; /* Allow tables to break if necessary */
+    }
+
+    th, td {
+        border: 1px solid #ccc !important;
+        padding: 4px !important;
+    }
+
+    img {
+        max-width: 100% !important; /* Ensure images fit on page */
+        height: auto !important;
+        page-break-inside: avoid;
+    }
+
+    .note {
+        border: 1px dashed #999 !important;
+        padding: 10px !important;
+        background-color: #f9f9f9 !important;
+    }
+
+    .search-highlight { /* Remove search highlight for print */
+        background-color: transparent !important;
+        color: inherit !important;
+        font-weight: normal !important;
+    }
+}

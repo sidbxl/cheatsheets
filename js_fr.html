@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aide-mémoire JS Vanilla Moderne</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="nav_footer_style.css">
+    <link rel="stylesheet" href="print.css" media="print">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="html.html">HTML (EN)</a></li>
+            <li><a href="html_fr.html">HTML (FR)</a></li>
+            <li><a href="css.html">CSS (EN)</a></li>
+            <li><a href="css_fr.html">CSS (FR)</a></li>
+            <li><a href="js.html">JS (EN)</a></li>
+            <li><a href="js_fr.html">JS (FR)</a></li>
+        </ul>
+    </nav>
+    <main>
+    <h1>Aide-mémoire JS Vanilla Moderne</h1>
+    <p class="note">Centré sur les fonctionnalités ECMAScript modernes (ES6+), les API du navigateur et les bonnes pratiques. Pas de <code>var</code> hérité ou de techniques obsolètes, sauf à des fins de comparaison.</p>
+
+    <section id="linking-js">
+        <h2>Bases & Liaison JS</h2>
+        <h3>Inclure JavaScript en HTML</h3>
+        <ul>
+            <li><strong>Fichier Externe (Recommandé) :</strong>
+                <pre><code class="language-html">
+&lt;<span class="tag">script</span> <span class="attr">src</span>=<span class="val">"chemin/vers/script.js"</span> <span class="attr">defer</span>&gt;&lt;/<span class="tag">script</span>&gt; <span class="comment"><!-- Placer avant &lt;/body&gt; --></span>
+                </code></pre>
+                <p><code><span class="attr">defer</span></code> : Télécharge le script avec le HTML, s'exécute après l'analyse HTML (maintient l'ordre).<br>
+                   <code><span class="attr">async</span></code> : Télécharge le script avec le HTML, s'exécute dès que disponible (peut ne pas maintenir l'ordre, bon pour les scripts indépendants).</p>
+            </li>
+            <li><strong>Script en Ligne :</strong>
+                <pre><code class="language-html">
+&lt;<span class="tag">script</span>&gt;
+  <span class="comment">// Code JavaScript ici</span>
+  <span class="attr">console</span>.<span class="attr">log</span>(<span class="val">'Bonjour depuis JS en ligne !'</span>);
+&lt;/<span class="tag">script</span>&gt;
+                </code></pre>
+            </li>
+        </ul>
+        <h3>Commentaires</h3>
+        <pre><code class="language-javascript">
+<span class="comment">// Commentaire sur une seule ligne</span>
+
+<span class="comment">/*
+  Commentaire
+  multi-lignes
+*/</span>
+        </code></pre>
+    </section>
+
+    <section id="variables-datatypes">
+        <h2>Variables & Types de Données</h2>
+        <h3>Déclarer des Variables (ES6+)</h3>
+        <ul>
+            <li><code><span class="tag">let</span></code> : Variable à portée de bloc, peut être réassignée.
+                <pre><code class="language-javascript">
+<span class="tag">let</span> <span class="attr">message</span> = <span class="val">"Bonjour"</span>;
+<span class="attr">message</span> = <span class="val">"Monde"</span>;
+                </code></pre>
+            </li>
+            <li><code><span class="tag">const</span></code> : Variable à portée de bloc, doit être initialisée, ne peut pas être réassignée. (Les objets/tableaux déclarés avec <code>const</code> peuvent toujours voir leur contenu modifié).
+                <pre><code class="language-javascript">
+<span class="tag">const</span> <span class="attr">PI</span> = <span class="val">3.14</span>;
+<span class="comment">// PI = 3.14159; // Erreur !</span>
+
+<span class="tag">const</span> <span class="attr">personne</span> = { <span class="attr">nom</span>: <span class="val">"Alice"</span> };
+<span class="attr">personne</span>.<span class="attr">nom</span> = <span class="val">"Bob"</span>; <span class="comment">// Ceci est autorisé</span>
+                </code></pre>
+            </li>
+            <li><p class="note">Évitez d'utiliser <code><span class="tag">var</span></code> en raison de sa portée de fonction et de ses particularités de hissage (hoisting).</p></li>
+        </ul>
+        <h3>Types de Données Primitifs</h3>
+        <ul>
+            <li><strong>String (Chaîne de caractères) :</strong> Séquence de caractères.
+                <br><code><span class="tag">let</span> <span class="attr">nom</span> = <span class="val">"Alice"</span>;</code>
+                <br>Gabarits de Chaînes (Template Literals ES6) : <code><span class="tag">let</span> <span class="attr">salutation</span> = <span class="val">`Bonjour, ${nom} !`</span>;</code>
+            </li>
+            <li><strong>Number (Nombre) :</strong> Entiers et nombres à virgule flottante.
+                <br><code><span class="tag">let</span> <span class="attr">age</span> = <span class="val">30</span>;</code> <code><span class="tag">let</span> <span class="attr">prix</span> = <span class="val">19.99</span>;</code>
+            </li>
+            <li><strong>Boolean (Booléen) :</strong> <code><span class="val">true</span></code> ou <code><span class="val">false</span></code>.
+                <br><code><span class="tag">let</span> <span class="attr">estActif</span> = <span class="val">true</span>;</code>
+            </li>
+            <li><strong>Null :</strong> Représente l'absence intentionnelle de toute valeur d'objet.
+                <br><code><span class="tag">let</span> <span class="attr">donnees</span> = <span class="val">null</span>;</code>
+            </li>
+            <li><strong>Undefined (Indéfini) :</strong> Une variable qui a été déclarée mais à laquelle aucune valeur n'a été assignée.
+                <br><code><span class="tag">let</span> <span class="attr">score</span>; <span class="comment">// score est undefined</span></code>
+            </li>
+            <li><strong>Symbol (ES6) :</strong> Valeur primitive unique et immuable, souvent utilisée comme clé d'objet.
+                <br><code><span class="tag">const</span> <span class="attr">id</span> = <span class="attr">Symbol</span>(<span class="val">'id'</span>);</code>
+            </li>
+            <li><strong>BigInt (ES2020) :</strong> Pour les entiers plus grands que <code><span class="attr">Number.MAX_SAFE_INTEGER</span></code>.
+                <br><code><span class="tag">const</span> <span class="attr">grandNombre</span> = <span class="val">1234567890123456789012345678901234567890n</span>;</code>
+            </li>
+        </ul>
+        <h3>Types de Données Non Primitifs (Objets)</h3>
+        <ul>
+            <li><strong>Object (Objet) :</strong> Collection de paires clé-valeur.
+                <pre><code class="language-javascript">
+<span class="tag">let</span> <span class="attr">utilisateur</span> = {
+  <span class="attr">prenom</span>: <span class="val">"John"</span>,
+  <span class="attr">nomDeFamille</span>: <span class="val">"Doe"</span>,
+  <span class="attr">age</span>: <span class="val">25</span>
+};
+                </code></pre>
+            </li>
+            <li><strong>Array (Tableau) :</strong> Liste ordonnée de valeurs.
+                <pre><code class="language-javascript">
+<span class="tag">let</span> <span class="attr">couleurs</span> = [<span class="val">"rouge"</span>, <span class="val">"vert"</span>, <span class="val">"bleu"</span>];
+                </code></pre>
+            </li>
+            <li><strong>Function (Fonction) :</strong> Un bloc de code conçu pour effectuer une tâche particulière. (Les fonctions sont aussi des objets).</li>
+        </ul>
+    </section>
+
+    <section id="operators">
+        <h2>Opérateurs</h2>
+        <table>
+            <thead>
+                <tr><th>Type</th><th>Opérateurs</th><th>Exemple</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Arithmétique</td><td><code>+ - * / % ++ -- **</code></td><td><code><span class="val">5</span> + <span class="val">2</span>; <span class="attr">x</span>++;</code></td></tr>
+                <tr><td>Assignation</td><td><code>= += -= *= /= %= **=</code></td><td><code><span class="attr">x</span> = <span class="val">5</span>; <span class="attr">x</span> += <span class="val">3</span>;</code></td></tr>
+                <tr><td>Comparaison</td><td><code>== === != !== &gt; &lt; &gt;= &lt;=</code></td><td><code><span class="attr">age</span> &gt; <span class="val">18</span>; <span class="attr">type</span> === <span class="val">'admin'</span>;</code> (<span class="note">Préférez <code>===</code> et <code>!==</code> pour l'égalité/inégalité stricte</span>)</td></tr>
+                <tr><td>Logique</td><td><code>&& || !</code></td><td><code><span class="attr">estValide</span> && <span class="attr">estAdmin</span>;</code></td></tr>
+                <tr><td>Coalition des nuls (Nullish Coalescing ES2020)</td><td><code>??</code></td><td><code><span class="tag">const</span> <span class="attr">nom</span> = <span class="attr">reponseAPI</span>.<span class="attr">nom</span> ?? <span class="val">'Invité'</span>;</code> (Retourne le côté droit si le gauche est <code>null</code> ou <code>undefined</code>)</td></tr>
+                <tr><td>Chaînage optionnel (Optional Chaining ES2020)</td><td><code>?.</code></td><td><code><span class="tag">const</span> <span class="attr">rue</span> = <span class="attr">utilisateur</span>?.<span class="attr">adresse</span>?.<span class="attr">rue</span>;</code> (Évite les erreurs si les propriétés intermédiaires sont null/undefined)</td></tr>
+                <tr><td>Ternaire</td><td><code>condition ? exprSiVrai : exprSiFaux</code></td><td><code><span class="attr">estMembre</span> ? <span class="val">'2,00 €'</span> : <span class="val">'10,00 €'</span>;</code></td></tr>
+                <tr><td>Typeof</td><td><code>typeof</code></td><td><code><span class="tag">typeof</span> <span class="val">42</span>; <span class="comment">// "number"</span></code></td></tr>
+                <tr><td>Décomposition/Reste (Spread/Rest ES6)</td><td><code>...</code></td><td>Voir sections Tableaux & Fonctions</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="control-flow">
+        <h2>Flux de Contrôle</h2>
+        <ul>
+            <li><strong><code><span class="tag">if</span> / <span class="tag">else</span> <span class="tag">if</span> / <span class="tag">else</span></code></strong>
+                <pre><code class="language-javascript">
+<span class="tag">if</span> (<span class="attr">condition1</span>) {
+  <span class="comment">// bloc de code</span>
+} <span class="tag">else</span> <span class="tag">if</span> (<span class="attr">condition2</span>) {
+  <span class="comment">// bloc de code</span>
+} <span class="tag">else</span> {
+  <span class="comment">// bloc de code</span>
+}
+                </code></pre>
+            </li>
+            <li><strong><code><span class="tag">switch</span></code></strong>
+                <pre><code class="language-javascript">
+<span class="tag">switch</span>(<span class="attr">expression</span>) {
+  <span class="tag">case</span> <span class="attr">valeur1</span>:
+    <span class="comment">// code</span>
+    <span class="tag">break</span>;
+  <span class="tag">case</span> <span class="attr">valeur2</span>:
+    <span class="comment">// code</span>
+    <span class="tag">break</span>;
+  <span class="tag">default</span>:
+    <span class="comment">// code</span>
+}
+                </code></pre>
+            </li>
+            <li><strong>Boucles</strong>
+                <ul>
+                    <li><code><span class="tag">for</span></code> : <code><span class="tag">for</span> (<span class="tag">let</span> <span class="attr">i</span> = <span class="val">0</span>; <span class="attr">i</span> < <span class="val">5</span>; <span class="attr">i</span>++) { <span class="comment">/* ... */</span> }</code></li>
+                    <li><code><span class="tag">for...of</span></code> (ES6, pour les itérables comme Tableaux, Chaînes) :
+                        <pre><code class="language-javascript">
+<span class="tag">for</span> (<span class="tag">const</span> <span class="attr">element</span> <span class="tag">of</span> <span class="attr">monTableau</span>) {
+  <span class="attr">console</span>.<span class="attr">log</span>(<span class="attr">element</span>);
+}
+                        </code></pre>
+                    </li>
+                    <li><code><span class="tag">for...in</span></code> (pour les propriétés d'objet - utiliser avec précaution, itère sur la chaîne de prototypes) :
+                        <pre><code class="language-javascript">
+<span class="tag">for</span> (<span class="tag">const</span> <span class="attr">cle</span> <span class="tag">in</span> <span class="attr">monObjet</span>) {
+  <span class="tag">if</span> (<span class="attr">monObjet</span>.<span class="attr">hasOwnProperty</span>(<span class="attr">cle</span>)) {
+    <span class="attr">console</span>.<span class="attr">log</span>(<span class="val">`${cle}: ${monObjet[cle]}`</span>);
+  }
+}
+                        </code></pre>
+                    </li>
+                    <li><code><span class="tag">while</span></code> : <code><span class="tag">while</span> (<span class="attr">condition</span>) { <span class="comment">/* ... */</span> }</code></li>
+                    <li><code><span class="tag">do...while</span></code> : <code><span class="tag">do</span> { <span class="comment">/* ... */</span> } <span class="tag">while</span> (<span class="attr">condition</span>);</code></li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section id="functions">
+        <h2>Fonctions</h2>
+        <ul>
+            <li><strong>Déclaration de Fonction :</strong>
+                <pre><code class="language-javascript">
+<span class="tag">function</span> <span class="attr">saluer</span>(<span class="attr">nom</span>) {
+  <span class="tag">return</span> <span class="val">`Bonjour, ${nom} !`</span>;
+}
+                </code></pre>
+            </li>
+            <li><strong>Expression de Fonction :</strong>
+                <pre><code class="language-javascript">
+<span class="tag">const</span> <span class="attr">saluer</span> = <span class="tag">function</span>(<span class="attr">nom</span>) {
+  <span class="tag">return</span> <span class="val">`Bonjour, ${nom} !`</span>;
+};
+                </code></pre>
+            </li>
+            <li><strong>Fonctions Fléchées (ES6) :</strong> Syntaxe concise, liaison lexicale de <code>this</code>.
+                <pre><code class="language-javascript">
+<span class="tag">const</span> <span class="attr">ajouter</span> = (<span class="attr">a</span>, <span class="attr">b</span>) => <span class="attr">a</span> + <span class="attr">b</span>; <span class="comment">// Retour implicite pour une seule expression</span>
+
+<span class="tag">const</span> <span class="attr">multiplier</span> = (<span class="attr">a</span>, <span class="attr">b</span>) => {
+  <span class="tag">return</span> <span class="attr">a</span> * <span class="attr">b</span>; <span class="comment">// Retour explicite pour multi-lignes</span>
+};
+                </code></pre>
+            </li>
+            <li><strong>Paramètres :</strong>
+                <ul>
+                    <li>Paramètres par Défaut (ES6) : <code><span class="tag">function</span> <span class="attr">direSalut</span>(<span class="attr">nom</span> = <span class="val">'Invité'</span>) { <span class="comment">/* ... */</span> }</code></li>
+                    <li>Paramètres du Reste (Rest Parameters ES6) : Collecte les arguments restants dans un tableau.
+                        <pre><code class="language-javascript">
+<span class="tag">function</span> <span class="attr">somme</span>(...<span class="attr">nombres</span>) {
+  <span class="tag">return</span> <span class="attr">nombres</span>.<span class="attr">reduce</span>((<span class="attr">acc</span>, <span class="attr">actuel</span>) => <span class="attr">acc</span> + <span class="attr">actuel</span>, <span class="val">0</span>);
+}
+<span class="attr">somme</span>(<span class="val">1</span>, <span class="val">2</span>, <span class="val">3</span>); <span class="comment">// 6</span>
+                        </code></pre>
+                    </li>
+                </ul>
+            </li>
+            <li><strong>Portée (Scope) :</strong> Les variables déclarées avec <code>let</code> et <code>const</code> ont une portée de bloc. Les fonctions créent leur propre portée.</li>
+        </ul>
+    </section>
+
+    <section id="objects">
+        <h2>Objets</h2>
+        <ul>
+            <li><strong>Objets Littéraux :</strong>
+                <pre><code class="language-javascript">
+<span class="tag">const</span> <span class="attr">voiture</span> = {
+  <span class="attr">marque</span>: <span class="val">'Toyota'</span>,
+  <span class="attr">modele</span>: <span class="val">'Camry'</span>,
+  <span class="attr">annee</span>: <span class="val">2022</span>,
+  <span class="attr">demarrer</span>: <span class="tag">function</span>() { <span class="comment">// Méthode</span>
+    <span class="attr">console</span>.<span class="attr">log</span>(<span class="val">'Moteur démarré !'</span>);
+  },
+  <span class="attr">klaxonner</span>() { <span class="comment">// Syntaxe de méthode raccourcie (ES6)</span>
+    <span class="attr">console</span>.<span class="attr">log</span>(<span class="val">'Bip bip !'</span>);
+  }
+};
+<span class="attr">voiture</span>.<span class="attr">demarrer</span>();
+                </code></pre>
+            </li>
+            <li><strong>Accéder aux Propriétés :</strong> Notation par point (<code><span class="attr">objet.propriete</span></code>) ou notation par crochets (<code><span class="attr">objet['propriete']</span></code>).</li>
+            <li><strong>Mot-clé <code>this</code> :</strong> Fait référence à l'objet dont la fonction est une méthode (le contexte dépend de la façon dont la fonction est appelée). Les fonctions fléchées n'ont pas leur propre <code>this</code> ; elles l'héritent de la portée lexicale environnante.</li>
+            <li><strong>Déstructuration d'Objet (ES6) :</strong>
+                <pre><code class="language-javascript">
+<span class="tag">const</span> { <span class="attr">marque</span>, <span class="attr">modele</span> } = <span class="attr">voiture</span>;
+<span class="attr">console</span>.<span class="attr">log</span>(<span class="attr">marque</span>); <span class="comment">// 'Toyota'</span>
+
+<span class="tag">function</span> <span class="attr">afficherInfosVoiture</span>({ <span class="attr">marque</span>, <span class="attr">modele</span> }) {
+  <span class="attr">console</span>.<span class="attr">log</span>(<span class="val">`${marque} ${modele}`</span>);
+}
+<span class="attr">afficherInfosVoiture</span>(<span class="attr">voiture</span>);
+                </code></pre>
+            </li>
+            <li><strong>Raccourci de Propriété (ES6) :</strong>
+                <pre><code class="language-javascript">
+<span class="tag">const</span> <span class="attr">nom</span> = <span class="val">'Alice'</span>;
+<span class="tag">const</span> <span class="attr">age</span> = <span class="val">30</span>;
+<span class="tag">const</span> <span class="attr">utilisateur</span> = { <span class="attr">nom</span>, <span class="attr">age</span> }; <span class="comment">// Identique à { nom: nom, age: age }</span>
+                </code></pre>
+            </li>
+        </ul>
+    </section>
+
+    <section id="arrays">
+        <h2>Tableaux (Arrays)</h2>
+        <ul>
+            <li><strong>Tableaux Littéraux :</strong> <code><span class="tag">const</span> <span class="attr">fruits</span> = [<span class="val">'pomme'</span>, <span class="val">'banane'</span>, <span class="val">'cerise'</span>];</code></li>
+            <li><strong>Accéder aux Éléments :</strong> Index basé sur zéro : <code><span class="attr">fruits</span>[<span class="val">0</span>] <span class="comment">// 'pomme'</span></code></li>
+            <li><strong>Propriétés & Méthodes Courantes :</strong>
+                <ul>
+                    <li><code><span class="attr">.length</span></code> : Nombre d'éléments.</li>
+                    <li><code><span class="attr">.push(element)</span></code> : Ajoute à la fin. <code><span class="attr">.pop()</span></code> : Supprime de la fin.</li>
+                    <li><code><span class="attr">.unshift(element)</span></code> : Ajoute au début. <code><span class="attr">.shift()</span></code> : Supprime du début.</li>
+                    <li><code><span class="attr">.indexOf(element)</span></code>, <code><span class="attr">.includes(element)</span></code> (ES7)</li>
+                    <li><code><span class="attr">.slice(debut, fin)</span></code> : Retourne un nouveau tableau (non-mutant).</li>
+                    <li><code><span class="attr">.splice(debut, nbASupprimer, ...elementsAAjouter)</span></code> : Modifie le tableau original.</li>
+                </ul>
+            </li>
+            <li><strong>Méthodes Modernes d'Itération/Transformation (ES6+) :</strong> (Celles-ci ne modifient pas le tableau original et retournent un nouveau tableau ou une valeur)
+                <pre><code class="language-javascript">
+<span class="tag">const</span> <span class="attr">nombres</span> = [<span class="val">1</span>, <span class="val">2</span>, <span class="val">3</span>, <span class="val">4</span>, <span class="val">5</span>];
+
+<span class="attr">nombres</span>.<span class="attr">forEach</span>(<span class="attr">nb</span> => <span class="attr">console</span>.<span class="attr">log</span>(<span class="attr">nb</span> * <span class="val">2</span>));
+
+<span class="tag">const</span> <span class="attr">doubles</span> = <span class="attr">nombres</span>.<span class="attr">map</span>(<span class="attr">nb</span> => <span class="attr">nb</span> * <span class="val">2</span>); <span class="comment">// [2, 4, 6, 8, 10]</span>
+
+<span class="tag">const</span> <span class="attr">pairs</span> = <span class="attr">nombres</span>.<span class="attr">filter</span>(<span class="attr">nb</span> => <span class="attr">nb</span> % <span class="val">2</span> === <span class="val">0</span>); <span class="comment">// [2, 4]</span>
+
+<span class="tag">const</span> <span class="attr">somme</span> = <span class="attr">nombres</span>.<span class="attr">reduce</span>((<span class="attr">accumulateur</span>, <span class="attr">valeurActuelle</span>) => <span class="attr">accumulateur</span> + <span class="attr">valeurActuelle</span>, <span class="val">0</span>); <span class="comment">// 15</span>
+
+<span class="tag">const</span> <span class="attr">premierPair</span> = <span class="attr">nombres</span>.<span class="attr">find</span>(<span class="attr">nb</span> => <span class="attr">nb</span> % <span class="val">2</span> === <span class="val">0</span>); <span class="comment">// 2</span>
+
+<span class="tag">const</span> <span class="attr">aUnPair</span> = <span class="attr">nombres</span>.<span class="attr">some</span>(<span class="attr">nb</span> => <span class="attr">nb</span> % <span class="val">2</span> === <span class="val">0</span>); <span class="comment">// true</span>
+
+<span class="tag">const</span> <span class="attr">tousPositifs</span> = <span class="attr">nombres</span>.<span class="attr">every</span>(<span class="attr">nb</span> => <span class="attr">nb</span> > <span class="val">0</span>); <span class="comment">// true</span>
+                </code></pre>
+            </li>
+            <li><strong>Syntaxe de Décomposition (Spread ES6) :</strong> Pour copier ou fusionner des tableaux.
+                <pre><code class="language-javascript">
+<span class="tag">const</span> <span class="attr">tab1</span> = [<span class="val">1</span>, <span class="val">2</span>];
+<span class="tag">const</span> <span class="attr">tab2</span> = [...<span class="attr">tab1</span>, <span class="val">3</span>, <span class="val">4</span>]; <span class="comment">// [1, 2, 3, 4]</span>
+<span class="tag">const</span> <span class="attr">copie</span> = [...<span class="attr">tab1</span>];
+                </code></pre>
+            </li>
+            <li><strong>Déstructuration de Tableau (ES6) :</strong>
+                <pre><code class="language-javascript">
+<span class="tag">const</span> [<span class="attr">premier</span>, <span class="attr">deuxieme</span>, ...<span class="attr">reste</span>] = [<span class="val">'pomme'</span>, <span class="val">'banane'</span>, <span class="val">'cerise'</span>, <span class="val">'datte'</span>];
+<span class="attr">console</span>.<span class="attr">log</span>(<span class="attr">premier</span>); <span class="comment">// 'pomme'</span>
+<span class="attr">console</span>.<span class="attr">log</span>(<span class="attr">reste</span>); <span class="comment">// ['cerise', 'datte']</span>
+                </code></pre>
+            </li>
+        </ul>
+    </section>
+
+    <section id="dom-manipulation">
+        <h2>Manipulation du DOM (Environnement Navigateur)</h2>
+        <h3>Sélectionner des Éléments</h3>
+        <ul>
+            <li><code><span class="attr">document</span>.<span class="attr">getElementById</span>(<span class="val">'id'</span>)</code> : Sélectionne un élément par son ID.</li>
+            <li><code><span class="attr">document</span>.<span class="attr">querySelector</span>(<span class="val">'selecteurCSS'</span>)</code> : Sélectionne le premier élément correspondant à un sélecteur CSS.</li>
+            <li><code><span class="attr">document</span>.<span class="attr">querySelectorAll</span>(<span class="val">'selecteurCSS'</span>)</code> : Sélectionne tous les éléments correspondant à un sélecteur CSS (retourne une NodeList).</li>
+            <li><code><span class="attr">document</span>.<span class="attr">getElementsByClassName</span>(<span class="val">'nomDeClasse'</span>)</code> : (Retourne une HTMLCollection)</li>
+            <li><code><span class="attr">document</span>.<span class="attr">getElementsByTagName</span>(<span class="val">'nomDeBalise'</span>)</code> : (Retourne une HTMLCollection)</li>
+        </ul>
+        <h3>Modifier des Éléments</h3>
+        <pre><code class="language-javascript">
+<span class="tag">const</span> <span class="attr">titre</span> = <span class="attr">document</span>.<span class="attr">querySelector</span>(<span class="val">'h1'</span>);
+
+<span class="attr">titre</span>.<span class="attr">textContent</span> = <span class="val">'Nouveau Texte de Titre'</span>; <span class="comment">// Change le contenu textuel (plus sûr)</span>
+<span class="comment">// titre.innerHTML = '&lt;em&gt;Nouveau&lt;/em&gt; Titre'; // Peut injecter du HTML (utiliser avec précaution)</span>
+
+<span class="attr">titre</span>.<span class="attr">setAttribute</span>(<span class="val">'data-info'</span>, <span class="val">'important'</span>);
+<span class="attr">titre</span>.<span class="attr">style</span>.<span class="attr">color</span> = <span class="val">'blue'</span>;
+
+<span class="attr">titre</span>.<span class="attr">classList</span>.<span class="attr">add</span>(<span class="val">'surbrillance'</span>);
+<span class="attr">titre</span>.<span class="attr">classList</span>.<span class="attr">remove</span>(<span class="val">'ancienne-classe'</span>);
+<span class="attr">titre</span>.<span class="attr">classList</span>.<span class="attr">toggle</span>(<span class="val">'actif'</span>);
+        </code></pre>
+        <h3>Créer & Ajouter des Éléments</h3>
+        <pre><code class="language-javascript">
+<span class="tag">const</span> <span class="attr">nouveauParagraphe</span> = <span class="attr">document</span>.<span class="attr">createElement</span>(<span class="val">'p'</span>);
+<span class="attr">nouveauParagraphe</span>.<span class="attr">textContent</span> = <span class="val">'Ceci est un nouveau paragraphe.'</span>;
+<span class="attr">document</span>.<span class="attr">body</span>.<span class="attr">appendChild</span>(<span class="attr">nouveauParagraphe</span>);
+
+<span class="comment">// Alternatives plus modernes : .append(), .prepend(), .before(), .after()</span>
+<span class="comment">// document.body.append(nouveauParagraphe);</span>
+        </code></pre>
+        <h3>Supprimer des Éléments</h3>
+        <pre><code class="language-javascript">
+<span class="tag">const</span> <span class="attr">elementASupprimer</span> = <span class="attr">document</span>.<span class="attr">getElementById</span>(<span class="val">'ancienElement'</span>);
+<span class="tag">if</span> (<span class="attr">elementASupprimer</span>) {
+  <span class="attr">elementASupprimer</span>.<span class="attr">remove</span>(); <span class="comment">// Méthode moderne</span>
+  <span class="comment">// Ou : elementASupprimer.parentNode.removeChild(elementASupprimer); // Ancienne méthode</span>
+}
+        </code></pre>
+    </section>
+
+    <section id="events">
+        <h2>Événements (Environnement Navigateur)</h2>
+        <p>Répondre aux interactions de l'utilisateur ou aux actions du navigateur.</p>
+        <pre><code class="language-javascript">
+<span class="tag">const</span> <span class="attr">bouton</span> = <span class="attr">document</span>.<span class="attr">querySelector</span>(<span class="val">'#monBouton'</span>);
+
+<span class="tag">function</span> <span class="attr">gererClic</span>(<span class="attr">evenement</span>) {
+  <span class="attr">console</span>.<span class="attr">log</span>(<span class="val">'Bouton cliqué !'</span>, <span class="attr">evenement</span>);
+  <span class="comment">// evenement.target fait référence à l'élément qui a déclenché l'événement</span>
+  <span class="comment">// evenement.preventDefault(); // Peut arrêter l'action par défaut du navigateur (ex: soumission de formulaire)</span>
+}
+
+<span class="attr">bouton</span>.<span class="attr">addEventListener</span>(<span class="val">'click'</span>, <span class="attr">gererClic</span>);
+
+<span class="comment">// Pour supprimer :</span>
+<span class="comment">// bouton.removeEventListener('click', gererClic);</span>
+        </code></pre>
+        <p><strong>Types d'Événements Courants :</strong> <code>click</code>, <code>mouseover</code>, <code>mouseout</code>, <code>mousedown</code>, <code>mouseup</code>, <code>mousemove</code>, <code>keydown</code>, <code>keyup</code>, <code>keypress</code>, <code>focus</code>, <code>blur</code>, <code>submit</code>, <code>change</code>, <code>load</code>, <code>DOMContentLoaded</code>.</p>
+        <p><strong>Délégation d'Événements :</strong> Attachez un seul écouteur d'événements à un élément parent pour gérer les événements de plusieurs éléments enfants. Vérifiez <code>evenement.target</code> dans le gestionnaire.</p>
+    </section>
+
+    <section id="async-js">
+        <h2>JavaScript Asynchrone</h2>
+        <p>Gérer les opérations qui prennent du temps (par ex., requêtes réseau, minuteurs) sans bloquer le thread principal.</p>
+        <h3>Callbacks (Traditionnel)</h3>
+        <p>Fonctions passées en arguments pour être exécutées ultérieurement. Peut mener à "l'enfer des callbacks" (callback hell) si imbriquées profondément.</p>
+        <h3>Promesses (Promises ES6)</h3>
+        <p>Un objet représentant l'achèvement (ou l'échec) éventuel d'une opération asynchrone.</p>
+        <pre><code class="language-javascript">
+<span class="tag">const</span> <span class="attr">maPromesse</span> = <span class="tag">new</span> <span class="attr">Promise</span>((<span class="attr">resolve</span>, <span class="attr">reject</span>) => {
+  <span class="comment">// Opération asynchrone</span>
+  <span class="tag">const</span> <span class="attr">succes</span> = <span class="val">true</span>; <span class="comment">// ou false</span>
+  <span class="tag">if</span> (<span class="attr">succes</span>) {
+    <span class="attr">resolve</span>(<span class="val">'Opération réussie !'</span>);
+  } <span class="tag">else</span> {
+    <span class="attr">reject</span>(<span class="val">'Opération échouée.'</span>);
+  }
+});
+
+<span class="attr">maPromesse</span>
+  .<span class="attr">then</span>(<span class="attr">resultat</span> => <span class="attr">console</span>.<span class="attr">log</span>(<span class="attr">resultat</span>)) <span class="comment">// Gérer le succès</span>
+  .<span class="attr">catch</span>(<span class="attr">erreur</span> => <span class="attr">console</span>.<span class="attr">error</span>(<span class="attr">erreur</span>)) <span class="comment">// Gérer l'échec</span>
+  .<span class="attr">finally</span>(() => <span class="attr">console</span>.<span class="attr">log</span>(<span class="val">'Opération terminée.'</span>)); <span class="comment">// S'exécute quel que soit le succès/échec (ES2018)</span>
+
+<span class="comment">// Promise.all([promesse1, promesse2]), Promise.race([promesse1, promesse2])</span>
+        </code></pre>
+        <h3>Async/Await (ES2017)</h3>
+        <p>Sucre syntaxique par-dessus les Promesses, rendant le code asynchrone plus semblable à du code synchrone.</p>
+        <pre><code class="language-javascript">
+<span class="tag">async</span> <span class="tag">function</span> <span class="attr">recupererDonnees</span>() {
+  <span class="tag">try</span> {
+    <span class="tag">const</span> <span class="attr">reponse</span> = <span class="tag">await</span> <span class="attr">fetch</span>(<span class="val">'https://api.example.com/data'</span>);
+    <span class="tag">if</span> (!<span class="attr">reponse</span>.<span class="attr">ok</span>) {
+      <span class="tag">throw</span> <span class="tag">new</span> <span class="attr">Error</span>(<span class="val">`Erreur HTTP ! statut : ${reponse.status}`</span>);
+    }
+    <span class="tag">const</span> <span class="attr">donnees</span> = <span class="tag">await</span> <span class="attr">reponse</span>.<span class="attr">json</span>();
+    <span class="attr">console</span>.<span class="attr">log</span>(<span class="attr">donnees</span>);
+  } <span class="tag">catch</span> (<span class="attr">erreur</span>) {
+    <span class="attr">console</span>.<span class="attr">error</span>(<span class="val">'Impossible de récupérer les données :'</span>, <span class="attr">erreur</span>);
+  }
+}
+<span class="attr">recupererDonnees</span>();
+        </code></pre>
+    </section>
+
+    <section id="fetch-api">
+        <h2>API Fetch (Environnement Navigateur)</h2>
+        <p>Interface moderne pour effectuer des requêtes réseau (remplace XMLHttpRequest).</p>
+        <pre><code class="language-javascript">
+<span class="comment">// Requête GET</span>
+<span class="attr">fetch</span>(<span class="val">'https://jsonplaceholder.typicode.com/todos/1'</span>)
+  .<span class="attr">then</span>(<span class="attr">reponse</span> => {
+    <span class="tag">if</span> (!<span class="attr">reponse</span>.<span class="attr">ok</span>) { <span class="tag">throw</span> <span class="tag">new</span> <span class="attr">Error</span>(<span class="val">'La réponse réseau n\'était pas ok'</span>); }
+    <span class="tag">return</span> <span class="attr">reponse</span>.<span class="attr">json</span>(); <span class="comment">// Analyse la réponse JSON</span>
+  })
+  .<span class="attr">then</span>(<span class="attr">donnees</span> => <span class="attr">console</span>.<span class="attr">log</span>(<span class="attr">donnees</span>))
+  .<span class="attr">catch</span>(<span class="attr">erreur</span> => <span class="attr">console</span>.<span class="attr">error</span>(<span class="val">'Erreur Fetch :'</span>, <span class="attr">erreur</span>));
+
+<span class="comment">// Requête POST</span>
+<span class="attr">fetch</span>(<span class="val">'https://jsonplaceholder.typicode.com/posts'</span>, {
+  <span class="attr">method</span>: <span class="val">'POST'</span>,
+  <span class="attr">headers</span>: {
+    <span class="val">'Content-Type'</span>: <span class="val">'application/json'</span>
+  },
+  <span class="attr">body</span>: <span class="attr">JSON</span>.<span class="attr">stringify</span>({
+    <span class="attr">title</span>: <span class="val">'foo'</span>,
+    <span class="attr">body</span>: <span class="val">'bar'</span>,
+    <span class="attr">userId</span>: <span class="val">1</span>
+  })
+})
+.<span class="attr">then</span>(<span class="attr">reponse</span> => <span class="attr">reponse</span>.<span class="attr">json</span>())
+.<span class="attr">then</span>(<span class="attr">donnees</span> => <span class="attr">console</span>.<span class="attr">log</span>(<span class="attr">donnees</span>));
+        </code></pre>
+    </section>
+
+    <section id="modules">
+        <h2>Modules (Modules ES6)</h2>
+        <p>Organiser le code en morceaux réutilisables. Doit être servi depuis un serveur (pas file://) et utilisé avec <code>&lt;script type="module"&gt;</code>.</p>
+        <p><strong><code>math.js</code> (Exemple de Module) :</strong></p>
+        <pre><code class="language-javascript">
+<span class="tag">export</span> <span class="tag">const</span> <span class="attr">PI</span> = <span class="val">3.14159</span>;
+<span class="tag">export</span> <span class="tag">function</span> <span class="attr">ajouter</span>(<span class="attr">a</span>, <span class="attr">b</span>) {
+  <span class="tag">return</span> <span class="attr">a</span> + <span class="attr">b</span>;
+}
+<span class="tag">export</span> <span class="tag">default</span> <span class="tag">function</span> <span class="attr">multiplier</span>(<span class="attr">a</span>, <span class="attr">b</span>) { <span class="comment">// Un seul export par défaut par module</span>
+  <span class="tag">return</span> <span class="attr">a</span> * <span class="attr">b</span>;
+}
+        </code></pre>
+        <p><strong><code>main.js</code> (Utilisation du Module) :</strong></p>
+        <pre><code class="language-javascript">
+<span class="tag">import</span> <span class="attr">multiplier</span>, { <span class="attr">PI</span>, <span class="attr">ajouter</span> <span class="tag">as</span> <span class="attr">somme</span> } <span class="tag">from</span> <span class="val">'./math.js'</span>;
+<span class="comment">// 'multiplier' est l'export par défaut, PI & ajouter sont des exports nommés (ajouter renommé en somme)</span>
+
+<span class="attr">console</span>.<span class="attr">log</span>(<span class="attr">PI</span>);
+<span class="attr">console</span>.<span class="attr">log</span>(<span class="attr">somme</span>(<span class="val">2</span>, <span class="val">3</span>));
+<span class="attr">console</span>.<span class="attr">log</span>(<span class="attr">multiplier</span>(<span class="val">4</span>, <span class="val">5</span>));
+
+<span class="comment">// Importer tout depuis un module :</span>
+<span class="comment">// import * as UtilsMath from './math.js';</span>
+<span class="comment">// console.log(UtilsMath.PI);</span>
+        </code></pre>
+        <p><strong>HTML :</strong></p>
+        <pre><code class="language-html">
+&lt;<span class="tag">script</span> <span class="attr">type</span>=<span class="val">"module"</span> <span class="attr">src</span>=<span class="val">"main.js"</span>&gt;&lt;/<span class="tag">script</span>&gt;
+        </code></pre>
+    </section>
+
+    <section id="error-handling">
+        <h2>Gestion des Erreurs</h2>
+        <pre><code class="language-javascript">
+<span class="tag">try</span> {
+  <span class="comment">// Code susceptible de lever une erreur</span>
+  <span class="tag">let</span> <span class="attr">resultat</span> = <span class="attr">operationRisquee</span>();
+  <span class="attr">console</span>.<span class="attr">log</span>(<span class="attr">resultat</span>);
+} <span class="tag">catch</span> (<span class="attr">erreur</span>) {
+  <span class="comment">// Code pour gérer l'erreur</span>
+  <span class="attr">console</span>.<span class="attr">error</span>(<span class="val">'Une erreur est survenue :'</span>, <span class="attr">erreur</span>.<span class="attr">message</span>);
+  <span class="comment">// erreur.name, erreur.stack</span>
+} <span class="tag">finally</span> {
+  <span class="comment">// Code qui s'exécute quel que soit l'erreur (optionnel)</span>
+  <span class="attr">console</span>.<span class="attr">log</span>(<span class="val">'Opération terminée.'</span>);
+}
+
+<span class="comment">// Lever des erreurs personnalisées</span>
+<span class="tag">function</span> <span class="attr">diviser</span>(<span class="attr">a</span>, <span class="attr">b</span>) {
+  <span class="tag">if</span> (<span class="attr">b</span> === <span class="val">0</span>) {
+    <span class="tag">throw</span> <span class="tag">new</span> <span class="attr">Error</span>(<span class="val">'La division par zéro n\'est pas autorisée.'</span>);
+  }
+  <span class="tag">return</span> <span class="attr">a</span> / <span class="attr">b</span>;
+}
+        </code></pre>
+    </section>
+
+     <section id="browser-storage">
+        <h2>Stockage Navigateur (Environnement Navigateur)</h2>
+        <p>Stocker des données dans le navigateur de l'utilisateur.</p>
+        <h3><code>localStorage</code></h3>
+        <p>Stocke les données sans date d'expiration. Les données persistent même après la fermeture de la fenêtre du navigateur.</p>
+        <pre><code class="language-javascript">
+<span class="comment">// Définir un élément</span>
+<span class="attr">localStorage</span>.<span class="attr">setItem</span>(<span class="val">'nomUtilisateur'</span>, <span class="val">'Alice'</span>);
+
+<span class="comment">// Obtenir un élément</span>
+<span class="tag">const</span> <span class="attr">nomUtilisateur</span> = <span class="attr">localStorage</span>.<span class="attr">getItem</span>(<span class="val">'nomUtilisateur'</span>); <span class="comment">// 'Alice'</span>
+
+<span class="comment">// Supprimer un élément</span>
+<span class="attr">localStorage</span>.<span class="attr">removeItem</span>(<span class="val">'nomUtilisateur'</span>);
+
+<span class="comment">// Effacer tous les éléments</span>
+<span class="comment">// localStorage.clear();</span>
+
+<span class="comment">// Note : localStorage ne stocke que des chaînes. Utilisez JSON.stringify/parse pour les objets.</span>
+<span class="tag">const</span> <span class="attr">utilisateur</span> = { <span class="attr">nom</span>: <span class="val">'Bob'</span>, <span class="attr">id</span>: <span class="val">123</span> };
+<span class="attr">localStorage</span>.<span class="attr">setItem</span>(<span class="val">'utilisateur'</span>, <span class="attr">JSON</span>.<span class="attr">stringify</span>(<span class="attr">utilisateur</span>));
+<span class="tag">const</span> <span class="attr">utilisateurRecupere</span> = <span class="attr">JSON</span>.<span class="attr">parse</span>(<span class="attr">localStorage</span>.<span class="attr">getItem</span>(<span class="val">'utilisateur'</span>));
+        </code></pre>
+        <h3><code>sessionStorage</code></h3>
+        <p>Stocke les données pour une session (les données sont perdues lorsque l'onglet du navigateur est fermé). L'API est la même que <code>localStorage</code>.</p>
+        <pre><code class="language-javascript">
+<span class="attr">sessionStorage</span>.<span class="attr">setItem</span>(<span class="val">'donneesSession'</span>, <span class="val">'Info temporaire'</span>);
+        </code></pre>
+    </section>
+
+    <section id="json">
+        <h2>JSON (JavaScript Object Notation)</h2>
+        <p>Un format d'échange de données léger. Facile à lire/écrire pour les humains, facile à analyser/générer pour les machines.</p>
+        <ul>
+            <li><code><span class="attr">JSON.stringify(objet)</span></code> : Convertit un objet ou une valeur JavaScript en une chaîne JSON.
+                <pre><code class="language-javascript">
+<span class="tag">const</span> <span class="attr">donnees</span> = { <span class="attr">nom</span>: <span class="val">"Test"</span>, <span class="attr">valeur</span>: <span class="val">42</span> };
+<span class="tag">const</span> <span class="attr">chaineJson</span> = <span class="attr">JSON</span>.<span class="attr">stringify</span>(<span class="attr">donnees</span>);
+<span class="comment">// chaineJson est "{\"nom\":\"Test\",\"valeur\":42}"</span>
+                </code></pre>
+            </li>
+            <li><code><span class="attr">JSON.parse(chaineJson)</span></code> : Analyse une chaîne JSON, construisant la valeur ou l'objet JavaScript décrit par la chaîne.
+                <pre><code class="language-javascript">
+<span class="tag">const</span> <span class="attr">objetJson</span> = <span class="attr">JSON</span>.<span class="attr">parse</span>(<span class="attr">chaineJson</span>);
+<span class="comment">// objetJson est { nom: "Test", valeur: 42 }</span>
+                </code></pre>
+            </li>
+        </ul>
+    </section>
+
+
+    <section id="good-practices-js">
+        <h2>Bonnes Pratiques</h2>
+        <ul>
+            <li class="good-practice"><strong>Utiliser le Mode Strict :</strong> <code><span class="val">'use strict'</span>;</code> au début de vos scripts ou fonctions aide à détecter les erreurs de codage courantes. (Les modules sont en mode strict par défaut).</li>
+            <li class="good-practice"><strong>Utiliser <code>let</code> et <code>const</code> :</strong> Préférez <code>const</code> par défaut ; utilisez <code>let</code> si une réassignation est nécessaire. Évitez <code>var</code>.</li>
+            <li class="good-practice"><strong>Écrire du Code Clair et Lisible :</strong> Utilisez des noms de variables/fonctions significatifs, gardez les fonctions petites et ciblées, commentez la logique complexe.</li>
+            <li class="good-practice"><strong>Adopter les Fonctionnalités Modernes :</strong> Fonctions fléchées, gabarits de chaînes, déstructuration, spread/rest, Promesses, async/await rendent le code plus concis et lisible.</li>
+            <li class="good-practice"><strong>Gérer les Erreurs avec Élégance :</strong> Utilisez <code>try...catch</code> pour les erreurs synchrones et <code>.catch()</code> ou <code>try...catch</code> avec async/await pour les erreurs asynchrones.</li>
+            <li class="good-practice"><strong>Éviter les Variables Globales :</strong> Encapsulez le code dans des fonctions ou des modules pour éviter de polluer la portée globale.</li>
+            <li class="good-practice"><strong>Utiliser l'Égalité Stricte :</strong> Préférez <code>===</code> et <code>!==</code> à <code>==</code> et <code>!=</code> pour éviter les surprises de coercition de type.</li>
+            <li class="good-practice"><strong>Optimiser les Manipulations du DOM :</strong> Minimisez l'accès direct au DOM. Regroupez les mises à jour ou utilisez des fragments de document si vous créez de nombreux éléments.</li>
+            <li class="good-practice"><strong>Utiliser la Délégation d'Événements :</strong> Pour de meilleures performances lors de la gestion d'événements sur plusieurs éléments enfants.</li>
+            <li class="good-practice"><strong>Garder le Code DRY (Ne Vous Répétez Pas) :</strong> Créez des fonctions ou des modules réutilisables pour les tâches courantes.</li>
+            <li class="good-practice"><strong>Linting & Formatage du Code :</strong> Utilisez des outils comme ESLint et Prettier pour maintenir la qualité et la cohérence du code.</li>
+        </ul>
+    </section>
+
+    <section id="bad-practices-js">
+        <h2>Mauvaises Pratiques (Choses à Éviter)</h2>
+        <ul>
+            <li class="bad-practice"><strong>Utiliser <code>var</code> :</strong> Entraîne des problèmes de hissage (hoisting) et une portée moins claire.</li>
+            <li class="bad-practice"><strong>Modifier les Prototypes Intégrés (par ex., <code>Array.prototype.maMethode</code>) :</strong> Peut entraîner des conflits avec les futures versions de JS ou d'autres bibliothèques.</li>
+            <li class="bad-practice"><strong>Utiliser <code>eval()</code> :</strong> Risque de sécurité et impact sur les performances. Il y a presque toujours une meilleure façon de faire.</li>
+            <li class="bad-practice"><strong>Utiliser <code>document.write()</code> après le chargement de la page :</strong> Peut écraser toute la page.</li>
+            <li class="bad-practice"><strong>Bloquer le Thread Principal :</strong> Les opérations synchrones de longue durée gèleront l'interface utilisateur. Utilisez des modèles asynchrones.</li>
+            <li class="bad-practice"><strong>Créer un "Enfer de Callbacks" :</strong> Les callbacks profondément imbriqués sont difficiles à lire et à maintenir. Utilisez les Promesses ou async/await.</li>
+            <li class="bad-practice"><strong>Ignorer la Gestion des Erreurs :</strong> Peut entraîner des plantages ou des comportements inattendus.</li>
+            <li class="bad-practice"><strong>Utiliser <code>innerHTML</code> avec des Entrées Utilisateur Non Validées :</strong> Risque de sécurité (attaques XSS). Utilisez <code>textContent</code> pour le texte ou validez soigneusement le HTML.</li>
+            <li class="bad-practice"><strong>Se Fier Implicitement à la Coercition de Type :</strong> Peut entraîner des bogues. Soyez explicite sur les types ou utilisez des comparaisons strictes.</li>
+            <li class="bad-practice"><strong>Écrire du code trop complexe ou "intelligent" :</strong> Donnez la priorité à la lisibilité et à la maintenabilité.</li>
+        </ul>
+    </section>
+    </main>
+    <footer>
+      <p>© <span id="currentYear"></span> Your Name/Project Name (Optional)</p>
+      <p class="disclaimer"><strong>Disclaimer (English):</strong> This content is an experiment generated by Google's Gemini model. Users should verify the information before using it for critical applications.</p>
+      <p class="disclaimer"><strong>Avertissement (Français):</strong> Ce contenu est une expérience générée par le modèle Gemini de Google. Les utilisateurs doivent vérifier les informations avant de les utiliser pour des applications critiques.</p>
+  </footer>
+  <script>
+      // Ensure this script runs only once, or wrap the getFullYear part
+      // to avoid errors if pasted multiple times without care.
+      // A good practice is to have a single site-wide JS file for such things.
+      const yearSpan = document.getElementById('currentYear');
+      if (yearSpan && !yearSpan.textContent) { // Check if already set
+          yearSpan.textContent = new Date().getFullYear();
+      }
+  </script>
+<script src="script.js" defer></script>
+</body>
+</html>
