@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern WordPress Cheatsheet</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="nav_footer_style.css">
+    <link rel="stylesheet" href="print.css" media="print">
+    <!--
+    PHP Syntax Highlighting using existing classes:
+    .tag -> PHP keywords (function, if, echo, return, etc.), WordPress functions (get_header, add_action)
+    .attr -> PHP variables ($variable), function parameters, array keys
+    .val -> String literals, numbers, booleans, null
+    .comment -> PHP comments
+    -->
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="html.html">HTML (EN)</a></li>
+            <li><a href="html_fr.html">HTML (FR)</a></li>
+            <li><a href="css.html">CSS (EN)</a></li>
+            <li><a href="css_fr.html">CSS (FR)</a></li>
+            <li><a href="js.html">JS (EN)</a></li>
+            <li><a href="js_fr.html">JS (FR)</a></li>
+            <li><a href="git.html">Git & GitHub (EN)</a></li>
+            <li><a href="git_fr.html">Git & GitHub (FR)</a></li>
+            <li><a href="wordpress.html" class="active">WordPress (EN)</a></li>
+            <!-- Add WP (FR) link when created -->
+        </ul>
+    </nav>
+
+    <main>
+        <h1>Modern WordPress Cheatsheet</h1>
+        <p class="note">A quick reference for WordPress developers and advanced users, focusing on core concepts, theme/plugin development basics, and common APIs.</p>
+
+        <section id="wp-intro">
+            <h2>1. Introduction to WordPress</h2>
+            <p>WordPress is a popular open-source Content Management System (CMS) built on PHP and MySQL. It powers a significant portion of the web.</p>
+            <ul>
+                <li><strong>Self-Hosted WordPress (WordPress.org):</strong> The free software you download and install on your own web hosting. Offers full control and flexibility.</li>
+                <li><strong>WordPress.com:</strong> A commercial hosting service that uses a modified version of WordPress. Simpler to start, but with limitations on customization depending on the plan. <em>This cheatsheet focuses on self-hosted WordPress.</em></li>
+                <li><strong>Key Concepts:</strong> Posts, Pages, Themes, Plugins, Widgets, Menus, The Loop.</li>
+            </ul>
+            <h3>Core File & Directory Structure</h3>
+            <p>Understanding the basic layout is crucial:</p>
+            <pre><code class="language-plaintext">
+/ (WordPress Root)
+├── wp-admin/ (Admin area files)
+├── wp-content/
+│   ├── themes/ (Your theme(s) reside here)
+│   ├── plugins/ (Your plugin(s) reside here)
+│   ├── uploads/ (Media uploads)
+│   └── mu-plugins/ (Must-use plugins)
+│   └── languages/ (Language files)
+├── wp-includes/ (WordPress core files)
+├── .htaccess (Server configuration, permalinks)
+├── index.php (Main WordPress entry point)
+├── license.txt
+├── readme.html
+├── wp-activate.php
+├── wp-blog-header.php
+├── wp-comments-post.php
+├── wp-config-sample.php (Sample configuration)
+├── wp-config.php (Your site's configuration - CRITICAL)
+├── wp-cron.php
+├── wp-links-opml.php
+├── wp-load.php
+├── wp-login.php
+├── wp-mail.php
+├── wp-settings.php
+├── wp-signup.php
+├── wp-trackback.php
+└── xmlrpc.php
+            </code></pre>
+            <h3>The Loop</h3>
+            <p>The Loop is the PHP code used by WordPress to display posts. Most theme template files will use some variation of The Loop.</p>
+            <pre><code class="language-php">
+&lt;?php <span class="tag">if</span> ( <span class="attr">have_posts</span>() ) : ?&gt;
+    &lt;?php <span class="tag">while</span> ( <span class="attr">have_posts</span>() ) : <span class="attr">the_post</span>(); ?&gt;
+        <span class="comment">// Display post content using template tags like the_title(), the_content(), etc.</span>
+        &lt;h2&gt;&lt;a href="&lt;?php <span class="attr">the_permalink</span>(); ?&gt;"&gt;&lt;?php <span class="attr">the_title</span>(); ?&gt;&lt;/a&gt;&lt;/h2&gt;
+        &lt;div <span class="attr">class</span>=<span class="val">"entry-content"</span>&gt;
+            &lt;?php <span class="attr">the_content</span>(); ?&gt;
+        &lt;/div&gt;
+    &lt;?php <span class="tag">endwhile</span>; ?&gt;
+    <span class="comment">// Add pagination if needed</span>
+&lt;?php <span class="tag">else</span> : ?&gt;
+    &lt;p&gt;&lt;?php <span class="attr">_e</span>( <span class="val">'Sorry, no posts matched your criteria.'</span> ); ?&gt;&lt;/p&gt;
+&lt;?php <span class="tag">endif</span>; ?&gt;
+            </code></pre>
+        </section>
+
+        <section id="wp-setup">
+            <h2>2. Installation & Basic Configuration</h2>
+            <p>Setting up a self-hosted WordPress site involves a few key steps.</p>
+            <ul>
+                <li><strong>Prerequisites:</strong> Web server (Apache/Nginx), PHP (check <a href="https://wordpress.org/about/requirements/" target="_blank" rel="noopener noreferrer">official requirements</a>), MySQL or MariaDB database.</li>
+                <li>Download WordPress from <a href="https://wordpress.org/download/" target="_blank" rel="noopener noreferrer">WordPress.org</a>.</li>
+            </ul>
+            <h3><code>wp-config.php</code></h3>
+            <p>This is one of the most important files, typically created during installation by copying <code>wp-config-sample.php</code> and filling in your database details. It also contains unique <strong>Authentication Keys and Salts</strong> which are automatically generated during setup; these enhance security and users typically do not need to modify them manually unless specifically advised (e.g., after a security incident).</p>
+            <p><strong>Key User-Modifiable Constants:</strong></p>
+            <table>
+                <thead><tr><th>Constant</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td><code>DB_NAME</code></td><td>Your database name.</td></tr>
+                    <tr><td><code>DB_USER</code></td><td>Your database username.</td></tr>
+                    <tr><td><code>DB_PASSWORD</code></td><td>Your database password.</td></tr>
+                    <tr><td><code>DB_HOST</code></td><td>Database host (usually 'localhost').</td></tr>
+                    <tr><td><code>$table_prefix</code></td><td>Database table prefix (e.g., 'wp_'). Change for security on new installs.</td></tr>
+                    <tr><td><code>WP_DEBUG</code></td><td>Set to <code>true</code> for development to show errors. Default <code>false</code>.</td></tr>
+                    <tr><td><code>WP_DEBUG_LOG</code></td><td>Set to <code>true</code> to log errors to <code>wp-content/debug.log</code> (if <code>WP_DEBUG</code> is true).</td></tr>
+                    <tr><td><code>WP_DEBUG_DISPLAY</code></td><td>Set to <code>false</code> to hide errors on screen (if <code>WP_DEBUG</code> is true).</td></tr>
+                    <tr><td><code>WP_MEMORY_LIMIT</code></td><td>Can increase PHP memory limit for WordPress (e.g., <code>'128M'</code>).</td></tr>
+                </tbody>
+            </table>
+            <h3>Admin Settings</h3>
+            <p>After installation, review these settings in the WordPress admin dashboard:</p>
+            <ul>
+                <li><strong>Settings > General:</strong> Site Title, Tagline, WordPress Address (URL), Site Address (URL), Email Address, Timezone.</li>
+                <li><strong>Settings > Reading:</strong> Homepage displays (your latest posts or a static page).</li>
+                <li><strong>Settings > Permalinks:</strong> Choose a URL structure (e.g., "Post name" is common for SEO). Save to generate/update <code>.htaccess</code>.</li>
+            </ul>
+        </section>
+
+        <section id="wp-dashboard">
+            <h2>3. The Admin Dashboard</h2>
+            <p>The backend interface for managing your WordPress site (usually <code>yourdomain.com/wp-admin</code>).</p>
+            <ul>
+                <li><strong>Dashboard:</strong> Overview, quick links.</li>
+                <li><strong>Posts:</strong> Manage blog articles. Categories and Tags for organization.</li>
+                <li><strong>Media:</strong> Upload and manage images, videos, and other files.</li>
+                <li><strong>Pages:</strong> Manage static content like "About Us" or "Contact."</li>
+                <li><strong>Comments:</strong> Moderate user comments.</li>
+                <li><strong>Appearance:</strong>
+                    <ul>
+                        <li><strong>Themes:</strong> Install, activate, and customize themes.</li>
+                        <li><strong>Customize:</strong> Live theme customizer (options vary by theme).</li>
+                        <li><strong>Widgets:</strong> Add content blocks to sidebars, footers, etc.</li>
+                        <li><strong>Menus:</strong> Create and manage navigation menus.</li>
+                        <li><strong>Theme File Editor:</strong> (Use with extreme caution, direct theme file editing).</li>
+                    </ul>
+                </li>
+                <li><strong>Plugins:</strong> Install, activate, and manage plugins to extend functionality.</li>
+                <li><strong>Users:</strong> Manage user accounts and roles (Administrator, Editor, Author, Contributor, Subscriber).</li>
+                <li><strong>Tools:</strong> Import/Export data, Site Health.</li>
+                <li><strong>Settings:</strong> Configure various aspects of your site (General, Writing, Reading, Discussion, Media, Permalinks, Privacy).</li>
+            </ul>
+            <h3>Block Editor (Gutenberg)</h3>
+            <p>The default content editor for posts and pages. Uses "blocks" for different content types (paragraphs, headings, images, lists, columns, etc.).</p>
+        </section>
+
+        <section id="wp-theme-dev-basics">
+            <h2>4. Theme Development Basics</h2>
+            <p>Themes control the visual presentation of your WordPress site.</p>
+            <h3>Minimal Theme Structure (in <code>wp-content/themes/your-theme-name/</code>)</h3>
+            <ul>
+                <li><code>style.css</code>: Contains theme header information (Name, Author, Version, etc.) and CSS styles.
+                    <pre><code class="language-css">
+<span class="comment">/*
+Theme Name: My Awesome Theme
+Theme URI: https://example.com/my-awesome-theme
+Author: Your Name
+Author URI: https://example.com
+Description: A brief description of the theme.
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: my-awesome-theme
+Tags: one-column, custom-background, custom-logo, editor-style
+*/</span>
+                    </code></pre>
+                </li>
+                <li><code>index.php</code>: The main fallback template file if more specific ones aren't found. Usually contains The Loop.</li>
+                <li><code>functions.php</code>: Acts like a plugin for your theme. Used to add features, enqueue scripts/styles, register menus/sidebars, etc.</li>
+                <li><code>screenshot.png</code>: A 1200x900px image representing your theme in the Appearance > Themes admin screen.</li>
+            </ul>
+            <h3>Common Template Files & <a href="https://developer.wordpress.org/themes/basics/template-hierarchy/" target="_blank" rel="noopener noreferrer">Template Hierarchy</a></h3>
+            <p>WordPress uses a template hierarchy to decide which file to use for displaying different types of content.</p>
+            <ul>
+                <li><code>header.php</code>: Site header (<code>&lt;head&gt;</code>, opening <code>&lt;body&gt;</code>, site title, main navigation). Loaded with <code>&lt;?php <span class="tag">get_header</span>(); ?&gt;</code>.</li>
+                <li><code>footer.php</code>: Site footer (closing tags, scripts). Loaded with <code>&lt;?php <span class="tag">get_footer</span>(); ?&gt;</code>.</li>
+                <li><code>sidebar.php</code>: Sidebar content. Loaded with <code>&lt;?php <span class="tag">get_sidebar</span>(); ?&gt;</code>.</li>
+                <li><code>front-page.php</code>: Used for the site's front page (if set to "Static Page" in Reading Settings and this file exists).</li>
+                <li><code>home.php</code>: Used for the blog posts index (if front page is static, or if "Your latest posts" is selected and this file exists).</li>
+                <li><code>single.php</code>: Displays a single blog post (<code>post</code> post type).</li>
+                <li><code>page.php</code>: Displays a single Page (<code>page</code> post type).</li>
+                <li><code>archive.php</code>: Displays archives (category, tag, author, date). More specific versions: <code>category.php</code>, <code>tag.php</code>, <code>author.php</code>, <code>date.php</code>.</li>
+                <li><code>search.php</code>: Displays search results.</li>
+                <li><code>404.php</code>: Displays when content is not found.</li>
+                <li><code>comments.php</code>: Displays comments and comment form.</li>
+            </ul>
+            <h3>Essential Theme Functions (Template Tags)</h3>
+            <ul>
+                <li><code>&lt;?php <span class="tag">bloginfo</span>(<span class="val">'name'</span>); ?&gt;</code>: Displays site title.</li>
+                <li><code>&lt;?php <span class="tag">the_title</span>(); ?&gt;</code>: Displays the post/page title (inside The Loop).</li>
+                <li><code>&lt;?php <span class="tag">the_content</span>(); ?&gt;</code>: Displays post/page content (inside The Loop).</li>
+                <li><code>&lt;?php <span class="tag">the_excerpt</span>(); ?&gt;</code>: Displays post excerpt (inside The Loop).</li>
+                <li><code>&lt;?php <span class="tag">the_permalink</span>(); ?&gt;</code>: Displays the URL of the current post/page (inside The Loop).</li>
+                <li><code>&lt;?php <span class="tag">the_post_thumbnail</span>(); ?&gt;</code>: Displays the featured image (inside The Loop). Needs theme support: <code>&lt;?php <span class="tag">add_theme_support</span>(<span class="val">'post-thumbnails'</span>); ?&gt;</code> in <code>functions.php</code>.</li>
+                <li><code>&lt;?php <span class="tag">get_template_part</span>(<span class="val">'template-parts/content'</span>, <span class="val">'page'</span>); ?&gt;</code>: Loads a template part (e.g., <code>content-page.php</code> from <code>template-parts</code> folder).</li>
+                <li><code>&lt;?php <span class="tag">wp_head</span>(); ?&gt;</code>: Hook. Place just before <code>&lt;/head&gt;</code> in <code>header.php</code>. Essential for plugins.</li>
+                <li><code>&lt;?php <span class="tag">wp_footer</span>(); ?&gt;</code>: Hook. Place just before <code>&lt;/body&gt;</code> in <code>footer.php</code>. Essential for plugins.</li>
+                <li><code>&lt;?php <span class="tag">body_class</span>(); ?&gt;</code>: Adds useful CSS classes to the <code>&lt;body&gt;</code> tag.</li>
+            </ul>
+            <h3>Registering Menus & Widgets (in <code>functions.php</code>)</h3>
+            <pre><code class="language-php">
+<span class="comment">// Register Navigation Menus</span>
+&lt;?php
+<span class="tag">function</span> <span class="attr">mytheme_register_nav_menu</span>() {
+    <span class="tag">register_nav_menus</span>( <span class="tag">array</span>(
+        <span class="val">'primary_menu'</span> => <span class="attr">__</span>( <span class="val">'Primary Menu'</span>, <span class="val">'mytheme'</span> ),
+        <span class="val">'footer_menu'</span>  => <span class="attr">__</span>( <span class="val">'Footer Menu'</span>, <span class="val">'mytheme'</span> ),
+    ) );
+}
+<span class="tag">add_action</span>( <span class="val">'after_setup_theme'</span>, <span class="val">'mytheme_register_nav_menu'</span> );
+?&gt;
+<span class="comment">// Displaying a menu in a template:</span>
+<span class="comment">// &lt;?php wp_nav_menu( array( 'theme_location' => 'primary_menu' ) ); ?&gt;</span>
+
+<span class="comment">// Register Widget Areas (Sidebars)</span>
+&lt;?php
+<span class="tag">function</span> <span class="attr">mytheme_widgets_init</span>() {
+    <span class="tag">register_sidebar</span>( <span class="tag">array</span>(
+        <span class="val">'name'</span>          => <span class="attr">__</span>( <span class="val">'Main Sidebar'</span>, <span class="val">'mytheme'</span> ),
+        <span class="val">'id'</span>            => <span class="val">'main-sidebar'</span>,
+        <span class="val">'description'</span>   => <span class="attr">__</span>( <span class="val">'Widgets added here will appear in the main sidebar.'</span>, <span class="val">'mytheme'</span> ),
+        <span class="val">'before_widget'</span> => <span class="val">'<aside id="%1$s" class="widget %2$s">'</span>,
+        <span class="val">'after_widget'</span>  => <span class="val">'</aside>'</span>,
+        <span class="val">'before_title'</span>  => <span class="val">'<h3 class="widget-title">'</span>,
+        <span class="val">'after_title'</span>   => <span class="val">'</h3>'</span>,
+    ) );
+}
+<span class="tag">add_action</span>( <span class="val">'widgets_init'</span>, <span class="val">'mytheme_widgets_init'</span> );
+?&gt;
+<span class="comment">// Displaying a sidebar in a template:</span>
+<span class="comment">// &lt;?php if ( is_active_sidebar( 'main-sidebar' ) ) : ?&gt;</span>
+<span class="comment">//     &lt;ul id="sidebar"&gt;</span>
+<span class="comment">//         &lt;?php dynamic_sidebar( 'main-sidebar' ); ?&gt;</span>
+<span class="comment">//     &lt;/ul&gt;</span>
+<span class="comment">// &lt;?php endif; ?&gt;</span>
+            </code></pre>
+            <h3>Enqueueing Styles & Scripts (in <code>functions.php</code>)</h3>
+            <pre><code class="language-php">
+&lt;?php
+<span class="tag">function</span> <span class="attr">mytheme_enqueue_scripts</span>() {
+    <span class="comment">// Enqueue main stylesheet</span>
+    <span class="tag">wp_enqueue_style</span>( <span class="val">'mytheme-style'</span>, <span class="attr">get_stylesheet_uri</span>() ); <span class="comment">// For parent theme style.css</span>
+    <span class="comment">// For child theme, parent style: wp_enqueue_style( 'parent-style', get_template_directory_uri() . '/style.css' );</span>
+
+    <span class="comment">// Enqueue a custom CSS file</span>
+    <span class="tag">wp_enqueue_style</span>( <span class="val">'mytheme-custom'</span>, <span class="attr">get_template_directory_uri</span>() . <span class="val">'/css/custom.css'</span>, <span class="tag">array</span>(), <span class="val">'1.0.0'</span> );
+
+    <span class="comment">// Enqueue a custom JS file</span>
+    <span class="tag">wp_enqueue_script</span>( <span class="val">'mytheme-custom-js'</span>, <span class="attr">get_template_directory_uri</span>() . <span class="val">'/js/custom.js'</span>, <span class="tag">array</span>( <span class="val">'jquery'</span> ), <span class="val">'1.0.0'</span>, <span class="val">true</span> ); <span class="comment">// true for footer</span>
+
+    <span class="comment">// Pass data to JS (Localization)</span>
+    <span class="tag">wp_localize_script</span>( <span class="val">'mytheme-custom-js'</span>, <span class="val">'myThemeVars'</span>, <span class="tag">array</span>(
+        <span class="val">'ajaxUrl'</span> => <span class="attr">admin_url</span>( <span class="val">'admin-ajax.php'</span> ),
+        <span class="val">'nonce'</span>   => <span class="attr">wp_create_nonce</span>( <span class="val">'mytheme_nonce_action'</span> )
+    ) );
+}
+<span class="tag">add_action</span>( <span class="val">'wp_enqueue_scripts'</span>, <span class="val">'mytheme_enqueue_scripts'</span> );
+?&gt;
+            </code></pre>
+        </section>
+
+        <section id="wp-plugin-dev-basics">
+            <h2>5. Plugin Development Basics</h2>
+            <p>Plugins extend WordPress functionality without modifying core files or themes.</p>
+            <h3>Minimal Plugin Structure (in <code>wp-content/plugins/your-plugin-name/your-plugin-file.php</code>)</h3>
+            <p>A single PHP file with a standard plugin header comment:</p>
+            <pre><code class="language-php">
+&lt;?php
+<span class="comment">/**
+ * Plugin Name:       My Awesome Plugin
+ * Plugin URI:        https://example.com/my-awesome-plugin
+ * Description:       A brief description of what the plugin does.
+ * Version:           1.0.0
+ * Author:            Your Name
+ * Author URI:        https://example.com
+ * License:           GPL v2 or later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain:       my-awesome-plugin
+ * Domain Path:       /languages
+ */</span>
+
+<span class="comment">// Prevent direct access to the file</span>
+<span class="tag">if</span> ( !<span class="attr">defined</span>( <span class="val">'ABSPATH'</span> ) ) {
+    <span class="tag">exit</span>; <span class="comment">// Exit if accessed directly</span>
+}
+
+<span class="comment">// Your plugin code goes here...</span>
+<span class="tag">function</span> <span class="attr">my_awesome_plugin_activation</span>() {
+    <span class="comment">// Code to run on plugin activation</span>
+}
+<span class="tag">register_activation_hook</span>( __FILE__, <span class="val">'my_awesome_plugin_activation'</span> );
+
+<span class="tag">function</span> <span class="attr">my_awesome_plugin_deactivation</span>() {
+    <span class="comment">// Code to run on plugin deactivation</span>
+}
+<span class="tag">register_deactivation_hook</span>( __FILE__, <span class="val">'my_awesome_plugin_deactivation'</span> );
+?&gt;
+            </code></pre>
+            <h3>Hooks: Actions & Filters</h3>
+            <p>Hooks are the foundation of plugin (and theme) development, allowing you to "hook into" WordPress core or other plugins/themes.</p>
+            <ul>
+                <li><strong>Actions (<code>add_action</code>, <code>do_action</code>):</strong> Execute a function at a specific point in WordPress execution. They don't return anything.
+                    <pre><code class="language-php">
+&lt;?php
+<span class="comment">// Correct action example: Add something to the footer</span>
+<span class="tag">function</span> <span class="attr">myplugin_custom_footer_text</span>() {
+    <span class="tag">echo</span> <span class="val">'<p>My Plugin Footer Text</p>'</span>;
+}
+<span class="tag">add_action</span>( <span class="val">'wp_footer'</span>, <span class="val">'myplugin_custom_footer_text'</span>, <span class="val">99</span> ); <span class="comment">// 99 is priority</span>
+?&gt;
+                    </code></pre>
+                </li>
+                <li><strong>Filters (<code>add_filter</code>, <code>apply_filters</code>):</strong> Modify data before it's used or displayed. They *must* return a value.
+                    <pre><code class="language-php">
+&lt;?php
+<span class="comment">// Example: Modify the post title</span>
+<span class="tag">function</span> <span class="attr">myplugin_modify_title</span>( <span class="attr">$title</span> ) {
+    <span class="tag">if</span> ( <span class="attr">in_the_loop</span>() && <span class="attr">is_main_query</span>() ) {
+        <span class="tag">return</span> <span class="val">'Prefix: '</span> . <span class="attr">$title</span>;
+    }
+    <span class="tag">return</span> <span class="attr">$title</span>;
+}
+<span class="tag">add_filter</span>( <span class="val">'the_title'</span>, <span class="val">'myplugin_modify_title'</span> );
+
+<span class="comment">// Example: Filter 'the_content'</span>
+<span class="tag">function</span> <span class="attr">myplugin_add_to_content</span>( <span class="attr">$content</span> ) {
+    <span class="tag">if</span> ( <span class="attr">is_single</span>() && <span class="attr">in_the_loop</span>() && <span class="attr">is_main_query</span>() ) {
+        <span class="attr">$content</span> .= <span class="val">'<p>Thanks for reading! (Via Filter)</p>'</span>;
+    }
+    <span class="tag">return</span> <span class="attr">$content</span>;
+}
+<span class="tag">add_filter</span>( <span class="val">'the_content'</span>, <span class="val">'myplugin_add_to_content'</span> );
+?&gt;
+                    </code></pre>
+                </li>
+            </ul>
+            <h3>Creating Shortcodes (in <code>functions.php</code> or plugin)</h3>
+            <p>Allow users to embed dynamic content in posts/pages using a simple tag like <code>[my_shortcode]</code>.</p>
+            <pre><code class="language-php">
+&lt;?php
+<span class="tag">function</span> <span class="attr">my_custom_shortcode_function</span>( <span class="attr">$atts</span>, <span class="attr">$content</span> = <span class="val">null</span> ) {
+    <span class="comment">// $atts are attributes passed to the shortcode, e.g., [my_shortcode foo="bar"]</span>
+    <span class="comment">// $content is the content between opening and closing tags, e.g., [my_shortcode]Content here[/my_shortcode]</span>
+    <span class="attr">$a</span> = <span class="attr">shortcode_atts</span>( <span class="tag">array</span>(
+        <span class="val">'message'</span> => <span class="val">'Hello World!'</span>,
+    ), <span class="attr">$atts</span> );
+
+    <span class="tag">return</span> <span class="val">'<div class="my-shortcode-output">'</span> . <span class="attr">esc_html</span>( <span class="attr">$a</span>[<span class="val">'message'</span>] ) . <span class="attr">esc_html</span>( <span class="attr">$content</span> ) . <span class="val">'</div>'</span>;
+}
+<span class="tag">add_shortcode</span>( <span class="val">'my_shortcode'</span>, <span class="val">'my_custom_shortcode_function'</span> );
+?&gt;
+            </code></pre>
+            <h3>Plugin Best Practices</h3>
+            <ul>
+                <li><strong>Prefix Everything:</strong> Functions, classes, constants, global variables, hooks, CSS classes to avoid conflicts (e.g., <code>myplugin_function_name</code>).</li>
+                <li><strong>Security:</strong> Sanitize inputs, escape outputs, use nonces.</li>
+                <li><strong>Check for Existing Functions/Classes:</strong> <code>&lt;?php <span class="tag">if</span> ( !<span class="attr">function_exists</span>(<span class="val">'some_function'</span>) ) { ... } ?&gt;</code></li>
+                <li><strong>Documentation:</strong> Use PHPDoc blocks for functions and classes.</li>
+            </ul>
+        </section>
+
+        <section id="wp-common-apis">
+            <h2>6. Common WordPress Functions & APIs</h2>
+            <h3><code>WP_Query</code></h3>
+            <p>For creating custom loops and fetching posts based on specific criteria. More powerful than simple <code>get_posts()</code>.</p>
+            <pre><code class="language-php">
+&lt;?php
+<span class="attr">$args</span> = <span class="tag">array</span>(
+    <span class="val">'post_type'</span>      => <span class="val">'post'</span>,
+    <span class="val">'posts_per_page'</span> => <span class="val">5</span>,
+    <span class="val">'category_name'</span>  => <span class="val">'news'</span>,
+    <span class="val">'orderby'</span>        => <span class="val">'date'</span>,
+    <span class="val">'order'</span>          => <span class="val">'DESC'</span>,
+    <span class="comment">// Many more arguments available...</span>
+);
+<span class="attr">$custom_query</span> = <span class="tag">new</span> <span class="attr">WP_Query</span>( <span class="attr">$args</span> );
+
+<span class="tag">if</span> ( <span class="attr">$custom_query</span>-><span class="attr">have_posts</span>() ) :
+    <span class="tag">while</span> ( <span class="attr">$custom_query</span>-><span class="attr">have_posts</span>() ) : <span class="attr">$custom_query</span>-><span class="attr">the_post</span>();
+        <span class="comment">// Display post content</span>
+        <span class="tag">the_title</span>();
+    <span class="tag">endwhile</span>;
+    <span class="attr">wp_reset_postdata</span>(); <span class="comment">// IMPORTANT: Restore original Post Data</span>
+<span class="tag">else</span> :
+    <span class="comment">// No posts found</span>
+<span class="tag">endif</span>;
+?&gt;
+            </code></pre>
+            <h3>Options API</h3>
+            <ul>
+                <li><code>&lt;?php <span class="tag">get_option</span>( <span class="val">'option_name'</span>, <span class="attr">$default_value</span> ); ?&gt;</code>: Retrieves an option value from the <code>wp_options</code> table.</li>
+                <li><code>&lt;?php <span class="tag">update_option</span>( <span class="val">'option_name'</span>, <span class="attr">$new_value</span> ); ?&gt;</code>: Updates an option value. Creates it if it doesn't exist.</li>
+                <li><code>&lt;?php <span class="tag">add_option</span>( <span class="val">'option_name'</span>, <span class="attr">$value</span>, <span class="val">''</span>, <span class="val">'yes'</span> ); ?&gt;</code>: Adds an option if it doesn't exist.</li>
+                <li><code>&lt;?php <span class="tag">delete_option</span>( <span class="val">'option_name'</span> ); ?&gt;</code>: Deletes an option.</li>
+            </ul>
+            <h3>Metadata API (Post Meta, User Meta, Term Meta, Comment Meta)</h3>
+            <p>For storing custom data associated with posts, users, terms, or comments.</p>
+            <pre><code class="language-php">
+&lt;?php
+<span class="comment">// For Post Meta (similar functions exist for users, terms, comments)</span>
+<span class="attr">$post_id</span> = <span class="attr">get_the_ID</span>(); <span class="comment">// Example: inside The Loop</span>
+
+<span class="comment">// Add</span>
+<span class="tag">add_post_meta</span>( <span class="attr">$post_id</span>, <span class="val">'my_custom_field'</span>, <span class="val">'Field Value'</span>, <span class="val">true</span> ); <span class="comment">// true for unique key</span>
+
+<span class="comment">// Get</span>
+<span class="attr">$meta_value</span> = <span class="tag">get_post_meta</span>( <span class="attr">$post_id</span>, <span class="val">'my_custom_field'</span>, <span class="val">true</span> ); <span class="comment">// true for single value</span>
+
+<span class="comment">// Update</span>
+<span class="tag">update_post_meta</span>( <span class="attr">$post_id</span>, <span class="val">'my_custom_field'</span>, <span class="val">'New Value'</span> );
+
+<span class="comment">// Delete</span>
+<span class="tag">delete_post_meta</span>( <span class="attr">$post_id</span>, <span class="val">'my_custom_field'</span> );
+?&gt;
+            </code></pre>
+            <h3>Taxonomy Functions</h3>
+            <ul>
+                <li><code>&lt;?php <span class="tag">get_the_terms</span>( <span class="attr">$post_id</span>, <span class="val">'taxonomy_slug'</span> ); ?&gt;</code>: Get terms for a post in a specific taxonomy.</li>
+                <li><code>&lt;?php <span class="tag">wp_get_post_terms</span>( <span class="attr">$post_id</span>, <span class="val">'taxonomy_slug'</span>, <span class="attr">$args</span> ); ?&gt;</code>: More flexible term retrieval.</li>
+                <li><code>&lt;?php <span class="tag">get_categories</span>( <span class="attr">$args</span> ); ?&gt;</code>, <code>&lt;?php <span class="tag">get_tags</span>( <span class="attr">$args</span> ); ?&gt;</code></li>
+                <li><code>&lt;?php <span class="tag">register_taxonomy</span>( <span class="val">'custom_taxonomy'</span>, <span class="val">'post_type'</span>, <span class="attr">$args</span> ); ?&gt;</code>: Create custom taxonomies.</li>
+                <li><code>&lt;?php <span class="tag">register_post_type</span>( <span class="val">'custom_post_type'</span>, <span class="attr">$args</span> ); ?&gt;</code>: Create custom post types.</li>
+            </ul>
+            <h3>User Functions</h3>
+            <ul>
+                <li><code>&lt;?php <span class="tag">get_users</span>( <span class="attr">$args</span> ); ?&gt;</code>: Retrieve a list of users.</li>
+                <li><code>&lt;?php <span class="tag">get_current_user_id</span>(); ?&gt;</code>: Get ID of the currently logged-in user. Returns 0 if not logged in.</li>
+                <li><code>&lt;?php <span class="tag">wp_get_current_user</span>(); ?&gt;</code>: Get WP_User object for current user.</li>
+                <li><code>&lt;?php <span class="tag">current_user_can</span>( <span class="val">'capability'</span> ); ?&gt;</code>: Check if current user has a specific capability (e.g., <code>'edit_posts'</code>).</li>
+                <li><code>&lt;?php <span class="tag">is_user_logged_in</span>(); ?&gt;</code>: Checks if a user is logged in.</li>
+            </ul>
+            <h3>Internationalization (i18n) & Localization (L10n)</h3>
+            <p>Making your theme/plugin translatable.</p>
+            <ul>
+                <li><code>&lt;?php <span class="tag">__</span>( <span class="val">'Text to translate'</span>, <span class="val">'text-domain'</span> ); ?&gt;</code>: Retrieve translated string.</li>
+                <li><code>&lt;?php <span class="tag">_e</span>( <span class="val">'Text to translate'</span>, <span class="val">'text-domain'</span> ); ?&gt;</code>: Echo translated string.</li>
+                <li><code>&lt;?php <span class="tag">_n</span>( <span class="val">'Singular'</span>, <span class="val">'Plural'</span>, <span class="attr">$number</span>, <span class="val">'text-domain'</span> ); ?&gt;</code>: Retrieve translated string for pluralization.</li>
+                <li><code>&lt;?php <span class="tag">esc_html__</span>(); ?&gt;</code>, <code>&lt;?php <span class="tag">esc_attr_e</span>(); ?&gt;</code>, etc.: Versions that also escape the output for security.</li>
+                <li>Load text domain in plugin/theme: <code>&lt;?php <span class="tag">load_plugin_textdomain</span>(); ?&gt;</code> or <code>&lt;?php <span class="tag">load_theme_textdomain</span>(); ?&gt;</code>.</li>
+            </ul>
+        </section>
+
+        <section id="wp-security-maintenance">
+            <h2>7. Security & Maintenance Best Practices</h2>
+            <ul>
+                <li><strong>Keep Everything Updated:</strong> WordPress core, themes, and plugins.</li>
+                <li><strong>Use Strong, Unique Passwords:</strong> For admin accounts, database, FTP. Consider a password manager.</li>
+                <li><strong>Limit User Privileges:</strong> Assign users the lowest role necessary for their tasks.</li>
+                <li><strong>Regular Backups:</strong> Database and files. Many hosting providers offer this, or use backup plugins.</li>
+                <li><strong>Sanitize Inputs:</strong> Clean any data coming from users or external sources before using it (e.g., <code>&lt;?php <span class="tag">sanitize_text_field</span>(); ?&gt;</code>, <code>&lt;?php <span class="tag">absint</span>(); ?&gt;</code>).</li>
+                <li><strong>Escape Outputs:</strong> Securely display data to prevent XSS attacks (e.g., <code>&lt;?php <span class="tag">esc_html</span>(); ?&gt;</code>, <code>&lt;?php <span class="tag">esc_attr</span>(); ?&gt;</code>, <code>&lt;?php <span class="tag">esc_url</span>(); ?&gt;</code>, <code>&lt;?php <span class="tag">wp_kses_post</span>(); ?&gt;</code>).</li>
+                <li><strong>Use Nonces (Numbers used once):</strong> Verify intent and prevent CSRF attacks for actions and form submissions.
+                    <ul>
+                        <li><code>&lt;?php <span class="tag">wp_create_nonce</span>(<span class="val">'my_action_nonce'</span>); ?&gt;</code>: Generate a nonce.</li>
+                        <li><code>&lt;?php <span class="tag">wp_verify_nonce</span>(<span class="attr">$_POST</span>[<span class="val">'my_nonce_field'</span>], <span class="val">'my_action_nonce'</span>); ?&gt;</code>: Verify a nonce.</li>
+                        <li><code>&lt;?php <span class="tag">wp_nonce_field</span>(<span class="val">'my_action_nonce'</span>, <span class="val">'my_nonce_field_name'</span>); ?&gt;</code>: Output hidden nonce field in a form.</li>
+                    </ul>
+                </li>
+                <li><strong>Choose Reputable Themes & Plugins:</strong> From trusted sources, well-maintained.</li>
+                <li><strong>Consider a Security Plugin:</strong> (e.g., Wordfence, Sucuri) for extra protection, but don't rely on them solely.</li>
+                <li><strong>Disable File Editing:</strong> Add <code>&lt;?php <span class="tag">define</span>(<span class="val">'DISALLOW_FILE_EDIT'</span>, <span class="val">true</span>); ?&gt;</code> to <code>wp-config.php</code>.</li>
+            </ul>
+        </section>
+
+        <section id="wp-block-themes-fse">
+            <h2>8. Introduction to Block Themes & Full Site Editing (FSE)</h2>
+            <p>Full Site Editing (FSE) represents a significant evolution in WordPress, allowing users to design their entire site—from header to footer—using blocks via the Site Editor. Block Themes are themes built specifically to leverage FSE capabilities.</p>
+            <ul>
+                <li><strong>What it is:</strong> FSE aims to provide a unified block-based experience for all parts of a site, not just post/page content. This includes headers, footers, sidebars, and page templates.</li>
+                <li><strong>Key Differences from Classic Themes:</strong>
+                    <ul>
+                        <li><strong><code>theme.json</code>:</strong> A central configuration file that controls global styles, block styles, settings (like color palettes, typography presets), and layout options. It replaces many traditional <code>add_theme_support()</code> calls and customizer settings.
+                            <pre><code class="language-json">
+<span class="comment">// Very simplified theme.json example snippet</span>
+{
+  <span class="attr">"version"</span>: <span class="val">2</span>,
+  <span class="attr">"settings"</span>: {
+    <span class="attr">"color"</span>: {
+      <span class="attr">"palette"</span>: [
+        { <span class="attr">"name"</span>: <span class="val">"Primary"</span>, <span class="attr">"slug"</span>: <span class="val">"primary"</span>, <span class="attr">"color"</span>: <span class="val">"#0073aa"</span> }
+      ]
+    },
+    <span class="attr">"typography"</span>: {
+      <span class="attr">"fontSizes"</span>: [
+        { <span class="attr">"name"</span>: <span class="val">"Small"</span>, <span class="attr">"slug"</span>: <span class="val">"small"</span>, <span class="attr">"size"</span>: <span class="val">"1rem"</span> }
+      ]
+    }
+  },
+  <span class="attr">"styles"</span>: { <span class="comment">/* Global styles for elements/blocks */</span> },
+  <span class="attr">"templateParts"</span>: [ <span class="comment">/* Define template parts */</span> ],
+  <span class="attr">"customTemplates"</span>: [ <span class="comment">/* Define custom page templates */</span> ]
+}
+                            </code></pre>
+                        </li>
+                        <li><strong>Block-Based Templates:</strong> Templates (like <code>index.html</code>, <code>single.html</code> in a <code>templates</code> folder) and Template Parts (like <code>header.html</code>, <code>footer.html</code> in a <code>parts</code> folder) are primarily composed of HTML comments representing blocks, rather than extensive PHP logic.
+                            <pre><code class="language-html">
+<span class="comment">&lt;!-- wp:group {"layout":{"type":"constrained"}} --&gt;</span>
+&lt;div class="wp-block-group"&gt;
+    <span class="comment">&lt;!-- wp:site-title /--&gt;</span>
+    <span class="comment">&lt;!-- wp:navigation /--&gt;</span>
+&lt;/div&gt;
+<span class="comment">&lt;!-- /wp:group --&gt;</span>
+                            </code></pre>
+                        </li>
+                        <li><strong>Site Editor:</strong> (Appearance > Editor) A visual interface to modify templates, template parts, and global styles directly using blocks.</li>
+                        <li><strong>Reduced PHP in Templates:</strong> While PHP can still be used (e.g., for dynamic blocks or complex logic), much of the traditional PHP templating is replaced by block structures.</li>
+                    </ul>
+                </li>
+                <li><strong>Impact for Developers:</strong>
+                    <ul>
+                        <li>Learning to think in blocks for entire site layouts.</li>
+                        <li>Mastering <code>theme.json</code> for configuration and styling.</li>
+                        <li>Developing custom blocks or block patterns becomes more central.</li>
+                        <li>Less reliance on the Customizer for many theme options (though it can still be used for non-FSE contexts or specific needs).</li>
+                    </ul>
+                </li>
+                <li><strong>Maturity:</strong> FSE is continuously evolving. While powerful, some advanced classic theme functionalities might still require custom solutions or have different approaches in a block theme context.</li>
+            </ul>
+        </section>
+        <section id="wp-tools-resources">
+            <h2>9. Useful Tools & Resources</h2>
+            <ul>
+                <li><strong><a href="https://developer.wordpress.org/" target="_blank" rel="noopener noreferrer">WordPress Developer Resources</a> (Codex):</strong> Official documentation.</li>
+                <li><strong><a href="https://wp-cli.org/" target="_blank" rel="noopener noreferrer">WP-CLI</a>:</strong> Command-line interface for WordPress. Manage plugins, themes, users, perform updates, etc., from the terminal.
+                    <br>Common commands: <code>wp core update</code>, <code>wp plugin install <name></code>, <code>wp theme activate <name></code>, <code>wp user create ...</code>, <code>wp post list</code>.
+                </li>
+                <li><strong>Debug Bar (Plugin) & Query Monitor (Plugin):</strong> Excellent for debugging queries, hooks, PHP errors, and performance.</li>
+                <li><strong>Local Development Environments:</strong> Local (formerly Local by Flywheel), XAMPP, MAMP, Docker, Varying Vagrant Vagrants (VVV).</li>
+                <li><strong>WordPress Stack Exchange:</strong> <a href="https://wordpress.stackexchange.com/" target="_blank" rel="noopener noreferrer">wordpress.stackexchange.com</a> for Q&A.</li>
+                <li><strong>WordPress.tv:</strong> Videos from WordCamps and meetups.</li>
+                <li><strong>Make WordPress (Core, Themes, Plugins, etc.):</strong> <a href="https://make.wordpress.org/" target="_blank" rel="noopener noreferrer">make.wordpress.org</a> to follow core development and contribute.</li>
+                <li><strong><a href="https://developer.wordpress.org/themes/block-themes/" target="_blank" rel="noopener noreferrer">Block Themes - Official Documentation</a></strong></li>
+                <li><strong><a href="https://developer.wordpress.org/themes/basics/theme-json/" target="_blank" rel="noopener noreferrer">theme.json - Official Documentation</a></strong></li>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p><a href="https://github.com/sidbxl/awesomeHTML" target="_blank">Source</a></p>
+        <p class="disclaimer"><strong>Disclaimer:</strong> This content is an experiment generated by Google's Gemini model. Users should verify the information before using it for critical applications.</p>
+    </footer>
+<script src="script.js" defer></script>
+</body>
+</html>
